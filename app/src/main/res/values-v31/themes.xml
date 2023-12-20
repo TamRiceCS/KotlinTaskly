@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="Theme.App.Startingv31" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">#2f8d95</item>
+        <item name="windowSplashScreenBackground">#83C5BD</item>
         <item name="postSplashScreenTheme">@style/Base.Theme.KotlinTaskly</item>
         <item name="android:windowSplashScreenAnimatedIcon">@drawable/avd_tasklyplane</item>
     </style>

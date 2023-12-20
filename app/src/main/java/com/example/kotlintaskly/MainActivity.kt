@@ -7,14 +7,26 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.core.animation.doOnEnd
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import android.view.animation.OvershootInterpolator
 import android.view.animation.AccelerateDecelerateInterpolator
+import android.widget.Toast
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.preferencesKey
+import androidx.datastore.preferences.createDataStore
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 
 
 class MainActivity : AppCompatActivity() {
 
     private val viewModel by viewModels<mVModel>()
+    private var passcode: String? = null
+
+    private lateinit var dataStore : DataStore<Preferences>
     override fun onCreate(savedInstanceState: Bundle?) {
+
         installSplashScreen().apply {
             setKeepOnScreenCondition {
                 !viewModel.isReady.value
@@ -47,7 +59,37 @@ class MainActivity : AppCompatActivity() {
             }
 
         }
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        dataStore = createDataStore(name = "settings")
+
+        lifecycleScope.launch {
+            passcode = read("Passcode")
+        }
+
+        if(passcode == null) {
+            val toast = Toast.makeText(this, "There IS NO passcode setting", Toast.LENGTH_LONG) // in Activity
+            toast.show()
+        }
+        else {
+            val toast = Toast.makeText(this, "There IS a passcode setting", Toast.LENGTH_LONG) // in Activity
+            toast.show()
+        }
+
+    }
+
+    private suspend fun save(key: String, value: String) {
+        val dataStoreKey = preferencesKey<String>(key)
+        dataStore.edit { settings ->
+            settings[dataStoreKey] = value
+        }
+    }
+
+    private suspend fun read(key: String) : String? {
+        val dataStoreKey = preferencesKey<String>(key)
+        val preferences = dataStore.data.first()
+        return preferences[dataStoreKey]
     }
 }
