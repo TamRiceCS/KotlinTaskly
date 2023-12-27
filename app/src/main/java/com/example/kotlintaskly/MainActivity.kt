@@ -61,7 +61,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
 
         dataStore = createDataStore(name = "settings")
 
@@ -70,10 +69,13 @@ class MainActivity : AppCompatActivity() {
         }
 
         if(passcode == null) {
+            //setContentView(R.layout.activity_main)
+            setContentView(R.layout.activity_tutorial)
             val toast = Toast.makeText(this, "There IS NO passcode setting", Toast.LENGTH_LONG) // in Activity
             toast.show()
         }
         else {
+            setContentView(R.layout.activity_tutorial)
             val toast = Toast.makeText(this, "There IS a passcode setting", Toast.LENGTH_LONG) // in Activity
             toast.show()
         }

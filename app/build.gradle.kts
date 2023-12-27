@@ -33,12 +33,17 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
 
     // Splash Screen
     implementation("androidx.core:core-splashscreen:1.0.0")
+    implementation("androidx.navigation:navigation-fragment-ktx:2.6.0")
+    implementation("androidx.navigation:navigation-ui-ktx:2.6.0")
 
     // ViewModel
     val lifecycle_version = "2.6.2"
