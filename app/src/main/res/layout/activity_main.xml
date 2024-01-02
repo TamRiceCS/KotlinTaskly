@@ -13,6 +13,7 @@
         android:background="#ABCBEC"
         android:orientation="horizontal"
         android:padding="10dp"
+        android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.491"
@@ -20,37 +21,70 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.252">
 
-        <EditText
-            android:id="@+id/editTextNumber"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-            android:inputType="number" />
 
-        <EditText
-            android:id="@+id/editTextNumber2"
-            android:layout_width="wrap_content"
+        <androidx.cardview.widget.CardView
+            android:layout_width="55dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-            android:inputType="number" />
+            android:layout_margin="10dp">
 
-        <EditText
-            android:id="@+id/editTextNumber3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-            android:inputType="number" />
+            <EditText
+                android:id="@+id/editTextNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#ABCBEC"
+                android:textColor="#ABCBEC"
+                android:layout_margin="5dp"
+                android:ems="10"
+                android:inputType="number"/>
+        </androidx.cardview.widget.CardView>
 
-        <EditText
-            android:id="@+id/editTextNumber4"
-            android:layout_width="wrap_content"
+        <androidx.cardview.widget.CardView
+            android:layout_width="55dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-            android:inputType="number" />
+            android:layout_margin="10dp">
+
+            <EditText
+                android:id="@+id/editTextNumber2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#ABCBEC"
+                android:textColor="#ABCBEC"
+                android:layout_margin="5dp"
+                android:ems="10"
+                android:inputType="number" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="55dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp">
+
+            <EditText
+                android:id="@+id/editTextNumber3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#ABCBEC"
+                android:textColor="#ABCBEC"
+                android:layout_margin="5dp"
+                android:ems="10"
+                android:inputType="number" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="55dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp">
+
+            <EditText
+                android:id="@+id/editTextNumber4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#ABCBEC"
+                android:textColor="#ABCBEC"
+                android:layout_margin="5dp"
+                android:ems="10"
+                android:inputType="number" />
+        </androidx.cardview.widget.CardView>
     </LinearLayout>
 
     <ImageView
