@@ -27,6 +27,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var dataStore : DataStore<Preferences>
     override fun onCreate(savedInstanceState: Bundle?) {
 
+
+        // There is no known prettier way to dismiss splash screen icon
         installSplashScreen().apply {
             setKeepOnScreenCondition {
                 !viewModel.isReady.value
@@ -68,17 +70,7 @@ class MainActivity : AppCompatActivity() {
             passcode = read("Passcode")
         }
 
-        if(passcode == null) {
-            //setContentView(R.layout.activity_main)
-            setContentView(R.layout.activity_tutorial)
-            val toast = Toast.makeText(this, "There IS NO passcode setting", Toast.LENGTH_LONG) // in Activity
-            toast.show()
-        }
-        else {
-            setContentView(R.layout.activity_tutorial)
-            val toast = Toast.makeText(this, "There IS a passcode setting", Toast.LENGTH_LONG) // in Activity
-            toast.show()
-        }
+        setContentView(R.layout.activity_main)
 
     }
 
