@@ -36,7 +36,7 @@
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/fragmentContainerView"
-                android:name="com.example.kotlintaskly.BlankFragment"
+                android:name="com.example.kotlintaskly.TutorialFragment"
                 android:layout_width="300dp"
                 android:layout_height="500dp"
                 android:layout_margin="10dp"

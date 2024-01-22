@@ -14,6 +14,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.preferencesKey
 import androidx.datastore.preferences.createDataStore
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -72,6 +73,14 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_main)
 
+        replacefragment(PasscodeFragment())
+    }
+
+    private fun replacefragment(fragment : Fragment) {
+        val fragManager = supportFragmentManager
+        val fragTransaction = fragManager.beginTransaction()
+        fragTransaction.replace(R.id.fragmentContainerView, fragment)
+        fragTransaction.commit()
     }
 
     private suspend fun save(key: String, value: String) {
