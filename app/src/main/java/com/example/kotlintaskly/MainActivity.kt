@@ -73,10 +73,10 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_main)
 
-        replacefragment(PasscodeFragment())
+        //replaceFragment(PasscodeFragment())
     }
 
-    private fun replacefragment(fragment : Fragment) {
+    private fun replaceFragment(fragment : Fragment) {
         val fragManager = supportFragmentManager
         val fragTransaction = fragManager.beginTransaction()
         fragTransaction.replace(R.id.fragmentContainerView, fragment)
