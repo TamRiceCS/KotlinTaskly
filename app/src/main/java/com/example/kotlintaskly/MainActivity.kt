@@ -73,7 +73,7 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_main)
 
-        //replaceFragment(PasscodeFragment())
+        replaceFragment(PasscodeFragment())
     }
 
     private fun replaceFragment(fragment : Fragment) {
