@@ -11,11 +11,4 @@
         <item name="postSplashScreenTheme">@style/Base.Theme.KotlinTaskly</item>
         <item name="android:windowSplashScreenAnimatedIcon">@drawable/taskly_white_plane</item>
     </style>
-
-    <style name="Theme.KotlinTaskly" parent="Base.Theme.KotlinTaskly" />
-    <!-- Base application theme. -->
-    <style name="Base.Theme.App.Starting" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
-    </style>
 </resources>
