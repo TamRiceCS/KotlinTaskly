@@ -8,6 +8,7 @@ import androidx.activity.viewModels
 import androidx.core.animation.doOnEnd
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import android.view.animation.AccelerateDecelerateInterpolator
+import android.widget.Button
 import android.widget.Toast
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -72,15 +73,15 @@ class MainActivity : AppCompatActivity() {
         }
 
         setContentView(R.layout.activity_main)
-        replaceFragment(RecoveryFragment())
     }
 
-    private fun replaceFragment(fragment : Fragment) {
-        val fragManager = supportFragmentManager
-        val fragTransaction = fragManager.beginTransaction()
-        fragTransaction.replace(R.id.fragmentContainerView, fragment)
-        fragTransaction.commit()
-    }
+    // This is how we would theoretically replace a fragment in the activity, call after setContentView
+//    private fun replaceFragment(fragment : Fragment) {
+//        val fragManager = supportFragmentManager
+//        val fragTransaction = fragManager.beginTransaction()
+//        fragTransaction.replace(R.id.fragmentContainerView, fragment)
+//        fragTransaction.commit()
+//    }
 
     private suspend fun save(key: String, value: String) {
         val dataStoreKey = preferencesKey<String>(key)

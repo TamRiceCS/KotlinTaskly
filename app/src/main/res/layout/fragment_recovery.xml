@@ -46,16 +46,18 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
+                    android:backgroundTint="@color/white"
                     app:boxStrokeColor="@color/white"
                     app:hintTextColor="@color/white">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
-                        android:backgroundTint="@color/white"
                         android:hint="Email"
                         android:textColor="@color/white"
-                        android:textColorHighlight="@color/white"
+                        android:backgroundTint="@color/white"
+                        app:boxStrokeColor="@color/white"
+                        app:hintTextColor="@color/white"
                         android:textSize="18sp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -63,12 +65,18 @@
                     android:id="@+id/textInputLayout3"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/white"
+                    app:boxStrokeColor="@color/white"
+                    app:hintTextColor="@color/white">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="50dp"
                         android:hint="Confirm Email"
+                        android:backgroundTint="@color/white"
+                        app:boxStrokeColor="@color/white"
+                        app:hintTextColor="@color/white"
                         android:textSize="18sp"/>
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
@@ -77,21 +85,27 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_margin="10dp"
                 android:layout_weight="1">
 
                 <Button
                     android:id="@+id/button6"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Button" />
+                    android:layout_margin="10dp"
+                    android:backgroundTint="@color/lightBlue"
+                    android:text="Skip" />
 
                 <Button
                     android:id="@+id/button7"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
                     android:layout_weight="1"
-                    android:text="Button" />
+                    android:backgroundTint="@color/lightBlue"
+                    android:text="Submit" />
             </LinearLayout>
         </LinearLayout>
 

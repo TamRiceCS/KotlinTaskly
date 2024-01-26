@@ -17,4 +17,5 @@
         <item name="postSplashScreenTheme">@style/Base.Theme.KotlinTaskly</item>
         <item name="android:windowSplashScreenAnimatedIcon">@drawable/taskly_white_plane</item>
     </style>
+
 </resources>
