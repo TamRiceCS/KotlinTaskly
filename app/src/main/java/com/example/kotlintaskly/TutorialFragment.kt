@@ -10,8 +10,13 @@ import android.widget.Toast
 
 class TutorialFragment : Fragment(), View.OnClickListener {
 
+    private var passStatus : String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (savedInstanceState != null) {
+            passStatus = savedInstanceState.getString("Passcode")
+        }
     }
 
     override fun onCreateView(
@@ -22,6 +27,7 @@ class TutorialFragment : Fragment(), View.OnClickListener {
         val view: View = inflater!!.inflate(R.layout.fragment_tutorial, container, false)
         var skipButton: Button = view.findViewById(R.id.skipButton)
         skipButton.setOnClickListener(this);
+        Toast.makeText(activity, "Our current passcode value is... $passStatus", Toast.LENGTH_LONG ).show()
         return view
     }
 
