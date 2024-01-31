@@ -14,7 +14,6 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.preferencesKey
 import androidx.datastore.preferences.createDataStore
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.setFragmentResult
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -71,12 +70,19 @@ class MainActivity : AppCompatActivity() {
             passcode = read("Passcode")
         }
 
+
         setContentView(R.layout.activity_main)
 
         var bundle : Bundle = Bundle()
         bundle.putString("PassState", passcode)
 
-        replaceFragment(TutorialFragment(), bundle)
+        if(passcode == null) {
+            replaceFragment(TutorialFragment(), bundle)
+        }
+
+        else if(passcode != "None") {
+            replaceFragment(PasscodeFragment(), bundle)
+        }
     }
 
     private fun replaceFragment(fragment : Fragment, bundle: Bundle) {
