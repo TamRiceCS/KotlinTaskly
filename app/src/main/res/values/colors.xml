@@ -6,4 +6,6 @@
     <color name="transparentWhite">#DFFFFFFF</color>
     <color name="lightBlue">#ABCBEC</color>
     <color name="forestGreen">#088F8F</color>
+    <color name="lightForestGreen">#75CACA</color>
+
 </resources>

@@ -67,6 +67,7 @@
                                 android:textColorHighlight="@color/transparentWhite"
                                 android:textSize="24sp"
                                 android:clickable="true"
+                                android:maxLength="1"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintHorizontal_bias="0.0"
@@ -97,6 +98,7 @@
                                 android:textColor="@color/white"
                                 android:textColorHighlight="@color/transparentWhite"
                                 android:textSize="24sp"
+                                android:maxLength="1"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintHorizontal_bias="0.0"
@@ -128,6 +130,7 @@
                                 android:textColor="@color/white"
                                 android:textColorHighlight="@color/transparentWhite"
                                 android:textSize="24sp"
+                                android:maxLength="1"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintHorizontal_bias="0.0"
@@ -159,6 +162,7 @@
                                 android:textColor="@color/white"
                                 android:textColorHighlight="@color/transparentWhite"
                                 android:textSize="24sp"
+                                android:maxLength="1"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintHorizontal_bias="0.0"
@@ -182,7 +186,7 @@
 
                 <Button
                     android:id="@+id/recoverBttn"
-                    android:layout_width="wrap_content"
+                    android:layout_width="200dp"
                     android:layout_height="wrap_content"
                     android:backgroundTint="#FF7F7F"
                     android:text="Recover Passocde"
@@ -190,8 +194,16 @@
                     android:layout_margin="10dp"/>
 
                 <Button
+                    android:id="@+id/submitBttn"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/lightForestGreen"
+                    android:textColor="@color/white"
+                    android:text="Submit Pin" />
+
+                <Button
                     android:id="@+id/retryBttn"
-                    android:layout_width="wrap_content"
+                    android:layout_width="200dp"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/lightBlue"
                     android:text="Retry with New Pin"

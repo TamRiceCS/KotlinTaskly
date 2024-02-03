@@ -11,6 +11,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.cardview.widget.CardView
 import androidx.core.view.isVisible
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -21,11 +22,12 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 class PasscodeFragment : Fragment(), View.OnClickListener, View.OnTouchListener {
-    private lateinit var dataStore: DataStore<Preferences>
     private var passcode: String? = null
     private var pin1 : EditText? = null
-
-
+    private var pin2 : EditText? = null
+    private var pin3 : EditText? = null
+    private var pin4 : EditText? = null
+    private var step = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,9 +42,9 @@ class PasscodeFragment : Fragment(), View.OnClickListener, View.OnTouchListener 
         var recover : Button = view.findViewById(R.id.recoverBttn)
         var retry : Button = view.findViewById(R.id.retryBttn)
         pin1 = view.findViewById(R.id.pin1)
-        var pin2 : EditText = view.findViewById(R.id.pin2)
-        var pin3 : EditText = view.findViewById(R.id.pin3)
-        var pin4 : EditText = view.findViewById(R.id.pin4)
+        pin2 = view.findViewById(R.id.pin2)
+        pin3 = view.findViewById(R.id.pin3)
+        pin4 = view.findViewById(R.id.pin4)
 
 
         if(passcode == null) {
@@ -53,9 +55,10 @@ class PasscodeFragment : Fragment(), View.OnClickListener, View.OnTouchListener 
         }
 
         // set pins focus on the start
-        pin1!!.setOnClickListener(this)
-        //pin1!!.focusable = View.FOCUSABLE
-        //pin1!!.requestFocus()
+        pin1!!.setOnTouchListener(this)
+        pin2!!.setOnTouchListener(this)
+        pin3!!.setOnTouchListener(this)
+        pin4!!.setOnTouchListener(this)
 
         return view
     }
@@ -68,12 +71,28 @@ class PasscodeFragment : Fragment(), View.OnClickListener, View.OnTouchListener 
     }
 
     override fun onClick(bttn: View) {
-        if(bttn.getId() == R.id.skipButton) {
+        if(step == 1 && bttn.id == R.id.skipButton) {
             passcode = "none"
         }
     }
 
-    override fun onTouch(p0: View?, p1: MotionEvent?): Boolean {
-        TODO("Not yet implemented")
+    override fun onTouch(clicked: View?, event: MotionEvent?): Boolean {
+
+        // TODO: this could theoretically be made a switch statement
+        if(clicked!!.id == R.id.pin1 && event!!.action == MotionEvent.ACTION_UP) {
+            pin1!!.text.clear()
+        }
+        else if(clicked!!.id == R.id.pin2 && event!!.action == MotionEvent.ACTION_UP) {
+            pin2!!.text.clear()
+        }
+        else if(clicked!!.id == R.id.pin3 && event!!.action == MotionEvent.ACTION_UP) {
+            pin3!!.text.clear()
+        }
+        else if(clicked!!.id == R.id.pin4 && event!!.action == MotionEvent.ACTION_UP) {
+            pin4!!.text.clear()
+        }
+
+        return false
     }
+
 }
