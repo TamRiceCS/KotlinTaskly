@@ -46,6 +46,7 @@
                     android:orientation="horizontal">
 
                     <androidx.cardview.widget.CardView
+                        android:id="@+id/pin1Card"
                         android:layout_width="0dp"
                         android:layout_height="100dp"
                         android:layout_margin="5dp"
@@ -76,6 +77,7 @@
                     </androidx.cardview.widget.CardView>
 
                     <androidx.cardview.widget.CardView
+                        android:id="@+id/pin2Card"
                         android:layout_width="0dp"
                         android:layout_height="100dp"
                         android:layout_margin="5dp"
@@ -108,6 +110,7 @@
                     </androidx.cardview.widget.CardView>
 
                     <androidx.cardview.widget.CardView
+                        android:id="@+id/pin3Card"
                         android:layout_width="0dp"
                         android:layout_height="100dp"
                         android:layout_margin="5dp"
@@ -140,6 +143,7 @@
                     </androidx.cardview.widget.CardView>
 
                     <androidx.cardview.widget.CardView
+                        android:id="@+id/pin4Card"
                         android:layout_width="0dp"
                         android:layout_height="100dp"
                         android:layout_margin="5dp"
@@ -185,7 +189,7 @@
                 android:orientation="vertical">
 
                 <Button
-                    android:id="@+id/recoverBttn"
+                    android:id="@+id/recoverSkipBttn"
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
                     android:backgroundTint="#FF7F7F"

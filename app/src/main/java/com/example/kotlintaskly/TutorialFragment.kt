@@ -29,9 +29,6 @@ class TutorialFragment : Fragment(), View.OnClickListener {
         var skipButton: Button = view.findViewById(R.id.skipButton)
         skipButton.setOnClickListener(this);
 
-        if(passStatus  == null) {
-
-        }
         Toast.makeText(activity, "Our current passcode value is... $passStatus", Toast.LENGTH_LONG ).show()
         return view
     }
