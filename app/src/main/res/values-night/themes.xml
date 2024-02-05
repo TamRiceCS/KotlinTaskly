@@ -18,4 +18,8 @@
         <item name="android:windowSplashScreenAnimatedIcon">@drawable/taskly_white_plane</item>
     </style>
 
+    <style name="textbox_appearance" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <item name="boxStrokeColor">@color/textbox_appearance</item>
+    </style>
+
 </resources>

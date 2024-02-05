@@ -24,6 +24,7 @@ import kotlinx.coroutines.launch
 class PasscodeFragment : Fragment(), View.OnClickListener, View.OnTouchListener {
     private var passcode: String? = null
     private var instructionText: TextView? = null
+    private var submit : Button? = null
     private var pin1 : EditText? = null
     private var pin2 : EditText? = null
     private var pin3 : EditText? = null
@@ -46,7 +47,7 @@ class PasscodeFragment : Fragment(), View.OnClickListener, View.OnTouchListener 
         var instruction : TextView = view.findViewById(R.id.instructionPin)
         var recoverSkip : Button = view.findViewById(R.id.recoverSkipBttn)
         var retry : Button = view.findViewById(R.id.retryBttn)
-        var submit : Button = view.findViewById(R.id.submitBttn)
+        submit = view.findViewById(R.id.submitBttn)
         instructionText = view.findViewById(R.id.instructionPin)
         pin1 = view.findViewById(R.id.pin1)
         pin2 = view.findViewById(R.id.pin2)
@@ -73,9 +74,8 @@ class PasscodeFragment : Fragment(), View.OnClickListener, View.OnTouchListener 
         pin4!!.setOnTouchListener(this)
 
         // set button onClickListeners
-        submit.setOnClickListener(this)
+        submit!!.setOnClickListener(this)
         recoverSkip.setOnClickListener(this)
-        submit.setOnClickListener(this)
 
         return view
     }
@@ -102,10 +102,11 @@ class PasscodeFragment : Fragment(), View.OnClickListener, View.OnTouchListener 
                 pin3!!.text.clear()
                 pin4!!.text.clear()
 
-                card1!!.setBackgroundColor(getResources().getColor(R.color.lightBlue))
-                card2!!.setBackgroundColor(getResources().getColor(R.color.lightBlue))
-                card3!!.setBackgroundColor(getResources().getColor(R.color.lightBlue))
-                card4!!.setBackgroundColor(getResources().getColor(R.color.lightBlue))
+                card1!!.setBackgroundColor(getResources().getColor(R.color.lightForestGreen))
+                card2!!.setBackgroundColor(getResources().getColor(R.color.lightForestGreen))
+                card3!!.setBackgroundColor(getResources().getColor(R.color.lightForestGreen))
+                card4!!.setBackgroundColor(getResources().getColor(R.color.lightForestGreen))
+                instructionText!!.setBackgroundColor(getResources().getColor(R.color.lightForestGreen))
 
                 Toast.makeText(activity, "Confirm Your Pin Now...", Toast.LENGTH_SHORT).show()
                 step = 2;
@@ -113,6 +114,18 @@ class PasscodeFragment : Fragment(), View.OnClickListener, View.OnTouchListener 
             }
             else {
                 Toast.makeText(activity, "All pin boxes must be filled...", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        if(step == 2 && bttn.id == R.id.submitBttn) {
+            var passcodeAttempt: String = pin1!!.text.toString() + pin2!!.text.toString() + pin3!!.text.toString() + pin4!!.text.toString()
+
+            if(passcodeAttempt == passcode) {
+                replaceFragment(RecoveryFragment())
+            }
+
+            else{
+                Toast.makeText(activity, "Oops, passcode doesn't match...", Toast.LENGTH_SHORT).show()
             }
         }
 

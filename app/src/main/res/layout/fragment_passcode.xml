@@ -192,7 +192,7 @@
                     android:id="@+id/recoverSkipBttn"
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="#FF7F7F"
+                    android:backgroundTint="@color/gentleRed"
                     android:text="Recover Passocde"
                     android:textColor="@color/white"
                     android:layout_margin="10dp"/>

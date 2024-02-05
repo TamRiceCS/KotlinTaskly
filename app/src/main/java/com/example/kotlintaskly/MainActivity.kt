@@ -77,7 +77,7 @@ class MainActivity : AppCompatActivity() {
         bundle.putString("PassState", passcode)
 
         if(passcode == null) {
-            replaceFragment(TutorialFragment(), bundle)
+            replaceFragment(RecoveryFragment(), bundle)
         }
 
         else if(passcode != "None") {
