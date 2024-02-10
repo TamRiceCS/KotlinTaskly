@@ -51,6 +51,7 @@
                     app:startIconDrawable="@drawable/mail">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/initEmail"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:textColor="@color/white"
@@ -69,6 +70,7 @@
                     app:startIconDrawable="@drawable/mail">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/confirmEmail"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         app:startIconDrawable="@drawable/mail"
@@ -88,7 +90,7 @@
                 android:layout_weight="1">
 
                 <Button
-                    android:id="@+id/button6"
+                    android:id="@+id/skip"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -97,12 +99,12 @@
                     android:text="Skip" />
 
                 <Button
-                    android:id="@+id/button7"
+                    android:id="@+id/submit"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:layout_weight="1"
-                    android:backgroundTint="@color/lightBlue"
+                    android:backgroundTint="@color/lightForestGreen"
                     android:text="Submit" />
             </LinearLayout>
         </LinearLayout>

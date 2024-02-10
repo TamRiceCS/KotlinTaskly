@@ -1,6 +1,7 @@
 package com.example.kotlintaskly
 
 import android.animation.ObjectAnimator
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -8,20 +9,24 @@ import androidx.activity.viewModels
 import androidx.core.animation.doOnEnd
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import android.view.animation.AccelerateDecelerateInterpolator
+import android.widget.Toast
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.preferencesKey
 import androidx.datastore.preferences.createDataStore
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 
-class MainActivity : AppCompatActivity() {
+class LaunchActivity : AppCompatActivity() {
 
     private val viewModel by viewModels<mVModel>()
+    private val dataModel by viewModels<launchVModel>()
+
     private var passcode: String? = null
 
     private lateinit var dataStore : DataStore<Preferences>
@@ -73,20 +78,28 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_main)
 
-        var bundle : Bundle = Bundle()
-        bundle.putString("PassState", passcode)
-
         if(passcode == null) {
-            replaceFragment(RecoveryFragment(), bundle)
+            replaceFragment(PasscodeFragment())
         }
 
         else if(passcode != "None") {
-            replaceFragment(PasscodeFragment(), bundle)
+            replaceFragment(PasscodeFragment())
         }
+
+        dataModel.skip.observe(this, Observer {
+            if(dataModel.skip.value.toString() == "Skip Key Hit!") {
+                Toast.makeText(this, "Detected skip bttn...", Toast.LENGTH_SHORT).show()
+                switchActivity()
+            }
+        })
     }
 
-    private fun replaceFragment(fragment : Fragment, bundle: Bundle) {
-        fragment.arguments = bundle
+    private fun switchActivity() {
+        val intent = Intent(this, TaskActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun replaceFragment(fragment : Fragment) {
         val fragManager = supportFragmentManager
         val fragTransaction = fragManager.beginTransaction()
         fragTransaction.add(R.id.fragmentContainerView, fragment)

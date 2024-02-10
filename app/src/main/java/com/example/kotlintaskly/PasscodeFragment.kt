@@ -1,7 +1,6 @@
 package com.example.kotlintaskly
 
 import android.os.Bundle
-import android.text.Editable
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -12,14 +11,9 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.cardview.widget.CardView
-import androidx.core.view.isVisible
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.preferencesKey
-import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+
 
 class PasscodeFragment : Fragment(), View.OnClickListener, View.OnTouchListener {
     private var passcode: String? = null
@@ -35,6 +29,8 @@ class PasscodeFragment : Fragment(), View.OnClickListener, View.OnTouchListener 
     private var card4: CardView? = null
     private var step = 1
 
+    private val viewModel by activityViewModels<launchVModel>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -43,6 +39,7 @@ class PasscodeFragment : Fragment(), View.OnClickListener, View.OnTouchListener 
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         val view: View = inflater!!.inflate(R.layout.fragment_passcode, container, false)
         var instruction : TextView = view.findViewById(R.id.instructionPin)
         var recoverSkip : Button = view.findViewById(R.id.recoverSkipBttn)
@@ -90,7 +87,7 @@ class PasscodeFragment : Fragment(), View.OnClickListener, View.OnTouchListener 
     override fun onClick(bttn: View) {
         if(step == 1 && bttn.id == R.id.recoverSkipBttn) {
             passcode = "none"
-            Toast.makeText(activity, "ClickedSkip...", Toast.LENGTH_SHORT).show()
+            viewModel.skip.value = "Skip Key Hit!"
         }
         if(step == 1 && bttn.id == R.id.submitBttn) {
             var passcodeAttempt: String = pin1!!.text.toString() + pin2!!.text.toString() + pin3!!.text.toString() + pin4!!.text.toString()
@@ -121,6 +118,7 @@ class PasscodeFragment : Fragment(), View.OnClickListener, View.OnTouchListener 
             var passcodeAttempt: String = pin1!!.text.toString() + pin2!!.text.toString() + pin3!!.text.toString() + pin4!!.text.toString()
 
             if(passcodeAttempt == passcode) {
+                viewModel.pin.value = passcode
                 replaceFragment(RecoveryFragment())
             }
 
