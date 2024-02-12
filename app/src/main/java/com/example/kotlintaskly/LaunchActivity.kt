@@ -15,18 +15,16 @@ import androidx.lifecycle.Observer
 
 class LaunchActivity : AppCompatActivity() {
 
-    private val viewModel by viewModels<mVModel>()
-    private val dataModel by viewModels<launchVModel>()
 
-    private var passcode: String? = null
+    private val dataModel by viewModels<LaunchVModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
 
-        // There is no known prettier way to dismiss splash screen icon
+        // there is no known prettier way to dismiss splash screen icon
         installSplashScreen().apply {
             setKeepOnScreenCondition {
-                !viewModel.isReady.value
+                !dataModel.isReady.value
             }
 
             setOnExitAnimationListener {screen ->
@@ -58,12 +56,10 @@ class LaunchActivity : AppCompatActivity() {
         }
 
         super.onCreate(savedInstanceState)
-
-
-
         setContentView(R.layout.activity_main)
         replaceFragment(PasscodeFragment())
 
+        // enables activity to know when fragment skip bttn is hit
         dataModel.skip.observe(this, Observer {
             if(dataModel.skip.value.toString() == "Skip Key Hit!") {
                 Toast.makeText(this, "Detected skip bttn...", Toast.LENGTH_SHORT).show()

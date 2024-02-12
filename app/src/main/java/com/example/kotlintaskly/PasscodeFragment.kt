@@ -12,7 +12,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 
 
 class PasscodeFragment : Fragment(), View.OnClickListener, View.OnTouchListener {
@@ -29,7 +28,7 @@ class PasscodeFragment : Fragment(), View.OnClickListener, View.OnTouchListener 
     private var card4: CardView? = null
     private var step = 1
 
-    private val viewModel by activityViewModels<launchVModel>()
+    private val viewModel by activityViewModels<LaunchVModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

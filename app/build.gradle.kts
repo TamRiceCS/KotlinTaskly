@@ -61,11 +61,12 @@ dependencies {
     implementation("androidx.fragment:fragment-ktx:1.6.1")
 
     // Datastore which is currently preferred over shared preferences!
-    implementation("androidx.datastore:datastore-preferences:1.0.0-alpha04")
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
     implementation("androidx.datastore:datastore:1.0.0")
 
     // Coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
 
     // Coroutine Lifecycle Scopes
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0")
