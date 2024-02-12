@@ -10,17 +10,8 @@ import androidx.core.animation.doOnEnd
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.Toast
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.preferencesKey
-import androidx.datastore.preferences.createDataStore
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
-
 
 class LaunchActivity : AppCompatActivity() {
 
@@ -29,7 +20,6 @@ class LaunchActivity : AppCompatActivity() {
 
     private var passcode: String? = null
 
-    private lateinit var dataStore : DataStore<Preferences>
     override fun onCreate(savedInstanceState: Bundle?) {
 
 
@@ -69,22 +59,10 @@ class LaunchActivity : AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
 
-        dataStore = createDataStore(name = "settings")
-
-        lifecycleScope.launch {
-            passcode = read("Passcode")
-        }
 
 
         setContentView(R.layout.activity_main)
-
-        if(passcode == null) {
-            replaceFragment(PasscodeFragment())
-        }
-
-        else if(passcode != "None") {
-            replaceFragment(PasscodeFragment())
-        }
+        replaceFragment(PasscodeFragment())
 
         dataModel.skip.observe(this, Observer {
             if(dataModel.skip.value.toString() == "Skip Key Hit!") {
@@ -104,18 +82,5 @@ class LaunchActivity : AppCompatActivity() {
         val fragTransaction = fragManager.beginTransaction()
         fragTransaction.add(R.id.fragmentContainerView, fragment)
         fragTransaction.commit()
-    }
-
-    private suspend fun save(key: String, value: String) {
-        val dataStoreKey = preferencesKey<String>(key)
-        dataStore.edit { settings ->
-            settings[dataStoreKey] = value
-        }
-    }
-
-    private suspend fun read(key: String) : String? {
-        val dataStoreKey = preferencesKey<String>(key)
-        val preferences = dataStore.data.first()
-        return preferences[dataStoreKey]
     }
 }
