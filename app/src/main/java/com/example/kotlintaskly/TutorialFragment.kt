@@ -28,8 +28,6 @@ class TutorialFragment : Fragment(), View.OnClickListener {
         val view: View = inflater!!.inflate(R.layout.fragment_tutorial, container, false)
         var skipButton: Button = view.findViewById(R.id.skipButton)
         skipButton.setOnClickListener(this);
-
-        Toast.makeText(activity, "Our current passcode value is... $passStatus", Toast.LENGTH_LONG ).show()
         return view
     }
 

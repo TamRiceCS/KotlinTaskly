@@ -63,6 +63,12 @@ class PasscodeFragment : Fragment(), View.OnClickListener, View.OnTouchListener 
 
         }
 
+        else{
+            instruction.setText("Welcome, enter passcode")
+            recoverSkip.setText("Recover Passcode")
+            retry.visibility = View.INVISIBLE
+        }
+
         // set pins focus on the start
         pin1!!.setOnTouchListener(this)
         pin2!!.setOnTouchListener(this)
