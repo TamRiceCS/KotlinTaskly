@@ -1,6 +1,7 @@
 package com.example.kotlintaskly
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -12,6 +13,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.activityViewModels
+import kotlinx.coroutines.runBlocking
 
 
 class PasscodeFragment : Fragment(), View.OnClickListener, View.OnTouchListener {
@@ -123,7 +125,11 @@ class PasscodeFragment : Fragment(), View.OnClickListener, View.OnTouchListener 
             var passcodeAttempt: String = pin1!!.text.toString() + pin2!!.text.toString() + pin3!!.text.toString() + pin4!!.text.toString()
 
             if(passcodeAttempt == passcode) {
-                viewModel.pin.value = passcode
+                runBlocking {
+                    Log.d("Run Order", "Passcode Start: " + viewModel.returnPin())
+                    viewModel.data(passcodeAttempt)
+                    Log.d("Run Order", "Passcode Done: " + viewModel.returnPin())
+                }
                 replaceFragment(RecoveryFragment())
             }
 

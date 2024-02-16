@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.core.animation.doOnEnd
@@ -14,12 +15,14 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 class LaunchActivity : AppCompatActivity() {
 
 
     private val dataModel by viewModels<LaunchVModel>()
     private var pin: String? = null
+    private var start = true
     override fun onCreate(savedInstanceState: Bundle?) {
 
         installSplashScreen().apply {
@@ -58,17 +61,6 @@ class LaunchActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        if(pin == null) {
-            replaceFragment(TutorialFragment())
-        }
-
-        else if(pin == "none") {
-            switchActivity()
-        }
-
-        else {
-            replaceFragment(PasscodeFragment())
-        }
 
         // enables activity to know when fragment skip bttn is hit
         dataModel.skip.observe(this, Observer {
@@ -80,7 +72,24 @@ class LaunchActivity : AppCompatActivity() {
 
         dataModel.pin.observe(this) {
             pin = dataModel.returnPin()
-            Toast.makeText(this, "Pin val in View Model...$pin", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Pin after observation...$pin", Toast.LENGTH_SHORT).show()
+
+            if (start) {
+                if(pin == "tutorial") {
+                    replaceFragment(TutorialFragment())
+                    Log.d("Run Order", "Loading 1st Frame")
+                }
+
+                else if(pin == "none") {
+                    switchActivity()
+                }
+
+                else {
+                    replaceFragment(PasscodeFragment())
+                }
+
+                start = false
+            }
         }
     }
 
