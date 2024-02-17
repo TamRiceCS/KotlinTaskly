@@ -42,23 +42,28 @@ class PasscodeFragment : Fragment(), View.OnClickListener, View.OnTouchListener 
     ): View? {
 
         val view: View = inflater!!.inflate(R.layout.fragment_passcode, container, false)
+
         var instruction : TextView = view.findViewById(R.id.instructionPin)
         var recoverSkip : Button = view.findViewById(R.id.recoverSkipBttn)
         var retry : Button = view.findViewById(R.id.retryBttn)
         submit = view.findViewById(R.id.submitBttn)
         instructionText = view.findViewById(R.id.instructionPin)
+
         pin1 = view.findViewById(R.id.pin1)
         pin2 = view.findViewById(R.id.pin2)
         pin3 = view.findViewById(R.id.pin3)
         pin4 = view.findViewById(R.id.pin4)
+
         card1 = view.findViewById(R.id.pin1Card)
         card2 = view.findViewById(R.id.pin2Card)
         card3 = view.findViewById(R.id.pin3Card)
         card4 = view.findViewById(R.id.pin4Card)
 
+        passcode = viewModel.returnPin()
 
 
-        if(passcode == null) {
+
+        if(passcode == "tutorial") {
             instruction.setText("Set a new Passcode")
             recoverSkip.setText("Skip Passcode")
             retry.visibility = View.INVISIBLE
@@ -69,6 +74,7 @@ class PasscodeFragment : Fragment(), View.OnClickListener, View.OnTouchListener 
             instruction.setText("Welcome, enter passcode")
             recoverSkip.setText("Recover Passcode")
             retry.visibility = View.INVISIBLE
+            step = 3
         }
 
         // set pins focus on the start
@@ -92,69 +98,99 @@ class PasscodeFragment : Fragment(), View.OnClickListener, View.OnTouchListener 
     }
 
     override fun onClick(bttn: View) {
-        if(step == 1 && bttn.id == R.id.recoverSkipBttn) {
-            passcode = "none"
-            viewModel.skip.value = "Skip Key Hit!"
-        }
-        if(step == 1 && bttn.id == R.id.submitBttn) {
-            var passcodeAttempt: String = pin1!!.text.toString() + pin2!!.text.toString() + pin3!!.text.toString() + pin4!!.text.toString()
-            if(passcodeAttempt.length == 4) {
-                instructionText!!.text = "Please confirm pin"
+
+        when(bttn.id) {
+            R.id.recoverSkipBttn -> {
+                // skip button
+                if(step == 1 || step == 2) {
+                    runBlocking {
+                        viewModel.data("none")
+                        viewModel.skip.value = "Skip Key Hit!"
+                    }
+                }
+                // passcode recovery button
+                if(step == 3) {
+                    replaceFragment(RecoveryFragment())
+                }
+            }
+
+            R.id.submitBttn -> {
+                // mode 1: choose a pin to set
+                if(step == 1) {
+                    var passcodeAttempt: String = pin1!!.text.toString() + pin2!!.text.toString() + pin3!!.text.toString() + pin4!!.text.toString()
+                    if(passcodeAttempt.length == 4) {
+                        instructionText!!.text = "Please confirm pin"
+
+                        pin1!!.text.clear()
+                        pin2!!.text.clear()
+                        pin3!!.text.clear()
+                        pin4!!.text.clear()
+
+                        card1!!.setBackgroundColor(getResources().getColor(R.color.lightForestGreen))
+                        card2!!.setBackgroundColor(getResources().getColor(R.color.lightForestGreen))
+                        card3!!.setBackgroundColor(getResources().getColor(R.color.lightForestGreen))
+                        card4!!.setBackgroundColor(getResources().getColor(R.color.lightForestGreen))
+                        instructionText!!.setBackgroundColor(getResources().getColor(R.color.lightForestGreen))
+
+                        Toast.makeText(activity, "Confirm Your Pin Now...", Toast.LENGTH_SHORT)
+                            .show()
+                        step = 2;
+                        passcode = passcodeAttempt
+                    }
+                    else {
+                        Toast.makeText(activity, "All pin boxes must be filled...", Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+                // mode 2: confirm pin to set
+                if(step == 2) {
+                    var passcodeAttempt: String = pin1!!.text.toString() + pin2!!.text.toString() + pin3!!.text.toString() + pin4!!.text.toString()
+
+                    if(passcodeAttempt == passcode) {
+                        runBlocking {
+                            Log.d("Run Order", "Passcode Start: " + viewModel.returnPin())
+                            viewModel.data(passcodeAttempt)
+                            Log.d("Run Order", "Passcode Done: " + viewModel.returnPin())
+                        }
+                        replaceFragment(RecoveryFragment())
+                    }
+
+                    else{
+                        Toast.makeText(activity, "Oops, passcode doesn't match...", Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+                // mode 3: user returns and enters pin
+                if(step == 3) {
+                    var backendPass = viewModel.returnPin()
+                    var passcodeAttempt: String = pin1!!.text.toString() + pin2!!.text.toString() + pin3!!.text.toString() + pin4!!.text.toString()
+
+                    if(backendPass == passcodeAttempt) {
+                        viewModel.skip.value = "Correct Passcode"
+                    }
+                    else {
+                        Toast.makeText(activity, "Oops, passcode doesn't match...", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+
+            R.id.retryBttn -> {
+                instructionText!!.text = "Please Enter Your Pin"
 
                 pin1!!.text.clear()
                 pin2!!.text.clear()
                 pin3!!.text.clear()
                 pin4!!.text.clear()
 
-                card1!!.setBackgroundColor(getResources().getColor(R.color.lightForestGreen))
-                card2!!.setBackgroundColor(getResources().getColor(R.color.lightForestGreen))
-                card3!!.setBackgroundColor(getResources().getColor(R.color.lightForestGreen))
-                card4!!.setBackgroundColor(getResources().getColor(R.color.lightForestGreen))
-                instructionText!!.setBackgroundColor(getResources().getColor(R.color.lightForestGreen))
+                card1!!.setBackgroundColor(getResources().getColor(R.color.forestGreen))
+                card2!!.setBackgroundColor(getResources().getColor(R.color.forestGreen))
+                card3!!.setBackgroundColor(getResources().getColor(R.color.forestGreen))
+                card4!!.setBackgroundColor(getResources().getColor(R.color.forestGreen))
 
-                Toast.makeText(activity, "Confirm Your Pin Now...", Toast.LENGTH_SHORT).show()
-                step = 2;
-                passcode = passcodeAttempt
+                Toast.makeText(activity, "No problem...", Toast.LENGTH_SHORT).show()
+                step = 1
+                passcode = null
             }
-            else {
-                Toast.makeText(activity, "All pin boxes must be filled...", Toast.LENGTH_SHORT).show()
-            }
-        }
-
-        if(step == 2 && bttn.id == R.id.submitBttn) {
-            var passcodeAttempt: String = pin1!!.text.toString() + pin2!!.text.toString() + pin3!!.text.toString() + pin4!!.text.toString()
-
-            if(passcodeAttempt == passcode) {
-                runBlocking {
-                    Log.d("Run Order", "Passcode Start: " + viewModel.returnPin())
-                    viewModel.data(passcodeAttempt)
-                    Log.d("Run Order", "Passcode Done: " + viewModel.returnPin())
-                }
-                replaceFragment(RecoveryFragment())
-            }
-
-            else{
-                Toast.makeText(activity, "Oops, passcode doesn't match...", Toast.LENGTH_SHORT).show()
-            }
-        }
-
-        if(bttn.id == R.id.retryBttn) {
-            instructionText!!.text = "Please Enter Your Pin"
-
-            pin1!!.text.clear()
-            pin2!!.text.clear()
-            pin3!!.text.clear()
-            pin4!!.text.clear()
-
-            card1!!.setBackgroundColor(getResources().getColor(R.color.forestGreen))
-            card2!!.setBackgroundColor(getResources().getColor(R.color.forestGreen))
-            card3!!.setBackgroundColor(getResources().getColor(R.color.forestGreen))
-            card4!!.setBackgroundColor(getResources().getColor(R.color.forestGreen))
-
-            Toast.makeText(activity, "No problem...", Toast.LENGTH_SHORT).show()
-            step = 1
-            passcode = null
-
         }
     }
 

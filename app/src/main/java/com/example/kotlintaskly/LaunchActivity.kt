@@ -68,6 +68,10 @@ class LaunchActivity : AppCompatActivity() {
                 Toast.makeText(this, "Detected skip bttn...", Toast.LENGTH_SHORT).show()
                 switchActivity()
             }
+            if(dataModel.skip.value.toString() == "Correct Passcode") {
+                Toast.makeText(this, "Transferring to main...", Toast.LENGTH_SHORT).show()
+                switchActivity()
+            }
         })
 
         dataModel.pin.observe(this) {
