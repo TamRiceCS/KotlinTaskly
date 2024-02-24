@@ -19,6 +19,7 @@ class LaunchVModel(application: Application): AndroidViewModel(application) {
     var pin = MutableLiveData<String>()
     var email = MutableLiveData<String>()
     var skip = MutableLiveData<String>()
+    var reload = MutableLiveData<String>()
 
     // immediately execute the splash delay
     init {

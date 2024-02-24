@@ -10,12 +10,9 @@ import androidx.activity.viewModels
 import androidx.core.animation.doOnEnd
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import android.view.animation.AccelerateDecelerateInterpolator
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
+
 
 class LaunchActivity : AppCompatActivity() {
 
@@ -30,7 +27,7 @@ class LaunchActivity : AppCompatActivity() {
                 !dataModel.isReady.value
             }
 
-            setOnExitAnimationListener {screen ->
+            setOnExitAnimationListener { screen ->
                 val zoomX = ObjectAnimator.ofFloat(
                     screen.iconView,
                     View.TRANSLATION_X,
@@ -61,40 +58,37 @@ class LaunchActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
-        // enables activity to know when fragment skip bttn is hit
-        dataModel.skip.observe(this, Observer {
-            if(dataModel.skip.value.toString() == "Skip Key Hit!") {
-                Toast.makeText(this, "Detected skip bttn...", Toast.LENGTH_SHORT).show()
-                switchActivity()
-            }
-            if(dataModel.skip.value.toString() == "Correct Passcode") {
-                Toast.makeText(this, "Transferring to main...", Toast.LENGTH_SHORT).show()
-                switchActivity()
-            }
-        })
-
+        // handles pin instance
         dataModel.pin.observe(this) {
             pin = dataModel.returnPin()
-            Toast.makeText(this, "Pin after observation...$pin", Toast.LENGTH_SHORT).show()
-
             if (start) {
-                if(pin == "tutorial") {
-                    replaceFragment(TutorialFragment())
+                if (pin == "tutorial") {
+                    replaceFragment(TutorialFragment(), "tutorial")
                     Log.d("Run Order", "Loading 1st Frame")
-                }
-
-                else if(pin == "none") {
+                } else if (pin == "none") {
                     switchActivity()
-                }
-
-                else {
-                    replaceFragment(PasscodeFragment())
+                } else {
+                    replaceFragment(PasscodeFragment(), "passcode")
                 }
 
                 start = false
             }
         }
+
+        // enables activity to know when fragment skip bttn is hit
+        dataModel.skip.observe(this, Observer {
+            if (dataModel.skip.value.toString() == "Skip Key Hit!") {
+                switchActivity()
+            }
+            if (dataModel.skip.value.toString() == "Correct Passcode") {
+                switchActivity()
+            }
+        })
+
+        dataModel.email.observe(this, {
+            switchActivity()
+        })
+
     }
 
     private fun switchActivity() {
@@ -102,10 +96,11 @@ class LaunchActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    private fun replaceFragment(fragment : Fragment) {
+    private fun replaceFragment(fragment : Fragment, identity: String) {
         val fragManager = supportFragmentManager
         val fragTransaction = fragManager.beginTransaction()
         fragTransaction.add(R.id.fragmentContainerView, fragment)
+        fragTransaction.addToBackStack(identity)
         fragTransaction.commit()
     }
 }

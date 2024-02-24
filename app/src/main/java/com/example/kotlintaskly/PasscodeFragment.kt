@@ -20,6 +20,7 @@ class PasscodeFragment : Fragment(), View.OnClickListener, View.OnTouchListener 
     private var passcode: String? = null
     private var instructionText: TextView? = null
     private var submit : Button? = null
+    private var retry: Button? = null
     private var pin1 : EditText? = null
     private var pin2 : EditText? = null
     private var pin3 : EditText? = null
@@ -45,7 +46,7 @@ class PasscodeFragment : Fragment(), View.OnClickListener, View.OnTouchListener 
 
         var instruction : TextView = view.findViewById(R.id.instructionPin)
         var recoverSkip : Button = view.findViewById(R.id.recoverSkipBttn)
-        var retry : Button = view.findViewById(R.id.retryBttn)
+        retry = view.findViewById(R.id.retryBttn)
         submit = view.findViewById(R.id.submitBttn)
         instructionText = view.findViewById(R.id.instructionPin)
 
@@ -66,14 +67,14 @@ class PasscodeFragment : Fragment(), View.OnClickListener, View.OnTouchListener 
         if(passcode == "tutorial") {
             instruction.setText("Set a new Passcode")
             recoverSkip.setText("Skip Passcode")
-            retry.visibility = View.INVISIBLE
+            retry?.visibility = View.INVISIBLE
 
         }
 
         else{
             instruction.setText("Welcome, enter passcode")
             recoverSkip.setText("Recover Passcode")
-            retry.visibility = View.INVISIBLE
+            retry?.visibility = View.INVISIBLE
             step = 3
         }
 
@@ -86,6 +87,7 @@ class PasscodeFragment : Fragment(), View.OnClickListener, View.OnTouchListener 
         // set button onClickListeners
         submit!!.setOnClickListener(this)
         recoverSkip.setOnClickListener(this)
+        retry!!.setOnClickListener(this)
 
         return view
     }
@@ -110,7 +112,7 @@ class PasscodeFragment : Fragment(), View.OnClickListener, View.OnTouchListener 
                 }
                 // passcode recovery button
                 if(step == 3) {
-                    replaceFragment(RecoveryFragment())
+                    Toast.makeText(activity, "Please check your email for recovery steps...", Toast.LENGTH_SHORT).show()
                 }
             }
 
@@ -131,11 +133,9 @@ class PasscodeFragment : Fragment(), View.OnClickListener, View.OnTouchListener 
                         card3!!.setBackgroundColor(getResources().getColor(R.color.lightForestGreen))
                         card4!!.setBackgroundColor(getResources().getColor(R.color.lightForestGreen))
                         instructionText!!.setBackgroundColor(getResources().getColor(R.color.lightForestGreen))
-
-                        Toast.makeText(activity, "Confirm Your Pin Now...", Toast.LENGTH_SHORT)
-                            .show()
                         step = 2;
                         passcode = passcodeAttempt
+                        retry?.visibility = View.VISIBLE
                     }
                     else {
                         Toast.makeText(activity, "All pin boxes must be filled...", Toast.LENGTH_SHORT).show()
@@ -155,7 +155,7 @@ class PasscodeFragment : Fragment(), View.OnClickListener, View.OnTouchListener 
                         replaceFragment(RecoveryFragment())
                     }
 
-                    else{
+                    else if(passcodeAttempt != ""){
                         Toast.makeText(activity, "Oops, passcode doesn't match...", Toast.LENGTH_SHORT).show()
                     }
                 }
@@ -186,17 +186,17 @@ class PasscodeFragment : Fragment(), View.OnClickListener, View.OnTouchListener 
                 card2!!.setBackgroundColor(getResources().getColor(R.color.forestGreen))
                 card3!!.setBackgroundColor(getResources().getColor(R.color.forestGreen))
                 card4!!.setBackgroundColor(getResources().getColor(R.color.forestGreen))
+                instructionText!!.setBackgroundColor(getResources().getColor(R.color.forestGreen))
 
-                Toast.makeText(activity, "No problem...", Toast.LENGTH_SHORT).show()
                 step = 1
                 passcode = null
+                retry?.visibility = View.INVISIBLE
             }
         }
     }
 
     override fun onTouch(clicked: View?, event: MotionEvent?): Boolean {
 
-        // TODO: this could theoretically be made a switch statement
         if(clicked!!.id == R.id.pin1 && event!!.action == MotionEvent.ACTION_UP) {
             pin1!!.text.clear()
         }

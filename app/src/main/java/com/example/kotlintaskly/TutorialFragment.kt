@@ -6,12 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.Toast
 
 class TutorialFragment : Fragment(), View.OnClickListener {
 
     private var passStatus : String? = null
-    private var bundle : Bundle? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,7 +39,6 @@ class TutorialFragment : Fragment(), View.OnClickListener {
     override fun onClick(bttn: View) {
         if(bttn.getId() == R.id.skipButton) {
             replaceFragment(PasscodeFragment())
-            Toast.makeText(activity, "Transferring Fragments...", Toast.LENGTH_SHORT).show()
         }
     }
 }

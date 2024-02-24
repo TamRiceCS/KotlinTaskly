@@ -6,8 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.EditText
 import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import com.google.android.material.textfield.TextInputEditText
 
 class RecoveryFragment : Fragment(), View.OnClickListener {
@@ -18,6 +18,8 @@ class RecoveryFragment : Fragment(), View.OnClickListener {
 
     private var submitBttn : Button? = null
     private var skipBttn: Button? = null
+
+    private val viewModel by activityViewModels<LaunchVModel>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,6 +39,7 @@ class RecoveryFragment : Fragment(), View.OnClickListener {
         skipBttn = view.findViewById(R.id.skip)
 
         submitBttn!!.setOnClickListener(this)
+        skipBttn!!.setOnClickListener(this)
 
         return view
     }
@@ -57,6 +60,11 @@ class RecoveryFragment : Fragment(), View.OnClickListener {
             else{
                 Toast.makeText(activity, "The boxes do not match...", Toast.LENGTH_SHORT).show()
             }
+        }
+
+        if(bttn.id == R.id.skip) {
+            viewModel.pin.value = "none"
+            viewModel.skip.value = "Skip Key Hit!"
         }
     }
 

@@ -192,6 +192,7 @@
                     android:id="@+id/recoverSkipBttn"
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:backgroundTint="@color/gentleRed"
                     android:text="Recover Passocde"
                     android:textColor="@color/white"
@@ -201,6 +202,7 @@
                     android:id="@+id/submitBttn"
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:backgroundTint="@color/lightForestGreen"
                     android:textColor="@color/white"
                     android:text="Submit Pin" />
@@ -209,6 +211,7 @@
                     android:id="@+id/retryBttn"
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:backgroundTint="@color/lightBlue"
                     android:text="Retry with New Pin"
                     android:textColor="@color/white"
