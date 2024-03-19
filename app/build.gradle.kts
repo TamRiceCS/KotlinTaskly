@@ -72,6 +72,10 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.2.0")
 
+    // Recycler View
+    implementation("androidx.recyclerview:recyclerview:1.2.0")
+    implementation("androidx.cardview:cardview:1.0.0")
+
     // Generic dependencies already included!
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
