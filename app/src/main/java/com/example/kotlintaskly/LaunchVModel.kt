@@ -19,16 +19,16 @@ class LaunchVModel(application: Application): AndroidViewModel(application) {
     var pin = MutableLiveData<String>()
     var email = MutableLiveData<String>()
     var skip = MutableLiveData<String>()
+    // TODO: upon app reload, correctly launch fragment needed
     var reload = MutableLiveData<String>()
 
     // immediately execute the splash delay
     init {
-        Log.d("Run Order", "Initializing ViewModel")
         viewModelScope.launch {
+            // CRITICAL that this executes first, we need to know if a pin is in data otherwise launch will default to null
             runBlocking {
                 var fact = basicDS.retrieve("pin")
                 if(fact != null) {
-                    Log.d("Run Order", "Pin Check is true")
                     pin.value = basicDS.retrieve("pin")!!
                     _isReady.value = true
                 }
@@ -39,7 +39,6 @@ class LaunchVModel(application: Application): AndroidViewModel(application) {
                 }
             }
         }
-        Log.d("Run Order", "Done Initializing ViewModel")
     }
 
     fun returnPin() : String? {
@@ -47,14 +46,10 @@ class LaunchVModel(application: Application): AndroidViewModel(application) {
     }
 
     fun data(item: String) {
+        // when data is being set, we need to wait until this code executes, continuing can cause unexpected behavior
         runBlocking {
-            Log.d("Run Order", "START Updating Data: " + basicDS.retrieve("pin"))
             basicDS.set("pin", item)
             pin.value = basicDS.retrieve("pin")
-            Log.d("Run Order", "DURING Updating Data: " + basicDS.retrieve("pin"))
-
-
-            Log.d("Run Order", "END Updating Data: " + basicDS.retrieve("pin"))
         }
     }
     fun email(item: String) {

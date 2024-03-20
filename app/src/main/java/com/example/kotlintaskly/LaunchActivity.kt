@@ -16,17 +16,20 @@ import androidx.lifecycle.Observer
 
 class LaunchActivity : AppCompatActivity() {
 
-
+    // Data Model is used to track data as it changes live!
     private val dataModel by viewModels<LaunchVModel>()
     private var pin: String? = null
     private var start = true
     override fun onCreate(savedInstanceState: Bundle?) {
 
+        // Plays launch animation (The plane that takes off)
         installSplashScreen().apply {
+            // We need to make sure we have received the pin, continuing w/o causes unexpected behavior
             setKeepOnScreenCondition {
                 !dataModel.isReady.value
             }
 
+            /// Use https://shapeshifter.design/ and take the code of the animation made, check avd_tasklyplane for how
             setOnExitAnimationListener { screen ->
                 val zoomX = ObjectAnimator.ofFloat(
                     screen.iconView,
@@ -58,7 +61,7 @@ class LaunchActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // handles pin instance
+        // Once the pin is set, let's place the correct fragment to run!
         dataModel.pin.observe(this) {
             pin = dataModel.returnPin()
             if (start) {
@@ -75,7 +78,8 @@ class LaunchActivity : AppCompatActivity() {
             }
         }
 
-        // enables activity to know when fragment skip bttn is hit
+        // Observe to see if skip button is hit, if so switch activity
+        // If a passcode is entered and correct, switch activity
         dataModel.skip.observe(this, Observer {
             if (dataModel.skip.value.toString() == "Skip Key Hit!") {
                 switchActivity()
@@ -85,6 +89,7 @@ class LaunchActivity : AppCompatActivity() {
             }
         })
 
+        // Once a user inputs an email that is saved to the datamodel, switch activity
         dataModel.email.observe(this, {
             switchActivity()
         })
@@ -96,6 +101,7 @@ class LaunchActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
+    // replace the fragment w/ the appropriate fragment
     private fun replaceFragment(fragment : Fragment, identity: String) {
         val fragManager = supportFragmentManager
         val fragTransaction = fragManager.beginTransaction()
