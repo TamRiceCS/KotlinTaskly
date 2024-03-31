@@ -49,4 +49,11 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_task">TaskActivity</string>
+
+    <string-array name="Sections">
+        <item>section1</item>
+        <item>section2</item>
+        <item>section3</item>
+    </string-array>
+
 </resources>

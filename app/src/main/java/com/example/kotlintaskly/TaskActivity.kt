@@ -5,9 +5,12 @@ import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.PopupWindow
+import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -51,7 +54,6 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onClick(p0: View?) {
         if(p0!!.id == com.example.kotlintaskly.R.id.fab) {
-
             val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
             val popUpView = inflater.inflate(R.layout.popup_addtask, null)
 
@@ -64,9 +66,33 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener {
             val addTaskPop : Button = (popUpView.findViewById(R.id.addTask))
             val cancelTaskPop : Button = (popUpView.findViewById(R.id.cancelTask))
 
+            // Make and populate spinner with values
+            val spinner: Spinner = (popUpView.findViewById(R.id.spinner))
+            val languages = resources.getStringArray(R.array.Sections)
+            var section:String = "section1"
+
+            ArrayAdapter.createFromResource(
+                this,
+                R.array.Sections,
+                android.R.layout.simple_spinner_item
+            ).also { adapter ->
+                // Specify the layout to use when the list of choices appears.
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                // Apply the adapter to the spinner.
+                spinner.adapter = adapter
+            }
+
             addTaskPop.setOnClickListener(View.OnClickListener {
-                var insertData = TaskData("Add Button Clicked", "section1", "today")
-                adapter1.addAndInform(insertData, 0)
+                var insertData = TaskData("Add Button Clicked", section, "today")
+                if(section == "section1") {
+                    adapter1.addAndInform(insertData, 0)
+                }
+                else if(section == "section2") {
+                    adapter2.addAndInform(insertData, 0)
+                }
+                else if(section == "section3") {
+                    adapter3.addAndInform(insertData, 0)
+                }
                 popupWindow.dismiss()
             })
 
@@ -75,6 +101,19 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener {
                 adapter1.addAndInform(insertData, 0)
                 popupWindow.dismiss()
             })
+
+            spinner.onItemSelectedListener = object :
+                AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(parent: AdapterView<*>,
+                                            view: View, position: Int, id: Long) {
+                    section = languages[position]
+                    Toast.makeText(this@TaskActivity, section, Toast.LENGTH_SHORT).show()
+                }
+
+                override fun onNothingSelected(p0: AdapterView<*>?) {
+                    section = "position1"
+                }
+            }
 
         }
     }
