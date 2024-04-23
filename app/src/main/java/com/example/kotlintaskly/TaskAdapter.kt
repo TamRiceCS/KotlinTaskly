@@ -1,3 +1,5 @@
+import android.view.DragEvent
+import android.view.DragEvent.ACTION_DROP
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -36,8 +38,9 @@ class TaskAdapter(private val mList: ArrayList<TaskData>, private val orgin: Str
     }
 
     // Holds the views for adding it to image and text
-    class ViewHolder(ItemView: View) : RecyclerView.ViewHolder(ItemView) {
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val notifBell: ImageButton = itemView.findViewById(R.id.setReminder)
         val taskText: TextView = itemView.findViewById(R.id.taskText)
+
     }
 }

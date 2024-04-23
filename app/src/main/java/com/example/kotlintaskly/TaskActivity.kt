@@ -2,17 +2,22 @@ package com.example.kotlintaskly
 
 import TaskAdapter
 import android.os.Bundle
+import android.view.DragEvent
+import android.view.DragEvent.ACTION_DRAG_EXITED
+import android.view.DragEvent.ACTION_DRAG_STARTED
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
+import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.PopupWindow
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -48,8 +53,6 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener {
 
         var addTask : FloatingActionButton = findViewById(com.example.kotlintaskly.R.id.fab)
         addTask.setOnClickListener(this)
-
-
     }
 
     override fun onClick(p0: View?) {
@@ -63,6 +66,7 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener {
 
             popupWindow.showAtLocation(p0, Gravity.CENTER, 0, 0)
 
+            val addText : EditText = (popUpView.findViewById(R.id.userTaskInput))
             val addTaskPop : Button = (popUpView.findViewById(R.id.addTask))
             val cancelTaskPop : Button = (popUpView.findViewById(R.id.cancelTask))
 
@@ -84,14 +88,37 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener {
 
             addTaskPop.setOnClickListener(View.OnClickListener {
                 var insertData = TaskData("Add Button Clicked", section, "today")
-                if(section == "section1") {
-                    adapter1.addAndInform(insertData, 0)
+                val task = addText.text.toString()
+
+                if(task == "") {
+                    Toast.makeText(this@TaskActivity, "Task Does Not Contain Any Text", Toast.LENGTH_SHORT).show()
+                }
+                else if(section == "section1") {
+                    insertData.task = addText.text.toString()
+                    if(data1.size == 0) {
+                        adapter1.addAndInform(insertData, 0)
+                    }
+                    else {
+                        adapter1.addAndInform(insertData, data1.size)
+                    }
                 }
                 else if(section == "section2") {
-                    adapter2.addAndInform(insertData, 0)
+                    insertData.task = addText.text.toString()
+                    if(data2.size == 0) {
+                        adapter2.addAndInform(insertData, 0)
+                    }
+                    else {
+                        adapter2.addAndInform(insertData, data2.size)
+                    }
                 }
                 else if(section == "section3") {
-                    adapter3.addAndInform(insertData, 0)
+                    insertData.task = addText.text.toString()
+                    if(data3.size == 0) {
+                        adapter3.addAndInform(insertData, 0)
+                    }
+                    else {
+                        adapter3.addAndInform(insertData, data3.size)
+                    }
                 }
                 popupWindow.dismiss()
             })
@@ -107,7 +134,6 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener {
                 override fun onItemSelected(parent: AdapterView<*>,
                                             view: View, position: Int, id: Long) {
                     section = languages[position]
-                    Toast.makeText(this@TaskActivity, section, Toast.LENGTH_SHORT).show()
                 }
 
                 override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -115,9 +141,9 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener {
                 }
             }
 
+
         }
     }
-
 
 
 }
