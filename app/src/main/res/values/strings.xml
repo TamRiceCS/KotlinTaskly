@@ -51,9 +51,9 @@
     <string name="title_activity_task">TaskActivity</string>
 
     <string-array name="Sections">
-        <item>section1</item>
-        <item>section2</item>
-        <item>section3</item>
+        <item>Morning</item>
+        <item>Afternoon</item>
+        <item>Night</item>
     </string-array>
 
 </resources>

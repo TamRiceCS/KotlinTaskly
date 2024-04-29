@@ -13,7 +13,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginTop="5dp"
-        android:background="@color/lightForestGreen"
+        android:background="@color/white"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -24,7 +24,7 @@
             android:layout_margin="10dp"
             android:layout_weight="5"
             android:text="Generic Task Text"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="16sp" />
 
         <ImageButton

@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/coordinatorLayout"
-    android:background="@color/lightBlue"
+    android:background="@drawable/green_leaves"
     tools:context=".TaskActivity">
 
     <LinearLayout
@@ -60,6 +59,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_margin="10dp"
+            android:backgroundTint="@color/lightBlue"
             android:layout_weight="2" >
 
             <androidx.recyclerview.widget.RecyclerView
@@ -74,6 +74,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_margin="10dp"
+            android:backgroundTint="#0082cb"
             android:layout_weight="2" >
 
             <androidx.recyclerview.widget.RecyclerView
@@ -88,6 +89,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_margin="10dp"
+            android:backgroundTint="#00558a"
             android:layout_weight="2" >
 
             <androidx.recyclerview.widget.RecyclerView

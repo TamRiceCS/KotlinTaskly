@@ -1,6 +1,7 @@
 package com.example.kotlintaskly
 
 import TaskAdapter
+import android.content.Intent
 import android.os.Bundle
 import android.view.DragEvent
 import android.view.DragEvent.ACTION_DRAG_EXITED
@@ -20,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 
@@ -33,7 +35,7 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener {
     val adapter2 = TaskAdapter(data2, "section2")
     val adapter3 = TaskAdapter(data3, "section3")
 
-    private lateinit var popUp: PopupWindow
+    private lateinit var menuBar: BottomNavigationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,8 +53,44 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener {
         rv2.adapter = adapter2
         rv3.adapter = adapter3
 
-        var addTask : FloatingActionButton = findViewById(com.example.kotlintaskly.R.id.fab)
+        var addTask : FloatingActionButton = findViewById(R.id.fab)
         addTask.setOnClickListener(this)
+
+        menuBar = findViewById(R.id.bottomNavigationView)
+        menuBar.menu.getItem(0).setChecked(true)
+
+        menuBar.setOnItemSelectedListener {
+            when(it.itemId) {
+                R.id.home -> {
+                    Toast.makeText(this@TaskActivity, "Already Here", Toast.LENGTH_SHORT).show()
+                    true
+                }
+                R.id.calendar -> {
+                    Toast.makeText(this@TaskActivity, "Calendar", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this, CalendarActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+                R.id.stats -> {
+                    Toast.makeText(this@TaskActivity, "Statistics", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this, StatisticsActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+                R.id.settings-> {
+                    Toast.makeText(this@TaskActivity, "Settings", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this, SettingsActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+                else -> {
+                    false
+                }
+            }
+        }
+
+
+
     }
 
     override fun onClick(p0: View?) {
@@ -93,7 +131,7 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener {
                 if(task == "") {
                     Toast.makeText(this@TaskActivity, "Task Does Not Contain Any Text", Toast.LENGTH_SHORT).show()
                 }
-                else if(section == "section1") {
+                else if(section == "Morning") {
                     insertData.task = addText.text.toString()
                     if(data1.size == 0) {
                         adapter1.addAndInform(insertData, 0)
@@ -102,7 +140,7 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener {
                         adapter1.addAndInform(insertData, data1.size)
                     }
                 }
-                else if(section == "section2") {
+                else if(section == "Afternoon") {
                     insertData.task = addText.text.toString()
                     if(data2.size == 0) {
                         adapter2.addAndInform(insertData, 0)
@@ -111,7 +149,7 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener {
                         adapter2.addAndInform(insertData, data2.size)
                     }
                 }
-                else if(section == "section3") {
+                else if(section == "Night") {
                     insertData.task = addText.text.toString()
                     if(data3.size == 0) {
                         adapter3.addAndInform(insertData, 0)
@@ -124,8 +162,6 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener {
             })
 
             cancelTaskPop.setOnClickListener(View.OnClickListener {
-                var insertData = TaskData("Cancel Button Clicked", "section1", "today")
-                adapter1.addAndInform(insertData, 0)
                 popupWindow.dismiss()
             })
 
