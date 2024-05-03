@@ -16,10 +16,11 @@ class CalendarActivity : AppCompatActivity() {
         menuBar = findViewById(R.id.bottomNavigationView)
         menuBar.menu.getItem(1).setChecked(true)
 
+        replaceFragment(CalendarFragment(), "calendar")
+
         menuBar.setOnItemSelectedListener {
             when(it.itemId) {
                 R.id.home -> {
-                    menuBar.menu.getItem(1).setChecked(true)
                     val intent = Intent(this, TaskActivity::class.java)
                     startActivity(intent)
                     true
@@ -30,13 +31,11 @@ class CalendarActivity : AppCompatActivity() {
                     true
                 }
                 R.id.stats -> {
-                    menuBar.menu.getItem(1).setChecked(true)
                     val intent = Intent(this, StatisticsActivity::class.java)
                     startActivity(intent)
                     true
                 }
                 R.id.settings-> {
-                    menuBar.menu.getItem(1).setChecked(true)
                     val intent = Intent(this, SettingsActivity::class.java)
                     startActivity(intent)
                     true
@@ -46,6 +45,19 @@ class CalendarActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        menuBar.menu.getItem(1).setChecked(true)
+    }
+
+    private fun replaceFragment(fragment : Fragment, identity: String) {
+        val fragManager = supportFragmentManager
+        val fragTransaction = fragManager.beginTransaction()
+        fragTransaction.add(R.id.fragmentContainerView, fragment)
+        fragTransaction.addToBackStack(identity)
+        fragTransaction.commit()
     }
 
 }

@@ -93,6 +93,11 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        menuBar.menu.getItem(0).setChecked(true)
+    }
+
     override fun onClick(p0: View?) {
         if(p0!!.id == com.example.kotlintaskly.R.id.fab) {
             val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater

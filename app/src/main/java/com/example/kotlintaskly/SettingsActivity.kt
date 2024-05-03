@@ -13,7 +13,7 @@ class SettingsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_settings)
 
         menuBar = findViewById(R.id.bottomNavigationView)
-        menuBar.menu.getItem(2).setChecked(true)
+        menuBar.menu.getItem(3).setChecked(true)
 
         menuBar.setOnItemSelectedListener {
             when(it.itemId) {
@@ -41,5 +41,10 @@ class SettingsActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        menuBar.menu.getItem(3).setChecked(true)
     }
 }
