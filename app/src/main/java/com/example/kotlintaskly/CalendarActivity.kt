@@ -50,6 +50,7 @@ class CalendarActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         menuBar.menu.getItem(1).setChecked(true)
+        replaceFragment(CalendarFragment(), "calendar")
     }
 
     private fun replaceFragment(fragment : Fragment, identity: String) {

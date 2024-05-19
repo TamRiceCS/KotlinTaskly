@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class StatisticsActivity : AppCompatActivity() {
@@ -43,8 +44,17 @@ class StatisticsActivity : AppCompatActivity() {
         }
     }
 
+    private fun replaceFragment(fragment : Fragment, identity: String) {
+        val fragManager = supportFragmentManager
+        val fragTransaction = fragManager.beginTransaction()
+        fragTransaction.add(R.id.fragmentContainerView, fragment)
+        fragTransaction.addToBackStack(identity)
+        fragTransaction.commit()
+    }
+
     override fun onResume() {
         super.onResume()
         menuBar.menu.getItem(2).setChecked(true)
+        replaceFragment(GraphOptionsFragment(), "statOptions")
     }
 }
