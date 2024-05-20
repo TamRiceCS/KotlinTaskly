@@ -3,9 +3,6 @@ package com.example.kotlintaskly
 import TaskAdapter
 import android.content.Intent
 import android.os.Bundle
-import android.view.DragEvent
-import android.view.DragEvent.ACTION_DRAG_EXITED
-import android.view.DragEvent.ACTION_DRAG_STARTED
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -13,16 +10,23 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.PopupWindow
 import android.widget.Spinner
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.room.Room
+import androidx.room.RoomDatabase
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import org.w3c.dom.Text
+import java.time.LocalDate
+import java.time.format.TextStyle
+import java.util.Locale
 
 
 class TaskActivity : AppCompatActivity(), View.OnClickListener {
@@ -36,10 +40,30 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener {
     val adapter3 = TaskAdapter(data3, "section3")
 
     private lateinit var menuBar: BottomNavigationView
+    private lateinit var dayBox: TextView
+    var dayNum: Long = 0
+    val date = LocalDate.now()
+    var dow: String = date.dayOfWeek.toString()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_task)
+
+        db = Room.databaseBuilder(
+            applicationContext,
+            TaskDatabase::class.java,
+            "taskBacklog"
+        ).build()
+
+        dayBox = findViewById(R.id.dowText)
+        dayBox.text = dow
+
+        var prior : ImageButton = findViewById(R.id.priorDay)
+        var next : ImageButton = findViewById(R.id.nextDay)
+
+        prior.setOnClickListener(this)
+        next.setOnClickListener(this)
+
 
         val rv1 = findViewById<RecyclerView>(R.id.section1)
         val rv2 = findViewById<RecyclerView>(R.id.section2)
@@ -130,7 +154,7 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener {
             }
 
             addTaskPop.setOnClickListener(View.OnClickListener {
-                var insertData = TaskData("Add Button Clicked", section, "today")
+                var insertData = TaskData("Add Button Clicked", section, date.toString())
                 val task = addText.text.toString()
 
                 if(task == "") {
@@ -144,6 +168,8 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener {
                     else {
                         adapter1.addAndInform(insertData, data1.size)
                     }
+                    var sqlBackend = TaskEntity(task = addText.text.toString(), location = "Morning", date = date.toString())
+                    //db.taskDao().insertTask(sqlBackend)
                 }
                 else if(section == "Afternoon") {
                     insertData.task = addText.text.toString()
@@ -184,6 +210,19 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener {
 
 
         }
+        if(p0!!.id == R.id.priorDay) {
+            dayNum--
+            dayBox.text = date.dayOfWeek.plus(dayNum).toString()
+        }
+
+        if(p0!!.id == R.id.nextDay) {
+            dayNum++
+            dayBox.text = date.dayOfWeek.plus(dayNum).toString()
+        }
+    }
+
+    companion object {
+        private lateinit var db: TaskDatabase
     }
 
 

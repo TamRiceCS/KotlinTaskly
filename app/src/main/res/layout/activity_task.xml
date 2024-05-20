@@ -24,7 +24,7 @@
             android:orientation="horizontal">
 
             <ImageButton
-                android:id="@+id/imageButton"
+                android:id="@+id/priorDay"
                 android:layout_width="10dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="10sp"
@@ -33,8 +33,8 @@
                 android:src="@drawable/arrow_left" />
 
             <TextView
-                android:id="@+id/textView2"
-                android:layout_width="wrap_content"
+                android:id="@+id/dowText"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="10sp"
                 android:layout_weight="1"
@@ -45,7 +45,7 @@
                 android:textStyle="bold" />
 
             <ImageButton
-                android:id="@+id/imageButton2"
+                android:id="@+id/nextDay"
                 android:layout_width="10dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="10sp"

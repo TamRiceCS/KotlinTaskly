@@ -1,3 +1,5 @@
+import android.app.Application
+import android.content.Context
 import android.view.DragEvent
 import android.view.DragEvent.ACTION_DROP
 import android.view.LayoutInflater
@@ -7,10 +9,13 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import androidx.room.Room
 import com.example.kotlintaskly.R
 import com.example.kotlintaskly.TaskData
+import com.example.kotlintaskly.TaskDatabase
 
 class TaskAdapter(private val mList: ArrayList<TaskData>, private val orgin: String) : RecyclerView.Adapter<TaskAdapter.ViewHolder>() {
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         // inflates each individual task card

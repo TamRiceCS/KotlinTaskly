@@ -1,6 +1,8 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("kotlin-kapt")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -75,6 +77,18 @@ dependencies {
     // Recycler View
     implementation("androidx.recyclerview:recyclerview:1.2.0")
     implementation("androidx.cardview:cardview:1.0.0")
+
+    // Needed to use Room SQL storage
+
+    val room_version = "2.6.1"
+
+    implementation("androidx.room:room-runtime:$room_version")
+    annotationProcessor("androidx.room:room-compiler:$room_version")
+
+    // To use Kotlin annotation processing tool (kapt)
+    ksp("androidx.room:room-compiler:$room_version")
+
+
 
     // Generic dependencies already included!
     implementation("androidx.core:core-ktx:1.12.0")
