@@ -3,6 +3,7 @@ package com.example.kotlintaskly
 import TaskAdapter
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +17,7 @@ import android.widget.PopupWindow
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -23,6 +25,12 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import org.w3c.dom.Text
 import java.time.LocalDate
 import java.time.format.TextStyle
@@ -38,6 +46,8 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener {
     val adapter1 = TaskAdapter(data1, "section1")
     val adapter2 = TaskAdapter(data2, "section2")
     val adapter3 = TaskAdapter(data3, "section3")
+
+    private val taskModel by viewModels<TaskVModel>()
 
     private lateinit var menuBar: BottomNavigationView
     private lateinit var dayBox: TextView
@@ -168,8 +178,9 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener {
                     else {
                         adapter1.addAndInform(insertData, data1.size)
                     }
-                    var sqlBackend = TaskEntity(task = addText.text.toString(), location = "Morning", date = date.toString())
-                    //db.taskDao().insertTask(sqlBackend)
+
+                    taskModel.updateBacklog(insertData)
+
                 }
                 else if(section == "Afternoon") {
                     insertData.task = addText.text.toString()
@@ -222,7 +233,7 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     companion object {
-        private lateinit var db: TaskDatabase
+        lateinit var db: TaskDatabase
     }
 
 
