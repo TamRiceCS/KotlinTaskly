@@ -1,20 +1,13 @@
-import android.app.Application
-import android.content.Context
-import android.view.DragEvent
-import android.view.DragEvent.ACTION_DROP
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import androidx.room.Room
 import com.example.kotlintaskly.R
-import com.example.kotlintaskly.TaskData
-import com.example.kotlintaskly.TaskDatabase
+import com.example.kotlintaskly.TaskEntity
 
-class TaskAdapter(private val mList: ArrayList<TaskData>, private val orgin: String) : RecyclerView.Adapter<TaskAdapter.ViewHolder>() {
+class TaskAdapter(private var mList: ArrayList<TaskEntity>, private val orgin: String) : RecyclerView.Adapter<TaskAdapter.ViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -37,8 +30,13 @@ class TaskAdapter(private val mList: ArrayList<TaskData>, private val orgin: Str
     }
 
     // add items to list
-    fun addAndInform(item : TaskData, position: Int) {
+    fun addAndInform(item : TaskEntity, position: Int) {
         mList.add(position, item)
+        notifyDataSetChanged()
+    }
+
+    fun dayChange(newDay : ArrayList<TaskEntity>) {
+        mList = newDay
         notifyDataSetChanged()
     }
 

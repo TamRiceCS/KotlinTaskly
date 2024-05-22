@@ -39,9 +39,9 @@ import java.util.Locale
 
 class TaskActivity : AppCompatActivity(), View.OnClickListener {
 
-    val data1 = ArrayList<TaskData>()
-    val data2 = ArrayList<TaskData>()
-    val data3 = ArrayList<TaskData>()
+    val data1 = ArrayList<TaskEntity>()
+    val data2 = ArrayList<TaskEntity>()
+    val data3 = ArrayList<TaskEntity>()
 
     val adapter1 = TaskAdapter(data1, "section1")
     val adapter2 = TaskAdapter(data2, "section2")
@@ -52,6 +52,7 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var menuBar: BottomNavigationView
     private lateinit var dayBox: TextView
     var dayNum: Long = 0
+    val currentDate = LocalDate.now()
     val date = LocalDate.now()
     var dow: String = date.dayOfWeek.toString()
 
@@ -123,8 +124,10 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener {
             }
         }
 
-
-
+        taskModel.morningTasks.observe(this) {
+            adapter1.dayChange(ArrayList(taskModel.backendMorning))
+            Log.d("Run Order", "Observed a change")
+        }
     }
 
     override fun onResume() {
@@ -164,7 +167,7 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener {
             }
 
             addTaskPop.setOnClickListener(View.OnClickListener {
-                var insertData = TaskData("Add Button Clicked", section, date.toString())
+                var insertData = TaskEntity(0, "Add Button Clicked", section, date.toString())
                 val task = addText.text.toString()
 
                 if(task == "") {
@@ -190,6 +193,7 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener {
                     else {
                         adapter2.addAndInform(insertData, data2.size)
                     }
+                    taskModel.updateBacklog(insertData)
                 }
                 else if(section == "Night") {
                     insertData.task = addText.text.toString()
@@ -199,6 +203,7 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener {
                     else {
                         adapter3.addAndInform(insertData, data3.size)
                     }
+                    taskModel.updateBacklog(insertData)
                 }
                 popupWindow.dismiss()
             })
@@ -222,13 +227,25 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener {
 
         }
         if(p0!!.id == R.id.priorDay) {
-            dayNum--
-            dayBox.text = date.dayOfWeek.plus(dayNum).toString()
+            if(dayNum > -7) {
+                dayNum--
+                dayBox.text = date.dayOfWeek.plus(dayNum).toString()
+                Log.d("Run Order", date.minusDays(dayNum).toString() + " " + dayNum)
+                taskModel.fetch("Morning", date.minusDays(dayNum * -1).toString());
+                taskModel.fetch("Afternoon", date.minusDays(dayNum * -1).toString());
+                taskModel.fetch("Evening", date.minusDays(dayNum * -1).toString());
+            }
         }
 
         if(p0!!.id == R.id.nextDay) {
-            dayNum++
-            dayBox.text = date.dayOfWeek.plus(dayNum).toString()
+            if(dayNum < 7) {
+                dayNum++
+                dayBox.text = date.dayOfWeek.plus(dayNum).toString()
+                Log.d("Run Order", date.plusDays(dayNum).toString() + " " + dayNum)
+                taskModel.fetch("Morning", date.plusDays(dayNum).toString());
+                taskModel.fetch("Afternoon", date.plusDays(dayNum).toString());
+                taskModel.fetch("Evening", date.plusDays(dayNum).toString());
+            }
         }
     }
 
