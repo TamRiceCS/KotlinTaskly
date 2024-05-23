@@ -90,9 +90,9 @@ class LaunchActivity : AppCompatActivity() {
         })
 
         // Once a user inputs an email that is saved to the datamodel, switch activity
-        dataModel.email.observe(this, {
+        dataModel.email.observe(this) {
             switchActivity()
-        })
+        }
 
     }
 

@@ -13,8 +13,6 @@ import kotlinx.coroutines.flow.map
 class BasicData (context: Context) {
     // Datastores act like a txt file to store basic data, this is NOT encrypted! It is in the form of key-val pairs
     // We will need to do 3 main things: place data in (set), read data (retrieve), and check if data exists (contains)
-    // TODO: Figure our how to make data store encrypted
-    // TODO: Figure out how to make basicData singleton w/ context
     private val Context.dataStore : DataStore<Preferences> by preferencesDataStore(name = "LaunchSettings")
     private val dataStore = context.dataStore
 

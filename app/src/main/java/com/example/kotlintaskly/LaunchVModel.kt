@@ -19,7 +19,6 @@ class LaunchVModel(application: Application): AndroidViewModel(application) {
     var pin = MutableLiveData<String>()
     var email = MutableLiveData<String>()
     var skip = MutableLiveData<String>()
-    // TODO: upon app reload, correctly launch fragment needed
     var reload = MutableLiveData<String>()
 
     // immediately execute the splash delay

@@ -124,6 +124,10 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener {
             }
         }
 
+        taskModel.fetch("Morning", date.toString())
+        taskModel.fetch("Afternoon", date.toString())
+        taskModel.fetch("Evening", date.toString())
+
         taskModel.morningTasks.observe(this) {
             adapter1.dayChange(ArrayList(taskModel.backendMorning))
             Log.d("Run Order", "Observed a change")

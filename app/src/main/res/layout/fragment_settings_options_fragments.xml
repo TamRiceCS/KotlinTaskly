@@ -29,7 +29,7 @@
                 android:orientation="vertical">
 
                 <Button
-                    android:id="@+id/button1"
+                    android:id="@+id/resetPin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
@@ -37,7 +37,7 @@
                     android:text="Reset Pin" />
 
                 <Button
-                    android:id="@+id/button2"
+                    android:id="@+id/resetEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
@@ -45,7 +45,7 @@
                     android:text="Reset Email" />
 
                 <Button
-                    android:id="@+id/button3"
+                    android:id="@+id/taskLimits"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
@@ -53,7 +53,7 @@
                     android:text="Set Task Limits" />
 
                 <Button
-                    android:id="@+id/button4"
+                    android:id="@+id/sendFeedback"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
@@ -61,7 +61,7 @@
                     android:text="Send Feedback" />
 
                 <Button
-                    android:id="@+id/button5"
+                    android:id="@+id/clearData"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
@@ -77,7 +77,7 @@
                 android:orientation="horizontal">
 
                 <ImageButton
-                    android:id="@+id/imageButton5"
+                    android:id="@+id/linkedIn"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -86,7 +86,7 @@
                     android:backgroundTint="@color/lightBlue"/>
 
                 <ImageButton
-                    android:id="@+id/imageButton6"
+                    android:id="@+id/github"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

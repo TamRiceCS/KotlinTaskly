@@ -1,59 +1,93 @@
 package com.example.kotlintaskly
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageButton
+import android.widget.Toast
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [SettingsOptionsFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class SettingsOptionsFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+class SettingsOptionsFragment : Fragment(), View.OnClickListener {
+    private var resetPin : Button? = null
+    private var resetEmail : Button? = null
+    private var taskLimits : Button? = null
+    private var sendFeedback : Button? = null
+    private var clearData : Button? = null
+    private var linkedin : ImageButton? = null
+    private var github : ImageButton? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_settings_options_fragments, container, false)
+        val view: View = inflater!!.inflate(R.layout.fragment_settings_options_fragments, container, false)
+
+        resetPin = view.findViewById(R.id.resetPin)
+        resetEmail = view.findViewById(R.id.resetEmail)
+        taskLimits = view.findViewById(R.id.taskLimits)
+        sendFeedback = view.findViewById(R.id.sendFeedback)
+        clearData = view.findViewById(R.id.clearData)
+
+        linkedin = view.findViewById(R.id.linkedIn)
+        github = view.findViewById(R.id.github)
+
+        resetPin!!.setOnClickListener(this)
+        resetEmail!!.setOnClickListener(this)
+        taskLimits!!.setOnClickListener(this)
+        sendFeedback!!.setOnClickListener(this)
+        clearData!!.setOnClickListener(this)
+        linkedin!!.setOnClickListener(this)
+        github!!.setOnClickListener(this)
+
+
+
+        return view
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment SettingsOptionsFragments.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            SettingsOptionsFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+    override fun onClick(p0: View?) {
+        when(p0?.id) {
+            R.id.resetPin -> {
+                replaceFragment(PasscodeFragment())
             }
+            R.id.resetEmail -> {
+                replaceFragment(RecoveryFragment())
+            }
+            R.id.taskLimits -> {
+                Toast.makeText(activity, "Not implemented yet", Toast.LENGTH_SHORT).show()
+            }
+            R.id.sendFeedback -> {
+                val openWebsite = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/TamRiceCS/KotlinTaskly/issues"))
+                startActivity(openWebsite)
+            }
+            R.id.clearData -> {
+                Toast.makeText(activity, "Not implemented yet", Toast.LENGTH_SHORT).show()
+            }
+            R.id.linkedIn -> {
+                val openWebsite = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.linkedin.com/in/tam-rice-0742431ba/"))
+                startActivity(openWebsite)
+            }
+            R.id.github -> {
+                val openWebsite = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/TamRiceCS/KotlinTaskly"))
+                startActivity(openWebsite)
+            }
+        }
     }
+
+    private fun replaceFragment(fragment : Fragment) {
+        val fragManager = parentFragmentManager
+        val fragTransaction = fragManager.beginTransaction()
+        fragTransaction.replace(R.id.fragmentContainerView, fragment)
+        fragTransaction.commit()
+    }
+
+
 }
