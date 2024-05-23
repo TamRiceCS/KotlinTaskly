@@ -19,6 +19,8 @@ class RecoveryFragment : Fragment(), View.OnClickListener {
     private var submitBttn : Button? = null
     private var skipBttn: Button? = null
 
+    private var mode : String? = null
+
     private val viewModel by activityViewModels<LaunchVModel>()
 
 
@@ -32,6 +34,8 @@ class RecoveryFragment : Fragment(), View.OnClickListener {
     ): View? {
         // Inflate the layout for this fragment
         val view: View = inflater!!.inflate(R.layout.fragment_recovery, container, false)
+
+        mode = arguments?.getString("case")
 
         emailBox1 =  view.findViewById(R.id.initEmail)
         emailBox2 = view.findViewById(R.id.confirmEmail)
@@ -48,7 +52,13 @@ class RecoveryFragment : Fragment(), View.OnClickListener {
         if(bttn.id == R.id.submit) {
             if(emailBox1!!.text.toString() == emailBox2!!.text.toString() && emailBox1!!.text.toString() != "") {
                 if(emailBox1!!.text.toString().endsWith("@gmail.com")) {
-                    email = emailBox1!!.text.toString()
+                   if(mode == "new") {
+                       email = emailBox1!!.text.toString()
+                       viewModel.email.value = email
+                   }
+                    else {
+                        replaceFragment(SettingsOptionsFragment(), "done")
+                   }
                 }
                 else {
                     Toast.makeText(activity, "Please use a gmail account...", Toast.LENGTH_SHORT).show()
@@ -66,6 +76,16 @@ class RecoveryFragment : Fragment(), View.OnClickListener {
             viewModel.pin.value = "none"
             viewModel.skip.value = "Skip Key Hit!"
         }
+    }
+
+    private fun replaceFragment(fragment : Fragment, identity : String) {
+        val bundle = Bundle()
+        bundle.putString("case", identity)
+        fragment.arguments = bundle
+        val fragManager = parentFragmentManager
+        val fragTransaction = fragManager.beginTransaction()
+        fragTransaction.replace(R.id.fragmentContainerView, fragment)
+        fragTransaction.commit()
     }
 
 }

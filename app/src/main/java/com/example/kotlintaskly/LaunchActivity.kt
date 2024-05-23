@@ -101,8 +101,11 @@ class LaunchActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    // replace the fragment w/ the appropriate fragment
+
     private fun replaceFragment(fragment : Fragment, identity: String) {
+        val bundle = Bundle()
+        bundle.putString("case", identity)
+        fragment.arguments = bundle
         val fragManager = supportFragmentManager
         val fragTransaction = fragManager.beginTransaction()
         fragTransaction.add(R.id.fragmentContainerView, fragment)

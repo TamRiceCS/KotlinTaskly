@@ -47,6 +47,9 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     private fun replaceFragment(fragment : Fragment, identity: String) {
+        val bundle = Bundle()
+        bundle.putString("case", identity)
+        fragment.arguments = bundle
         val fragManager = supportFragmentManager
         val fragTransaction = fragManager.beginTransaction()
         fragTransaction.add(R.id.fragmentContainerView, fragment)

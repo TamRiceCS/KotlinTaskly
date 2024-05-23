@@ -9,13 +9,8 @@ import android.widget.Button
 
 class TutorialFragment : Fragment(), View.OnClickListener {
 
-    private var passStatus : String? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (savedInstanceState != null) {
-            passStatus = savedInstanceState.getString("Passcode")
-        }
     }
 
     override fun onCreateView(
@@ -29,7 +24,10 @@ class TutorialFragment : Fragment(), View.OnClickListener {
         return view
     }
 
-    private fun replaceFragment(fragment : Fragment) {
+    private fun replaceFragment(fragment : Fragment, identity: String) {
+        val bundle = Bundle()
+        bundle.putString("case", identity)
+        fragment.arguments = bundle
         val fragManager = parentFragmentManager
         val fragTransaction = fragManager.beginTransaction()
         fragTransaction.replace(R.id.fragmentContainerView, fragment)
@@ -38,7 +36,7 @@ class TutorialFragment : Fragment(), View.OnClickListener {
 
     override fun onClick(bttn: View) {
         if(bttn.getId() == R.id.skipButton) {
-            replaceFragment(PasscodeFragment())
+            replaceFragment(PasscodeFragment(), "new")
         }
     }
 }

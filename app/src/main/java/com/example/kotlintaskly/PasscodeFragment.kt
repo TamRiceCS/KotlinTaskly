@@ -19,6 +19,7 @@ import kotlinx.coroutines.runBlocking
 class PasscodeFragment : Fragment(), View.OnClickListener, View.OnTouchListener {
     private var passcode: String? = null
     private var instructionText: TextView? = null
+    private var recoverBttn: Button? = null
     private var submit : Button? = null
     private var retry: Button? = null
     private var pin1 : EditText? = null
@@ -29,6 +30,7 @@ class PasscodeFragment : Fragment(), View.OnClickListener, View.OnTouchListener 
     private var card2: CardView? = null
     private var card3: CardView? = null
     private var card4: CardView? = null
+    private var mode : String? = null
     private var step = 1
 
     private val viewModel by activityViewModels<LaunchVModel>()
@@ -44,8 +46,11 @@ class PasscodeFragment : Fragment(), View.OnClickListener, View.OnTouchListener 
 
         val view: View = inflater!!.inflate(R.layout.fragment_passcode, container, false)
 
-        var instruction : TextView = view.findViewById(R.id.instructionPin)
-        var recoverSkip : Button = view.findViewById(R.id.recoverSkipBttn)
+        mode = arguments?.getString("case")
+
+
+        instructionText = view.findViewById(R.id.instructionPin)
+        recoverBttn  = view.findViewById(R.id.recoverSkipBttn)
         retry = view.findViewById(R.id.retryBttn)
         submit = view.findViewById(R.id.submitBttn)
         instructionText = view.findViewById(R.id.instructionPin)
@@ -60,25 +65,29 @@ class PasscodeFragment : Fragment(), View.OnClickListener, View.OnTouchListener 
         card3 = view.findViewById(R.id.pin3Card)
         card4 = view.findViewById(R.id.pin4Card)
 
-        passcode = viewModel.returnPin()
 
 
-
-        if(passcode == "tutorial") {
-            instruction.setText("Set a new Passcode")
-            recoverSkip.setText("Skip Passcode")
+        if(mode == "new") {
+            instructionText!!.setText("New Passcode")
+            recoverBttn!!.setText("Skip Passcode")
             retry?.visibility = View.INVISIBLE
 
         }
 
+        else if(mode == "reset"){
+            instructionText!!.setText("Reset Passcode")
+            recoverBttn!!.setText("Cancel Reset")
+            retry?.visibility = View.INVISIBLE
+        }
+
+        // return
         else{
-            instruction.setText("Welcome, enter passcode")
-            recoverSkip.setText("Recover Passcode")
+            instructionText!!.setText("Enter Passcode")
+            recoverBttn!!.setText("Recover Passcode")
             retry?.visibility = View.INVISIBLE
             step = 3
         }
 
-        // set pins focus on the start
         pin1!!.setOnTouchListener(this)
         pin2!!.setOnTouchListener(this)
         pin3!!.setOnTouchListener(this)
@@ -86,13 +95,16 @@ class PasscodeFragment : Fragment(), View.OnClickListener, View.OnTouchListener 
 
         // set button onClickListeners
         submit!!.setOnClickListener(this)
-        recoverSkip.setOnClickListener(this)
+        recoverBttn!!.setOnClickListener(this)
         retry!!.setOnClickListener(this)
 
         return view
     }
 
-    private fun replaceFragment(fragment : Fragment) {
+    private fun replaceFragment(fragment : Fragment, identity : String) {
+        val bundle = Bundle()
+        bundle.putString("case", identity)
+        fragment.arguments = bundle
         val fragManager = parentFragmentManager
         val fragTransaction = fragManager.beginTransaction()
         fragTransaction.replace(R.id.fragmentContainerView, fragment)
@@ -103,21 +115,25 @@ class PasscodeFragment : Fragment(), View.OnClickListener, View.OnTouchListener 
 
         when(bttn.id) {
             R.id.recoverSkipBttn -> {
-                // skip button
-                if(step == 1 || step == 2) {
+                // cancel reset
+                if(mode == "reset") {
+                    replaceFragment(SettingsOptionsFragment(), "none")
+                }
+                // skip this whole pin setting process
+                else if(step == 1 || step == 2) {
                     runBlocking {
                         viewModel.data("none")
                         viewModel.skip.value = "Skip Key Hit!"
                     }
                 }
                 // passcode recovery button
-                if(step == 3) {
+                else if(mode == "return") {
                     Toast.makeText(activity, "Please check your email for recovery steps...", Toast.LENGTH_SHORT).show()
                 }
             }
 
             R.id.submitBttn -> {
-                // mode 1: choose a pin to set
+                // step 1: choose a pin to set
                 if(step == 1) {
                     var passcodeAttempt: String = pin1!!.text.toString() + pin2!!.text.toString() + pin3!!.text.toString() + pin4!!.text.toString()
                     if(passcodeAttempt.length == 4) {
@@ -142,17 +158,21 @@ class PasscodeFragment : Fragment(), View.OnClickListener, View.OnTouchListener 
                     }
                 }
 
-                // mode 2: confirm pin to set
+                // step 2: confirm pin to set
                 if(step == 2) {
                     var passcodeAttempt: String = pin1!!.text.toString() + pin2!!.text.toString() + pin3!!.text.toString() + pin4!!.text.toString()
 
                     if(passcodeAttempt == passcode) {
                         runBlocking {
-                            Log.d("Run Order", "Passcode Start: " + viewModel.returnPin())
-                            viewModel.data(passcodeAttempt)
-                            Log.d("Run Order", "Passcode Done: " + viewModel.returnPin())
+                            if(mode == "new") {
+                                replaceFragment(RecoveryFragment(), "new")
+                                viewModel.data(passcodeAttempt)
+                            }
+                            else {
+                                Log.d("Run Order", "Ran reset mode code...")
+                                replaceFragment(SettingsOptionsFragment(), passcodeAttempt)
+                            }
                         }
-                        replaceFragment(RecoveryFragment())
                     }
 
                     else if(passcodeAttempt != ""){
