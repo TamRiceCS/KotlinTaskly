@@ -53,7 +53,7 @@
     <string-array name="Sections">
         <item>Morning</item>
         <item>Afternoon</item>
-        <item>Night</item>
+        <item>Evening</item>
     </string-array>
 
 </resources>

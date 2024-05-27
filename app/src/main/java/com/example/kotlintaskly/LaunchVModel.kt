@@ -15,7 +15,7 @@ class LaunchVModel(application: Application): AndroidViewModel(application) {
     // needed for the pause on splash (launch) animation
     private val _isReady = MutableStateFlow(false)
     val isReady = _isReady.asStateFlow()
-    val basicDS = BasicData(application)
+    val basicDS = BasicData.getInstance(application)
     var pin = MutableLiveData<String>()
     var email = MutableLiveData<String>()
     var skip = MutableLiveData<String>()

@@ -130,7 +130,15 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener {
 
         taskModel.morningTasks.observe(this) {
             adapter1.dayChange(ArrayList(taskModel.backendMorning))
+            Log.d("Run Order", "Observed a change m")
+        }
+        taskModel.afternoonTasks.observe(this) {
+            adapter2.dayChange(ArrayList(taskModel.backendAfternoon))
             Log.d("Run Order", "Observed a change")
+        }
+        taskModel.eveningTasks.observe(this) {
+            adapter3.dayChange(ArrayList(taskModel.backendEvening))
+            Log.d("Run Order", ArrayList(taskModel.backendEvening).toString())
         }
     }
 
@@ -199,7 +207,7 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener {
                     }
                     taskModel.updateBacklog(insertData)
                 }
-                else if(section == "Night") {
+                else if(section == "Evening") {
                     insertData.task = addText.text.toString()
                     if(data3.size == 0) {
                         adapter3.addAndInform(insertData, 0)

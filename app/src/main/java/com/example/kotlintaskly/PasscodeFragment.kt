@@ -34,6 +34,7 @@ class PasscodeFragment : Fragment(), View.OnClickListener, View.OnTouchListener 
     private var step = 1
 
     private val viewModel by activityViewModels<LaunchVModel>()
+    private val taskModel by activityViewModels<TaskVModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -170,6 +171,7 @@ class PasscodeFragment : Fragment(), View.OnClickListener, View.OnTouchListener 
                             }
                             else {
                                 Log.d("Run Order", "Ran reset mode code...")
+                                taskModel.setPin(passcodeAttempt)
                                 replaceFragment(SettingsOptionsFragment(), passcodeAttempt)
                             }
                         }

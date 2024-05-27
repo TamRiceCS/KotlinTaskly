@@ -18,7 +18,7 @@ class TaskVModel(application: Application): AndroidViewModel(application) {
     lateinit var backendMorning : List<TaskEntity>
     lateinit var backendAfternoon : List<TaskEntity>
     lateinit var backendEvening : List<TaskEntity>
-    val basicDS = BasicData(application)
+    val basicDS = BasicData.getInstance(application)
 
     fun updateBacklog(base : TaskEntity){
         viewModelScope.launch((Dispatchers.IO)) {
@@ -38,10 +38,11 @@ class TaskVModel(application: Application): AndroidViewModel(application) {
                 backendAfternoon = pureResults
                 afternoonTasks.postValue(pureResults)
             }
-            else{
+            else if (location == "Evening"){
                 var pureResults = TaskActivity.db.taskDao().getSection(location, date)
                 backendEvening = pureResults
                 eveningTasks.postValue(pureResults)
+                Log.d("Run Order", "Evening")
             }
         }
     }
