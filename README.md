@@ -1,4 +1,26 @@
-# This app is currently be redeveloped w/ more advanced features!
+# This app is currently being redeveloped w/ more advanced features!
+
+### Intended Improvements:
+
+##### More Task Flexibility 
+1. Add Tasks to past days, not just future
+2. Implement section task limits more efficiently
+3. Allow drag and drop between sections
+
+##### Prettier Look
+- Glass Morphism and Opalescent (new)
+- Title Font (sacremento), Headings (Montserrat) all other (Courier New)
+- Flat colors + Plants (old)
+- Default Font (Old)
+
+##### Swap Out Features for more desirable ones or Add features
+1. Diary > Calendar
+2. Flexibile Time Range Stats > Week Statistics
+
+##### More Responsive Design
+1. Settings reflect user choices
+2. More encouraging pop-ups (swipe to get started > swipe to finish; visual cues for section sizes, more to be specified)
+3. When Traveling in the future / past, there are visual cues along w/ tag (past, present, future)
 
 ### New and Improved Mock Design:
 <div align="center">
