@@ -14,19 +14,18 @@ import kotlinx.coroutines.runBlocking
 class LaunchVModel(application: Application): AndroidViewModel(application) {
     // needed for the pause on splash (launch) animation
     private val _isReady = MutableStateFlow(false)
+    private val basicDS = BasicData.getInstance(application)
     val isReady = _isReady.asStateFlow()
-    val basicDS = BasicData.getInstance(application)
     var pin = MutableLiveData<String>()
     var email = MutableLiveData<String>()
     var skip = MutableLiveData<String>()
-    var reload = MutableLiveData<String>()
 
     // immediately execute the splash delay
     init {
         viewModelScope.launch {
             // CRITICAL that this executes first, we need to know if a pin is in data otherwise launch will default to null
             runBlocking {
-                var fact = basicDS.retrieve("pin")
+                val fact = basicDS.retrieve("pin")
                 if(fact != null) {
                     pin.value = basicDS.retrieve("pin")!!
                     _isReady.value = true
@@ -47,14 +46,9 @@ class LaunchVModel(application: Application): AndroidViewModel(application) {
     fun data(item: String) {
         // when data is being set, we need to wait until this code executes, continuing can cause unexpected behavior
         runBlocking {
+            // set backend data as pin, then retrieve this set data and place in this pin data member
             basicDS.set("pin", item)
             pin.value = basicDS.retrieve("pin")
         }
-    }
-    fun email(item: String) {
-        email.value = item
-    }
-    fun skip(item: String) {
-        skip.value = "ApplePie"
     }
 }

@@ -1,5 +1,6 @@
 package com.example.kotlintaskly
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -43,11 +44,11 @@ class PasscodeFragment : Fragment(), View.OnClickListener, View.OnTouchListener 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
-        val view: View = inflater!!.inflate(R.layout.fragment_passcode, container, false)
+        val view: View = inflater.inflate(R.layout.fragment_passcode, container, false)
 
-        mode = arguments?.getString("case")
+        mode = arguments?.getString("case") // get case that is passed as launching argument
 
 
         instructionText = view.findViewById(R.id.instructionPin)
@@ -68,25 +69,26 @@ class PasscodeFragment : Fragment(), View.OnClickListener, View.OnTouchListener 
 
 
 
-        if(mode == "new") {
-            instructionText!!.setText("New Passcode")
-            recoverBttn!!.setText("Skip Passcode")
-            retry?.visibility = View.INVISIBLE
+        when (mode) {
+            "new" -> {
+                instructionText!!.text = "New Passcode"
+                recoverBttn!!.text = "Skip Passcode"
+                retry?.visibility = View.INVISIBLE
 
-        }
+            }
+            "reset" -> {
+                instructionText!!.text = "Reset Passcode"
+                recoverBttn!!.text = "Cancel Reset"
+                retry?.visibility = View.INVISIBLE
+            }
 
-        else if(mode == "reset"){
-            instructionText!!.setText("Reset Passcode")
-            recoverBttn!!.setText("Cancel Reset")
-            retry?.visibility = View.INVISIBLE
-        }
-
-        // return
-        else{
-            instructionText!!.setText("Enter Passcode")
-            recoverBttn!!.setText("Recover Passcode")
-            retry?.visibility = View.INVISIBLE
-            step = 3
+            // return
+            else -> {
+                instructionText!!.text = "Enter Passcode"
+                recoverBttn!!.text = "Recover Passcode"
+                retry?.visibility = View.INVISIBLE
+                step = 3
+            }
         }
 
         pin1!!.setOnTouchListener(this)
@@ -136,7 +138,7 @@ class PasscodeFragment : Fragment(), View.OnClickListener, View.OnTouchListener 
             R.id.submitBttn -> {
                 // step 1: choose a pin to set
                 if(step == 1) {
-                    var passcodeAttempt: String = pin1!!.text.toString() + pin2!!.text.toString() + pin3!!.text.toString() + pin4!!.text.toString()
+                    val passcodeAttempt: String = pin1!!.text.toString() + pin2!!.text.toString() + pin3!!.text.toString() + pin4!!.text.toString()
                     if(passcodeAttempt.length == 4) {
                         instructionText!!.text = "Please confirm pin"
 
@@ -145,11 +147,10 @@ class PasscodeFragment : Fragment(), View.OnClickListener, View.OnTouchListener 
                         pin3!!.text.clear()
                         pin4!!.text.clear()
 
-                        card1!!.setBackgroundColor(getResources().getColor(R.color.lightForestGreen))
-                        card2!!.setBackgroundColor(getResources().getColor(R.color.lightForestGreen))
-                        card3!!.setBackgroundColor(getResources().getColor(R.color.lightForestGreen))
-                        card4!!.setBackgroundColor(getResources().getColor(R.color.lightForestGreen))
-                        instructionText!!.setBackgroundColor(getResources().getColor(R.color.lightForestGreen))
+                        card1!!.setBackgroundColor(resources.getColor(R.color.lightForestGreen))
+                        card2!!.setBackgroundColor(resources.getColor(R.color.lightForestGreen))
+                        card3!!.setBackgroundColor(resources.getColor(R.color.lightForestGreen))
+                        card4!!.setBackgroundColor(resources.getColor(R.color.lightForestGreen))
                         step = 2;
                         passcode = passcodeAttempt
                         retry?.visibility = View.VISIBLE
@@ -161,13 +162,13 @@ class PasscodeFragment : Fragment(), View.OnClickListener, View.OnTouchListener 
 
                 // step 2: confirm pin to set
                 if(step == 2) {
-                    var passcodeAttempt: String = pin1!!.text.toString() + pin2!!.text.toString() + pin3!!.text.toString() + pin4!!.text.toString()
+                    val passcodeAttempt: String = pin1!!.text.toString() + pin2!!.text.toString() + pin3!!.text.toString() + pin4!!.text.toString()
 
                     if(passcodeAttempt == passcode) {
                         runBlocking {
-                            if(mode == "new") {
-                                replaceFragment(RecoveryFragment(), "new")
-                                viewModel.data(passcodeAttempt)
+                            if(mode == "new" || mode == "reset") {
+                                replaceFragment(RecoveryFragment(), passcodeAttempt)
+                                //viewModel.data(passcodeAttempt)
                             }
                             else {
                                 Log.d("Run Order", "Ran reset mode code...")
@@ -184,8 +185,8 @@ class PasscodeFragment : Fragment(), View.OnClickListener, View.OnTouchListener 
 
                 // mode 3: user returns and enters pin
                 if(step == 3) {
-                    var backendPass = viewModel.returnPin()
-                    var passcodeAttempt: String = pin1!!.text.toString() + pin2!!.text.toString() + pin3!!.text.toString() + pin4!!.text.toString()
+                    val backendPass = viewModel.returnPin()
+                    val passcodeAttempt: String = pin1!!.text.toString() + pin2!!.text.toString() + pin3!!.text.toString() + pin4!!.text.toString()
 
                     if(backendPass == passcodeAttempt) {
                         viewModel.skip.value = "Correct Passcode"
@@ -204,11 +205,10 @@ class PasscodeFragment : Fragment(), View.OnClickListener, View.OnTouchListener 
                 pin3!!.text.clear()
                 pin4!!.text.clear()
 
-                card1!!.setBackgroundColor(getResources().getColor(R.color.forestGreen))
-                card2!!.setBackgroundColor(getResources().getColor(R.color.forestGreen))
-                card3!!.setBackgroundColor(getResources().getColor(R.color.forestGreen))
-                card4!!.setBackgroundColor(getResources().getColor(R.color.forestGreen))
-                instructionText!!.setBackgroundColor(getResources().getColor(R.color.forestGreen))
+                card1!!.setBackgroundColor(resources.getColor(R.color.forestGreen))
+                card2!!.setBackgroundColor(resources.getColor(R.color.forestGreen))
+                card3!!.setBackgroundColor(resources.getColor(R.color.forestGreen))
+                card4!!.setBackgroundColor(resources.getColor(R.color.forestGreen))
 
                 step = 1
                 passcode = null
@@ -217,18 +217,20 @@ class PasscodeFragment : Fragment(), View.OnClickListener, View.OnTouchListener 
         }
     }
 
+
+    // TODO: consider why the code gets angry about perform click
     override fun onTouch(clicked: View?, event: MotionEvent?): Boolean {
 
         if(clicked!!.id == R.id.pin1 && event!!.action == MotionEvent.ACTION_UP) {
             pin1!!.text.clear()
         }
-        else if(clicked!!.id == R.id.pin2 && event!!.action == MotionEvent.ACTION_UP) {
+        else if(clicked.id == R.id.pin2 && event!!.action == MotionEvent.ACTION_UP) {
             pin2!!.text.clear()
         }
-        else if(clicked!!.id == R.id.pin3 && event!!.action == MotionEvent.ACTION_UP) {
+        else if(clicked.id == R.id.pin3 && event!!.action == MotionEvent.ACTION_UP) {
             pin3!!.text.clear()
         }
-        else if(clicked!!.id == R.id.pin4 && event!!.action == MotionEvent.ACTION_UP) {
+        else if(clicked.id == R.id.pin4 && event!!.action == MotionEvent.ACTION_UP) {
             pin4!!.text.clear()
         }
 

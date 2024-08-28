@@ -65,13 +65,16 @@ class LaunchActivity : AppCompatActivity() {
         dataModel.pin.observe(this) {
             pin = dataModel.returnPin()
             if (start) {
-                if (pin == "tutorial") {
-                    replaceFragment(TutorialFragment(), "tutorial")
-                    Log.d("Run Order", "Loading 1st Frame")
-                } else if (pin == "none") {
-                    switchActivity()
-                } else {
-                    replaceFragment(PasscodeFragment(), "passcode")
+                when (pin) {
+                    "tutorial" -> {
+                        replaceFragment(TutorialFragment(), "tutorial")
+                    }
+                    "none" -> {
+                        switchActivity()
+                    }
+                    else -> {
+                        replaceFragment(PasscodeFragment(), "passcode")
+                    }
                 }
 
                 start = false

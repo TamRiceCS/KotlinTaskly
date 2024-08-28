@@ -1,6 +1,7 @@
 package com.example.kotlintaskly
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,7 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import com.google.android.material.textfield.TextInputEditText
+import kotlinx.coroutines.runBlocking
 
 class RecoveryFragment : Fragment(), View.OnClickListener {
 
@@ -31,9 +33,9 @@ class RecoveryFragment : Fragment(), View.OnClickListener {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
-        val view: View = inflater!!.inflate(R.layout.fragment_recovery, container, false)
+        val view: View = inflater.inflate(R.layout.fragment_recovery, container, false)
 
         mode = arguments?.getString("case")
 
@@ -54,9 +56,19 @@ class RecoveryFragment : Fragment(), View.OnClickListener {
                 if(emailBox1!!.text.toString().endsWith("@gmail.com")) {
                    if(mode == "new") {
                        email = emailBox1!!.text.toString()
-                       viewModel.email.value = email
+                       runBlocking {
+                           viewModel.email.value = email
+                           viewModel.pin.value = mode
+                           Log.d("Set passcode", mode!!)
+                       }
                    }
                     else {
+                       email = emailBox1!!.text.toString()
+                       runBlocking {
+                           viewModel.email.value = email
+                           viewModel.pin.value = mode
+                           Log.v("Reset Passcode", viewModel.returnPin()!!)
+                       }
                         replaceFragment(SettingsOptionsFragment(), "done")
                    }
                 }
@@ -73,8 +85,15 @@ class RecoveryFragment : Fragment(), View.OnClickListener {
         }
 
         if(bttn.id == R.id.skip) {
-            viewModel.pin.value = "none"
-            viewModel.skip.value = "Skip Key Hit!"
+            if(mode == "new") {
+                runBlocking {
+                    viewModel.pin.value = "none"
+                    viewModel.skip.value = "Skip Key Hit!"
+                }
+            }
+            else{
+                replaceFragment(SettingsOptionsFragment(), "done")
+            }
         }
     }
 

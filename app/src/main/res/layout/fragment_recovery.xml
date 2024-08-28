@@ -20,10 +20,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:background="@color/forestGreen"
+                android:background="@drawable/roundtransparent_forestgreenglass"
+                android:fontFamily="@font/cormorantgaramond_regular"
+                android:textStyle="bold"
                 android:textColor="@color/white"
                 android:textSize="26sp"
-                android:textStyle="bold"
                 android:gravity="center"
                 android:layout_margin="10dp"
                 android:text="Please Enter Recovery Email" />
@@ -44,15 +45,22 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     app:hintTextColor="@color/white"
+                    android:textColorHint="@color/white"
+                    android:fontFamily="@font/cormorantgaramond_regular"
+                    android:textStyle="bold"
                     android:layout_weight="1"
-                    app:startIconDrawable="@drawable/mail">
+                    app:startIconDrawable="@drawable/mail"
+                    app:startIconTint="@color/white">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/initEmail"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
+                        android:fontFamily="@font/cormorantgaramond_regular"
+                        android:textStyle="bold"
                         android:textColor="@color/white"
                         app:hintTextColor="@color/white"
+                        android:textSize="18sp"
                         android:hint="Email"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -63,14 +71,20 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     app:hintTextColor="@color/white"
+                    android:textColorHint="@color/white"
+                    android:fontFamily="@font/cormorantgaramond_regular"
+                    android:textStyle="bold"
                     android:layout_weight="1"
-                    app:startIconDrawable="@drawable/mail">
+                    app:startIconDrawable="@drawable/mail"
+                    app:startIconTint="@color/white">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/confirmEmail"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         app:startIconDrawable="@drawable/mail"
+                        android:fontFamily="@font/cormorantgaramond_regular"
+                        android:textStyle="bold"
                         android:hint="Confirm Email"
                         android:textColor="@color/white"
                         app:hintTextColor="@color/white"
@@ -91,6 +105,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:fontFamily="@font/cormorantgaramond_regular"
+                    android:textStyle="bold"
                     android:layout_margin="10dp"
                     android:backgroundTint="@color/gentleRed"
                     android:text="Skip" />
@@ -101,6 +117,8 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:layout_weight="1"
+                    android:fontFamily="@font/cormorantgaramond_regular"
+                    android:textStyle="bold"
                     android:backgroundTint="@color/lightForestGreen"
                     android:text="Submit" />
             </LinearLayout>

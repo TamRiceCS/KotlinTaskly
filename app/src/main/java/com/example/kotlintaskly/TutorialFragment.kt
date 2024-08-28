@@ -35,7 +35,7 @@ class TutorialFragment : Fragment(), View.OnClickListener {
     }
 
     override fun onClick(bttn: View) {
-        if(bttn.getId() == R.id.skipButton) {
+        if(bttn.id == R.id.skipButton) {
             replaceFragment(PasscodeFragment(), "new")
         }
     }

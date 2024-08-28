@@ -15,16 +15,14 @@ class BasicData () {
     // Datastores act like a txt file to store basic data, this is NOT encrypted! It is in the form of key-val pairs
     // We will need to do 3 main things: place data in (set), read data (retrieve), and check if data exists (contains)
 
-
-
     companion object {
         private val Context.dataStore : DataStore<Preferences> by preferencesDataStore(name = "LaunchSettings")
         private lateinit var dataStore: DataStore<Preferences>
         @Volatile private var instance: BasicData? = null
 
         fun getInstance(context: Context) =
-            instance ?: synchronized(this) { // synchronized to avoid concurrency problem
-                instance ?: BasicData().also {
+            instance ?: synchronized(this) { // instance is null? calls synchronized
+                instance ?: BasicData().also { // if instance is null, calls to set basic data w/ this context
                     instance = it
                     dataStore = context.dataStore }
             }

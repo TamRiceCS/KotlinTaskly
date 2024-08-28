@@ -13,17 +13,20 @@
         android:theme="@style/Theme.App.Starting"
         tools:targetApi="31">
         <activity
+            android:name=".TutorialFragment"
+            android:exported="false" />
+        <activity
             android:name=".StatisticsActivity"
             android:exported="false"
             android:label="StatisticsActivity"
             android:launchMode="singleInstance"
-            android:theme="@style/Base.Theme.KotlinTaskly"/>
+            android:theme="@style/Base.Theme.KotlinTaskly" />
         <activity
             android:name=".SettingsActivity"
             android:exported="false"
             android:label="SettingsActivity"
             android:launchMode="singleInstance"
-            android:theme="@style/Base.Theme.KotlinTaskly"/>
+            android:theme="@style/Base.Theme.KotlinTaskly" />
         <activity
             android:name=".CalendarActivity"
             android:exported="false"
