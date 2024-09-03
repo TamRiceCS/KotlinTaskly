@@ -24,6 +24,8 @@
             android:layout_margin="10dp"
             android:layout_weight="5"
             android:text="Generic Task Text"
+            android:fontFamily="@font/quicksand_variablefont_wght"
+            android:textStyle="bold"
             android:textColor="@color/black"
             android:textSize="16sp" />
 
@@ -33,7 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:layout_weight="1"
-            android:background="@color/forestGreen"
+            android:background="@drawable/roundtransparent_forestgreenglass"
             android:padding="5dp"
             android:src="@drawable/bell" />
     </LinearLayout>

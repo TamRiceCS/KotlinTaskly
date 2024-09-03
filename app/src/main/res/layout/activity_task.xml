@@ -4,23 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/green_leaves"
+    android:background="@drawable/calm_mountains"
     tools:context=".TaskActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="80dp"
-        android:layout_weight="1"
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/topNavBG"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:layout_margin="10sp"
             android:gravity="center"
-            android:background="@color/white"
+            android:background="@drawable/roundtransparent_forestgreenglass"
             android:orientation="horizontal">
 
             <ImageButton
@@ -29,20 +29,37 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10sp"
                 android:layout_weight="1"
-                android:backgroundTint="@color/forestGreen"
+                android:backgroundTint="@color/lightBlue"
                 android:src="@drawable/arrow_left" />
 
-            <TextView
-                android:id="@+id/dowText"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="10sp"
-                android:layout_weight="1"
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="4"
                 android:gravity="center"
-                android:text="Monday"
-                android:textColor="@color/forestGreen"
-                android:textSize="30sp"
-                android:textStyle="bold" />
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/dowText"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:fontFamily="@font/cormorantgaramond_regular"
+                    android:gravity="center"
+                    android:text="SATURDAY"
+                    android:textColor="@color/white"
+                    android:textSize="25sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/dowTime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:textSize="15sp"
+                    android:text="Present" />
+            </LinearLayout>
 
             <ImageButton
                 android:id="@+id/nextDay"
@@ -50,17 +67,30 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10sp"
                 android:layout_weight="1"
-                android:backgroundTint="#009688"
+                android:backgroundTint="@color/lightBlue"
                 android:src="@drawable/arrow_right" />
 
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/section1Limit"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:textAlignment="center"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:fontFamily="@font/quicksand_variablefont_wght"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:text="Limit: 0 / ∞" />
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_margin="10dp"
-            android:backgroundTint="@color/lightBlue"
-            android:layout_weight="2" >
+            app:cardBackgroundColor="@color/lightBlueGlass"
+            app:cardCornerRadius="15dp"
+            android:layout_weight="5" >
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/section1"
@@ -70,12 +100,25 @@
 
         </androidx.cardview.widget.CardView>
 
+        <TextView
+            android:id="@+id/section2Limit"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:textAlignment="center"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/white"
+            android:fontFamily="@font/quicksand_variablefont_wght"
+            android:textStyle="bold"
+            android:text="Limit: 0 / ∞" />
+
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_margin="10dp"
-            android:backgroundTint="#0082cb"
-            android:layout_weight="2" >
+            app:cardBackgroundColor="@color/mediumBlueGlass"
+            app:cardCornerRadius="15dp"
+            android:layout_weight="5" >
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/section2"
@@ -85,12 +128,25 @@
 
         </androidx.cardview.widget.CardView>
 
+        <TextView
+            android:id="@+id/section3Limit"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:textAlignment="center"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/white"
+            android:fontFamily="@font/quicksand_variablefont_wght"
+            android:textStyle="bold"
+            android:text="Limit: 0 / ∞" />
+
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_margin="10dp"
-            android:backgroundTint="#00558a"
-            android:layout_weight="2" >
+            app:cardBackgroundColor="@color/darkBlueGlass"
+            app:cardCornerRadius="15dp"
+            android:layout_weight="5" >
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/section3"
@@ -126,6 +182,7 @@
         android:layout_height="wrap_content"
         android:src="@drawable/plus_circle"
         android:backgroundTint="@color/lightForestGreen"
+        app:tint="@android:color/white"
         app:layout_anchor="@id/bottomAppBar" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

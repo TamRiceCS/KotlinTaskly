@@ -24,6 +24,7 @@ class RecoveryFragment : Fragment(), View.OnClickListener {
     private var mode : String? = null
 
     private val viewModel by activityViewModels<LaunchVModel>()
+    private val taskModel by activityViewModels<TaskVModel>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,6 +60,7 @@ class RecoveryFragment : Fragment(), View.OnClickListener {
                        runBlocking {
                            viewModel.email.value = email
                            viewModel.pin.value = mode
+                           taskModel.setPin(mode!!)
                            Log.d("Set passcode", mode!!)
                        }
                    }
@@ -67,6 +69,7 @@ class RecoveryFragment : Fragment(), View.OnClickListener {
                        runBlocking {
                            viewModel.email.value = email
                            viewModel.pin.value = mode
+                           taskModel.setPin(mode!!)
                            Log.v("Reset Passcode", viewModel.returnPin()!!)
                        }
                         replaceFragment(SettingsOptionsFragment(), "done")

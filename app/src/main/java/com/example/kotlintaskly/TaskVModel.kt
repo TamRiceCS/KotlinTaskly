@@ -15,6 +15,9 @@ class TaskVModel(application: Application): AndroidViewModel(application) {
     var morningTasks = MutableLiveData<List<TaskEntity>>()
     var afternoonTasks = MutableLiveData<List<TaskEntity>>()
     var eveningTasks = MutableLiveData<List<TaskEntity>>()
+    var morningLimit = 3
+    var afternoonLimit = 3
+    var eveningLimit = 3
     lateinit var backendMorning : List<TaskEntity>
     lateinit var backendAfternoon : List<TaskEntity>
     lateinit var backendEvening : List<TaskEntity>
@@ -55,12 +58,6 @@ class TaskVModel(application: Application): AndroidViewModel(application) {
             if(message != null) {
                 Log.d("Run Order", "Ran reset mode code...$item")
             }
-        }
-    }
-
-    fun delete(taskEntity: TaskEntity) {
-        viewModelScope.launch((Dispatchers.IO)) {
-            TaskActivity.db.taskDao().delete(taskEntity)
         }
     }
 

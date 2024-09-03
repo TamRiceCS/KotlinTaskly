@@ -6,9 +6,12 @@
     <color name="transparentWhite">#80FFFFFF</color>
     <color name="lightBlue">#ABCBEC</color>
     <color name="lightBlueGlass">#80ABCBEC</color>
+    <color name="mediumBlueGlass">#800082cb</color>
+    <color name="darkBlueGlass">#8000558a</color>
     <color name="forestGreen">#088F8F</color>
     <color name="forestGreenGlass">#99088F8F</color>
     <color name="lightForestGreen">#75CACA</color>
+    <color name="lightForestGreenGlass">#9975CACA</color>
     <color name="gentleRed"> #FF7F7F </color>
 
 </resources>

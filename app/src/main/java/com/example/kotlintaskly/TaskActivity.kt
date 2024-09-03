@@ -51,6 +51,9 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener {
 
     private lateinit var menuBar: BottomNavigationView
     private lateinit var dayBox: TextView
+    private lateinit var topNav: LinearLayout
+    private lateinit var timeWarning: TextView
+
     var dayNum: Long = 0
     val currentDate = LocalDate.now()
     val date = LocalDate.now()
@@ -68,6 +71,9 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener {
 
         dayBox = findViewById(R.id.dowText)
         dayBox.text = dow
+
+        topNav = findViewById(R.id.topNavBG)
+        timeWarning = findViewById(R.id.dowTime)
 
         var prior : ImageButton = findViewById(R.id.priorDay)
         var next : ImageButton = findViewById(R.id.nextDay)
@@ -243,9 +249,10 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener {
                 dayNum--
                 dayBox.text = date.dayOfWeek.plus(dayNum).toString()
                 Log.d("Run Order", date.minusDays(dayNum).toString() + " " + dayNum)
-                taskModel.fetch("Morning", date.minusDays(dayNum * -1).toString());
-                taskModel.fetch("Afternoon", date.minusDays(dayNum * -1).toString());
-                taskModel.fetch("Evening", date.minusDays(dayNum * -1).toString());
+                taskModel.fetch("Morning", date.minusDays(dayNum * -1).toString())
+                taskModel.fetch("Afternoon", date.minusDays(dayNum * -1).toString())
+                taskModel.fetch("Evening", date.minusDays(dayNum * -1).toString())
+                changeTopNavDetails()
             }
         }
 
@@ -254,10 +261,26 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener {
                 dayNum++
                 dayBox.text = date.dayOfWeek.plus(dayNum).toString()
                 Log.d("Run Order", date.plusDays(dayNum).toString() + " " + dayNum)
-                taskModel.fetch("Morning", date.plusDays(dayNum).toString());
-                taskModel.fetch("Afternoon", date.plusDays(dayNum).toString());
-                taskModel.fetch("Evening", date.plusDays(dayNum).toString());
+                taskModel.fetch("Morning", date.plusDays(dayNum).toString())
+                taskModel.fetch("Afternoon", date.plusDays(dayNum).toString())
+                taskModel.fetch("Evening", date.plusDays(dayNum).toString())
+                changeTopNavDetails()
             }
+        }
+    }
+
+    fun changeTopNavDetails() {
+        if(dayNum > 0) {
+            topNav.setBackgroundResource(R.drawable.roundtransparent_lightforestgreenglass)
+            timeWarning.text = "Future"
+        }
+        else if(dayNum < 0) {
+            topNav.setBackgroundResource(R.drawable.roundtransparent_lightforestgreenglass)
+            timeWarning.text = "Past"
+        }
+        else{
+            topNav.setBackgroundResource(R.drawable.roundtransparent_forestgreenglass)
+            timeWarning.text = "Present"
         }
     }
 

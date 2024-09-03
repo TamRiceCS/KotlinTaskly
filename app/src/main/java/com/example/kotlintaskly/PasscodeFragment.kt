@@ -141,6 +141,7 @@ class PasscodeFragment : Fragment(), View.OnClickListener, View.OnTouchListener 
                     val passcodeAttempt: String = pin1!!.text.toString() + pin2!!.text.toString() + pin3!!.text.toString() + pin4!!.text.toString()
                     if(passcodeAttempt.length == 4) {
                         instructionText!!.text = "Please confirm pin"
+                        instructionText!!.setBackgroundResource(R.drawable.roundtransparent_lightforestgreenglass)
 
                         pin1!!.text.clear()
                         pin2!!.text.clear()
@@ -168,11 +169,9 @@ class PasscodeFragment : Fragment(), View.OnClickListener, View.OnTouchListener 
                         runBlocking {
                             if(mode == "new" || mode == "reset") {
                                 replaceFragment(RecoveryFragment(), passcodeAttempt)
-                                //viewModel.data(passcodeAttempt)
                             }
                             else {
                                 Log.d("Run Order", "Ran reset mode code...")
-                                taskModel.setPin(passcodeAttempt)
                                 replaceFragment(SettingsOptionsFragment(), passcodeAttempt)
                             }
                         }
@@ -199,6 +198,7 @@ class PasscodeFragment : Fragment(), View.OnClickListener, View.OnTouchListener 
 
             R.id.retryBttn -> {
                 instructionText!!.text = "Please Enter Your Pin"
+                instructionText!!.setBackgroundResource(R.drawable.roundtransparent_forestgreenglass)
 
                 pin1!!.text.clear()
                 pin2!!.text.clear()
