@@ -22,20 +22,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
-import androidx.room.RoomDatabase
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import org.w3c.dom.Text
 import java.time.LocalDate
-import java.time.format.TextStyle
-import java.util.Locale
-
 
 class TaskActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -43,9 +32,9 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener {
     val data2 = ArrayList<TaskEntity>()
     val data3 = ArrayList<TaskEntity>()
 
-    val adapter1 = TaskAdapter(data1, "section1")
-    val adapter2 = TaskAdapter(data2, "section2")
-    val adapter3 = TaskAdapter(data3, "section3")
+    val adapter1 = TaskAdapter(data1, "First Section")
+    val adapter2 = TaskAdapter(data2, "Second Section")
+    val adapter3 = TaskAdapter(data3, "Third Section")
 
     private val taskModel by viewModels<TaskVModel>()
 
@@ -53,6 +42,10 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var dayBox: TextView
     private lateinit var topNav: LinearLayout
     private lateinit var timeWarning: TextView
+
+    private lateinit var firstLimit: TextView
+    private lateinit var secondLimit: TextView
+    private lateinit var thirdLimit: TextView
 
     var dayNum: Long = 0
     val currentDate = LocalDate.now()
@@ -81,6 +74,9 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener {
         prior.setOnClickListener(this)
         next.setOnClickListener(this)
 
+        firstLimit = findViewById(R.id.section1Limit)
+        secondLimit = findViewById(R.id.section2Limit)
+        thirdLimit = findViewById(R.id.section3Limit)
 
         val rv1 = findViewById<RecyclerView>(R.id.section1)
         val rv2 = findViewById<RecyclerView>(R.id.section2)
@@ -130,21 +126,26 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener {
             }
         }
 
-        taskModel.fetch("Morning", date.toString())
-        taskModel.fetch("Afternoon", date.toString())
-        taskModel.fetch("Evening", date.toString())
+        taskModel.fetch("First", date.toString())
+        taskModel.fetch("Second", date.toString())
+        taskModel.fetch("Third", date.toString())
 
-        taskModel.morningTasks.observe(this) {
-            adapter1.dayChange(ArrayList(taskModel.backendMorning))
-            Log.d("Run Order", "Observed a change m")
+
+
+        taskModel.firstTasks.observe(this) {
+            adapter1.dayChange(ArrayList(taskModel.backendFirst))
+            firstLimit.text = "Limit: " + taskModel.backendFirst.size.toString() + "/"  + taskModel.firstLimit
+            Log.d("Run Order", "Observed a change in section 1 " + data1.size)
         }
-        taskModel.afternoonTasks.observe(this) {
-            adapter2.dayChange(ArrayList(taskModel.backendAfternoon))
-            Log.d("Run Order", "Observed a change")
+        taskModel.secondTasks.observe(this) {
+            adapter2.dayChange(ArrayList(taskModel.backendSecond))
+            secondLimit.text = "Limit: " + taskModel.backendSecond.size.toString() + "/"  + taskModel.secondLimit
+            Log.d("Run Order", "Observed a change in section 2 " + data2.size)
         }
-        taskModel.eveningTasks.observe(this) {
-            adapter3.dayChange(ArrayList(taskModel.backendEvening))
-            Log.d("Run Order", ArrayList(taskModel.backendEvening).toString())
+        taskModel.thirdTasks.observe(this) {
+            adapter3.dayChange(ArrayList(taskModel.backendThird))
+            thirdLimit.text = "Limit: " + taskModel.backendThird.size.toString() + "/"  + taskModel.thirdLimit
+            Log.d("Run Order", "Observed a change in section 3 " + data3.size)
         }
     }
 
@@ -191,20 +192,22 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener {
                 if(task == "") {
                     Toast.makeText(this@TaskActivity, "Task Does Not Contain Any Text", Toast.LENGTH_SHORT).show()
                 }
-                else if(section == "Morning") {
+                else if(section == "First Section") {
                     insertData.task = addText.text.toString()
+                    insertData.location = "First"
                     if(data1.size == 0) {
                         adapter1.addAndInform(insertData, 0)
                     }
                     else {
                         adapter1.addAndInform(insertData, data1.size)
                     }
-
                     taskModel.updateBacklog(insertData)
+                    firstLimit.text = "Limit: " + data1.size.toString() + "/"  + taskModel.firstLimit
 
                 }
-                else if(section == "Afternoon") {
+                else if(section == "Second Section") {
                     insertData.task = addText.text.toString()
+                    insertData.location = "Second"
                     if(data2.size == 0) {
                         adapter2.addAndInform(insertData, 0)
                     }
@@ -212,9 +215,11 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener {
                         adapter2.addAndInform(insertData, data2.size)
                     }
                     taskModel.updateBacklog(insertData)
+                    secondLimit.text = "Limit: " + data2.size.toString() + "/"  + taskModel.secondLimit
                 }
-                else if(section == "Evening") {
+                else if(section == "Third Section") {
                     insertData.task = addText.text.toString()
+                    insertData.location = "Third"
                     if(data3.size == 0) {
                         adapter3.addAndInform(insertData, 0)
                     }
@@ -222,6 +227,7 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener {
                         adapter3.addAndInform(insertData, data3.size)
                     }
                     taskModel.updateBacklog(insertData)
+                    thirdLimit.text = "Limit: " + data3.size.toString() + "/"  + taskModel.thirdLimit
                 }
                 popupWindow.dismiss()
             })
@@ -249,9 +255,9 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener {
                 dayNum--
                 dayBox.text = date.dayOfWeek.plus(dayNum).toString()
                 Log.d("Run Order", date.minusDays(dayNum).toString() + " " + dayNum)
-                taskModel.fetch("Morning", date.minusDays(dayNum * -1).toString())
-                taskModel.fetch("Afternoon", date.minusDays(dayNum * -1).toString())
-                taskModel.fetch("Evening", date.minusDays(dayNum * -1).toString())
+                taskModel.fetch("First", date.minusDays(dayNum * -1).toString())
+                taskModel.fetch("Second", date.minusDays(dayNum * -1).toString())
+                taskModel.fetch("Third", date.minusDays(dayNum * -1).toString())
                 changeTopNavDetails()
             }
         }
@@ -261,9 +267,9 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener {
                 dayNum++
                 dayBox.text = date.dayOfWeek.plus(dayNum).toString()
                 Log.d("Run Order", date.plusDays(dayNum).toString() + " " + dayNum)
-                taskModel.fetch("Morning", date.plusDays(dayNum).toString())
-                taskModel.fetch("Afternoon", date.plusDays(dayNum).toString())
-                taskModel.fetch("Evening", date.plusDays(dayNum).toString())
+                taskModel.fetch("First", date.plusDays(dayNum).toString())
+                taskModel.fetch("Second", date.plusDays(dayNum).toString())
+                taskModel.fetch("Third", date.plusDays(dayNum).toString())
                 changeTopNavDetails()
             }
         }
