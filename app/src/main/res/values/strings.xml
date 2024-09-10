@@ -56,4 +56,18 @@
         <item>Third Section</item>
     </string-array>
 
+    <string-array name="TimeIncrements">
+        <item>Months</item>
+        <item>Weeks</item>
+        <item>Years</item>
+    </string-array>
+
+    <string-array name="TimeLimits">
+        <item>1 Task</item>
+        <item>2 Tasks</item>
+        <item>3 Tasks</item>
+        <item>4 Tasks</item>
+        <item>5 Tasks</item>
+    </string-array>
+
 </resources>

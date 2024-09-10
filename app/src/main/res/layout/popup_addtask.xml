@@ -40,6 +40,8 @@
                     android:autofillHints="Enter Task Name"
                     android:ems="10"
                     android:hint="Name of Task..."
+                    android:fontFamily="@font/quicksand_variablefont_wght"
+                    android:textStyle="bold"
                     android:inputType="text" />
 
                 <Spinner
@@ -48,6 +50,8 @@
                     android:layout_height="50sp"
                     android:layout_margin="10dp"
                     android:textColor="@color/white"
+                    android:fontFamily="@font/quicksand_variablefont_wght"
+                    android:textStyle="bold"
                     android:background="@color/lightBlue"/>
 
             </LinearLayout>
@@ -65,7 +69,8 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:backgroundTint="@color/forestGreen"
-
+                    android:fontFamily="@font/quicksand_variablefont_wght"
+                    android:textStyle="bold"
                     android:text="Add Task" />
 
                 <Button
@@ -75,6 +80,8 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:backgroundTint="@color/gentleRed"
+                    android:fontFamily="@font/quicksand_variablefont_wght"
+                    android:textStyle="bold"
                     android:text="Cancel Task" />
 
 

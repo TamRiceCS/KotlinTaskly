@@ -30,12 +30,20 @@
             android:textSize="16sp" />
 
         <ImageButton
+            android:id="@+id/imageButton3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@color/gray"
+            app:srcCompat="@drawable/added" />
+
+        <ImageButton
             android:id="@+id/setReminder"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_margin="5dp"
             android:layout_weight="1"
-            android:background="@drawable/roundtransparent_forestgreenglass"
+            android:background="@color/lightBlue"
             android:padding="5dp"
             android:src="@drawable/bell" />
     </LinearLayout>

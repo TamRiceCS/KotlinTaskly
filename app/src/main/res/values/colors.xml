@@ -1,17 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="black">#FF000000</color>
+    <color name="gray">#D3D3D3</color>
     <color name="white">#FFFFFFFF</color>
 
     <color name="transparentWhite">#80FFFFFF</color>
+
     <color name="lightBlue">#ABCBEC</color>
     <color name="lightBlueGlass">#80ABCBEC</color>
     <color name="mediumBlueGlass">#800082cb</color>
     <color name="darkBlueGlass">#8000558a</color>
+
     <color name="forestGreen">#088F8F</color>
     <color name="forestGreenGlass">#99088F8F</color>
     <color name="lightForestGreen">#75CACA</color>
     <color name="lightForestGreenGlass">#9975CACA</color>
+
     <color name="gentleRed"> #FF7F7F </color>
+
+    <color name="nightPurple">#280137</color>
+    <color name="sunsetPurple">#6F456E</color>
 
 </resources>

@@ -186,7 +186,7 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener {
             }
 
             addTaskPop.setOnClickListener(View.OnClickListener {
-                var insertData = TaskEntity(0, "Add Button Clicked", section, date.toString())
+                var insertData = TaskEntity(0, "Add Button Clicked", section, date.plusDays(dayNum).toString())
                 val task = addText.text.toString()
 
                 if(task == "") {

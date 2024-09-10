@@ -78,10 +78,10 @@ class SettingsOptionsFragment : Fragment(), View.OnClickListener {
                 replaceFragment(RecoveryFragment(), "reset")
             }
             R.id.taskLimits -> {
-                Toast.makeText(activity, "Not implemented yet", Toast.LENGTH_SHORT).show()
+                replaceFragment(TaskLimitFragment(), "reset")
             }
             R.id.sendFeedback -> {
-                val openWebsite = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/TamRiceCS/KotlinTaskly/issues"))
+                val openWebsite = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/TamRiceCS/KotlinTaskly"))
                 startActivity(openWebsite)
             }
             R.id.clearData -> {
