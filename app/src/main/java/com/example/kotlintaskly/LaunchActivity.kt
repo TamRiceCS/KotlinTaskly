@@ -29,7 +29,8 @@ class LaunchActivity : AppCompatActivity() {
                 !dataModel.isReady.value
             }
 
-            /// Use https://shapeshifter.design/ and take the code of the animation made, check avd_tasklyplane for how
+            // Make the icon using Figma
+            // Use https://shapeshifter.design/ and take the code of the animation made, check avd_tasklyplane for how
             setOnExitAnimationListener { screen ->
                 val zoomX = ObjectAnimator.ofFloat(
                     screen.iconView,

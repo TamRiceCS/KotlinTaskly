@@ -36,7 +36,10 @@ class TaskAdapter(private var mList: ArrayList<TaskEntity>, private val orgin: S
     }
 
     fun dayChange(newDay : ArrayList<TaskEntity>) {
-        mList = newDay
+        mList.clear()
+        for(elem in newDay) {
+            mList.add(elem)
+        }
         notifyDataSetChanged()
     }
 

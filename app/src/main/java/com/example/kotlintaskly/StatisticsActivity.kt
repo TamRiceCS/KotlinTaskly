@@ -23,8 +23,8 @@ class StatisticsActivity : AppCompatActivity() {
                     startActivity(intent)
                     true
                 }
-                R.id.calendar -> {
-                    val intent = Intent(this, CalendarActivity::class.java)
+                R.id.diary -> {
+                    val intent = Intent(this, DiaryActivity::class.java)
                     startActivity(intent)
                     true
                 }
