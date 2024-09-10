@@ -102,9 +102,9 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener {
                     Toast.makeText(this@TaskActivity, "Already Here", Toast.LENGTH_SHORT).show()
                     true
                 }
-                R.id.calendar -> {
-                    Toast.makeText(this@TaskActivity, "Calendar", Toast.LENGTH_SHORT).show()
-                    val intent = Intent(this, CalendarActivity::class.java)
+                R.id.diary -> {
+                    Toast.makeText(this@TaskActivity, "Diary", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this, DiaryActivity::class.java)
                     startActivity(intent)
                     true
                 }

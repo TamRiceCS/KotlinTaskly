@@ -7,11 +7,11 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class CalendarActivity : AppCompatActivity() {
+class DiaryActivity : AppCompatActivity() {
     private lateinit var menuBar: BottomNavigationView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_calendar)
+        setContentView(R.layout.activity_diary)
 
         menuBar = findViewById(R.id.bottomNavigationView)
         menuBar.menu.getItem(1).setChecked(true)
@@ -25,8 +25,8 @@ class CalendarActivity : AppCompatActivity() {
                     startActivity(intent)
                     true
                 }
-                R.id.calendar -> {
-                    Toast.makeText(this@CalendarActivity, "Already Here", Toast.LENGTH_SHORT).show()
+                R.id.diary -> {
+                    Toast.makeText(this@DiaryActivity, "Already Here", Toast.LENGTH_SHORT).show()
 
                     true
                 }

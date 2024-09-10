@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">KotlinTaskly</string>
+    <string name="app_name">Taskly</string>
     <string name="title_activity_user_tutorial">user_tutorial</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>

@@ -5,9 +5,9 @@
         android:title="Home"
         android:icon="@drawable/list"/>
 
-    <item android:id="@+id/calendar"
-        android:title="Calendar"
-        android:icon="@drawable/calendar" />
+    <item android:id="@+id/diary"
+        android:title="Diary"
+        android:icon="@drawable/open_book" />
 
     <item
         android:id="@+id/placeholder"
