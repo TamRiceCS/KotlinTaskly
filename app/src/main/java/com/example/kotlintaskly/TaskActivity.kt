@@ -152,13 +152,23 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener {
         val touchHelper3 = ItemTouchHelper(swipe3)
         touchHelper3.attachToRecyclerView(rv3)
 
-        rv1.adapter = adapter1
         adapter1.setOnItemClickListener(object: TaskAdapter.onItemClickListener {
             override fun onClick(position: Int) {
                 taskModel.updateTaskStatus(data1[position])
             }
-
         })
+        adapter2.setOnItemClickListener(object: TaskAdapter.onItemClickListener {
+            override fun onClick(position: Int) {
+                taskModel.updateTaskStatus(data2[position])
+            }
+        })
+        adapter3.setOnItemClickListener(object: TaskAdapter.onItemClickListener {
+            override fun onClick(position: Int) {
+                taskModel.updateTaskStatus(data3[position])
+            }
+        })
+
+        rv1.adapter = adapter1
         rv2.adapter = adapter2
         rv3.adapter = adapter3
 
