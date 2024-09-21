@@ -1,59 +1,112 @@
 package com.example.kotlintaskly
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.Button
+import android.widget.Spinner
+import androidx.fragment.app.activityViewModels
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+class TaskLimitFragment : Fragment(), View.OnClickListener {
 
-/**
- * A simple [Fragment] subclass.
- * Use the [TaskLimitFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class TaskLimitFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private var spinner1: Spinner? = null
+    private var spinner2: Spinner? = null
+    private var spinner3: Spinner? = null
+    private var setLimit: Button? = null
+    private var cancel: Button? = null
+
+    private val taskModel by activityViewModels<TaskVModel>()
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        val view: View = inflater!!.inflate(R.layout.fragment_task_limit, container, false)
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_task_limit, container, false)
+
+        spinner1 = view!!.findViewById(R.id.spinnerSection1)
+        spinner2 = view!!.findViewById(R.id.spinnerSection2)
+        spinner3 = view!!.findViewById(R.id.spinnerSection3)
+
+        setLimit = view!!.findViewById(R.id.setLimit)
+        cancel = view!!.findViewById(R.id.cancel)
+
+
+        // Make and populate spinner with values
+
+        ArrayAdapter.createFromResource(
+            requireContext(),
+            R.array.TimeLimits,
+            R.layout.spinner_style
+        ).also { adapter1 ->
+            // Specify the layout to use when the list of choices appears.
+            adapter1.setDropDownViewResource(R.layout.spinner_style)
+            // Apply the adapter to the spinner.
+            spinner1!!.adapter = adapter1
+        }
+
+        ArrayAdapter.createFromResource(
+            requireContext(),
+            R.array.TimeLimits,
+            R.layout.spinner_style
+        ).also { adapter2 ->
+            // Specify the layout to use when the list of choices appears.
+            adapter2.setDropDownViewResource(R.layout.spinner_style)
+            // Apply the adapter to the spinner.
+            spinner2!!.adapter = adapter2
+        }
+
+        ArrayAdapter.createFromResource(
+            requireContext(),
+            R.array.TimeLimits,
+            R.layout.spinner_style
+        ).also { adapter3 ->
+            // Specify the layout to use when the list of choices appears.
+            adapter3.setDropDownViewResource(R.layout.spinner_style)
+            // Apply the adapter to the spinner.
+            spinner3!!.adapter = adapter3
+        }
+
+
+        cancel!!.setOnClickListener(this)
+        setLimit!!.setOnClickListener(this)
+
+        return view
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment TaskLimitFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            TaskLimitFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    private fun replaceFragment(fragment : Fragment, identity : String) {
+        val bundle = Bundle()
+        bundle.putString("case", identity)
+        fragment.arguments = bundle
+        val fragManager = parentFragmentManager
+        val fragTransaction = fragManager.beginTransaction()
+        fragTransaction.replace(R.id.fragmentContainerView, fragment)
+        fragTransaction.commit()
     }
+
+    override fun onClick(bttn: View) {
+        if(bttn.id == R.id.cancel) {
+            replaceFragment(SettingsOptionsFragment(), "done")
+        }
+        else{
+            taskModel.setLimit(spinner1!!.selectedItemPosition + 1, spinner2!!.selectedItemPosition + 1, spinner3!!.selectedItemPosition + 1)
+            Log.d("Checked", "spinner 1: " + (spinner1!!.selectedItemPosition + 1).toString())
+            Log.d("Checked", "spinner 2: " + (spinner2!!.selectedItemPosition + 1).toString())
+            Log.d("Checked", "spinner 3: " + (spinner3!!.selectedItemPosition + 1).toString())
+            replaceFragment(SettingsOptionsFragment(), "done")
+        }
+    }
+
+
 }

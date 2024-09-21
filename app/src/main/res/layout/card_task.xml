@@ -12,7 +12,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="5dp"
+        android:layout_margin="5dp"
         android:background="@color/white"
         android:gravity="center"
         android:orientation="horizontal">
@@ -30,11 +30,11 @@
             android:textSize="16sp" />
 
         <ImageButton
-            android:id="@+id/imageButton3"
+            android:id="@+id/status"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:backgroundTint="@color/gray"
+            android:backgroundTint="@color/black"
             app:srcCompat="@drawable/added" />
 
         <ImageButton

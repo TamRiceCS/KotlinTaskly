@@ -1,6 +1,5 @@
 package com.example.kotlintaskly
 
-import TaskAdapter
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -19,6 +18,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
@@ -32,9 +32,9 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener {
     val data2 = ArrayList<TaskEntity>()
     val data3 = ArrayList<TaskEntity>()
 
-    val adapter1 = TaskAdapter(data1, "First Section")
-    val adapter2 = TaskAdapter(data2, "Second Section")
-    val adapter3 = TaskAdapter(data3, "Third Section")
+    val adapter1 = TaskAdapter(data1)
+    val adapter2 = TaskAdapter(data2)
+    val adapter3 = TaskAdapter(data3)
 
     private val taskModel by viewModels<TaskVModel>()
 
@@ -86,7 +86,79 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener {
         rv2.layoutManager = LinearLayoutManager(this)
         rv3.layoutManager = LinearLayoutManager(this)
 
+        val swipe1 = object : SwipeImplementation(this){
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                when(direction){
+                    ItemTouchHelper.LEFT-> {
+                        val deleteEntity = data1[viewHolder.layoutPosition]
+                        taskModel.deleteBacklog(deleteEntity)
+                        adapter1.complete(viewHolder.layoutPosition)
+                        firstLimit.text = "Limit: " + data1.size.toString() + "/"  + taskModel.firstLimit.value
+                    }
+                    ItemTouchHelper.RIGHT -> {
+                        val deleteEntity = data1[viewHolder.layoutPosition]
+                        taskModel.deleteBacklog(deleteEntity)
+                        adapter1.complete(viewHolder.layoutPosition)
+                        firstLimit.text = "Limit: " + data1.size.toString() + "/"  + taskModel.firstLimit.value
+                    }
+                }
+            }
+        }
+
+        val swipe2 = object : SwipeImplementation(this){
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                when(direction){
+                    ItemTouchHelper.LEFT-> {
+                        val deleteEntity = data2[viewHolder.layoutPosition]
+                        taskModel.deleteBacklog(deleteEntity)
+                        adapter2.complete(viewHolder.layoutPosition)
+                        secondLimit.text = "Limit: " + data2.size.toString() + "/"  + taskModel.secondLimit.value
+                    }
+                    ItemTouchHelper.RIGHT -> {
+                        val deleteEntity = data2[viewHolder.layoutPosition]
+                        taskModel.deleteBacklog(deleteEntity)
+                        adapter2.complete(viewHolder.layoutPosition)
+                        secondLimit.text = "Limit: " + data2.size.toString() + "/"  + taskModel.secondLimit.value
+                    }
+                }
+            }
+        }
+
+        val swipe3 = object : SwipeImplementation(this){
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                when(direction){
+                    ItemTouchHelper.LEFT-> {
+                        val deleteEntity = data3[viewHolder.layoutPosition]
+                        taskModel.deleteBacklog(deleteEntity)
+                        adapter3.complete(viewHolder.layoutPosition)
+                        thirdLimit.text = "Limit: " + data3.size.toString() + "/"  + taskModel.thirdLimit.value
+                    }
+                    ItemTouchHelper.RIGHT -> {
+                        val deleteEntity = data3[viewHolder.layoutPosition]
+                        taskModel.deleteBacklog(deleteEntity)
+                        adapter3.complete(viewHolder.layoutPosition)
+                        thirdLimit.text = "Limit: " + data3.size.toString() + "/"  + taskModel.thirdLimit.value
+                    }
+                }
+            }
+        }
+
+        val touchHelper1 = ItemTouchHelper(swipe1)
+        touchHelper1.attachToRecyclerView(rv1)
+
+        val touchHelper2 = ItemTouchHelper(swipe2)
+        touchHelper2.attachToRecyclerView(rv2)
+
+        val touchHelper3 = ItemTouchHelper(swipe3)
+        touchHelper3.attachToRecyclerView(rv3)
+
         rv1.adapter = adapter1
+        adapter1.setOnItemClickListener(object: TaskAdapter.onItemClickListener {
+            override fun onClick(position: Int) {
+                taskModel.updateTaskStatus(data1[position])
+            }
+
+        })
         rv2.adapter = adapter2
         rv3.adapter = adapter3
 
@@ -126,32 +198,59 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener {
             }
         }
 
-        taskModel.fetch("First", date.toString())
-        taskModel.fetch("Second", date.toString())
-        taskModel.fetch("Third", date.toString())
-
-
-
         taskModel.firstTasks.observe(this) {
             adapter1.dayChange(ArrayList(taskModel.backendFirst))
-            firstLimit.text = "Limit: " + taskModel.backendFirst.size.toString() + "/"  + taskModel.firstLimit
+            firstLimit.text = "Limit: " + taskModel.backendFirst!!.size.toString() + "/"  + taskModel.firstLimit.value
             Log.d("Run Order", "Observed a change in section 1 " + data1.size)
         }
         taskModel.secondTasks.observe(this) {
             adapter2.dayChange(ArrayList(taskModel.backendSecond))
-            secondLimit.text = "Limit: " + taskModel.backendSecond.size.toString() + "/"  + taskModel.secondLimit
+            secondLimit.text = "Limit: " + taskModel.backendSecond!!.size.toString() + "/"  + taskModel.secondLimit.value
             Log.d("Run Order", "Observed a change in section 2 " + data2.size)
         }
         taskModel.thirdTasks.observe(this) {
             adapter3.dayChange(ArrayList(taskModel.backendThird))
-            thirdLimit.text = "Limit: " + taskModel.backendThird.size.toString() + "/"  + taskModel.thirdLimit
+            thirdLimit.text = "Limit: " + taskModel.backendThird!!.size.toString() + "/"  + taskModel.thirdLimit.value
             Log.d("Run Order", "Observed a change in section 3 " + data3.size)
+        }
+
+        taskModel.firstLimit.observe(this){
+            if(taskModel.backendFirst == null) {
+                firstLimit.text = "Limit: " + 0 + "/"  + taskModel.firstLimit.value
+            }
+            else{
+                firstLimit.text = "Limit: " + taskModel.backendFirst!!.size.toString() + "/"  + taskModel.firstLimit.value
+            }
+        }
+        taskModel.secondLimit.observe(this){
+            if(taskModel.backendSecond == null) {
+                secondLimit.text = "Limit: " + 0 + "/"  + taskModel.secondLimit.value
+            }
+            else {
+                secondLimit.text = "Limit: " + taskModel.backendSecond!!.size.toString() + "/"  + taskModel.secondLimit.value
+            }
+        }
+        taskModel.thirdLimit.observe(this){
+            if(taskModel.backendThird == null) {
+                thirdLimit.text = "Limit: " + 0 + "/"  + taskModel.thirdLimit.value
+            }
+            else{
+                thirdLimit.text = "Limit: " + taskModel.backendThird!!.size.toString() + "/"  + taskModel.thirdLimit.value
+            }
         }
     }
 
     override fun onResume() {
         super.onResume()
         menuBar.menu.getItem(0).setChecked(true)
+
+        taskModel.fetch("First", date.toString())
+        taskModel.fetch("Second", date.toString())
+        taskModel.fetch("Third", date.toString())
+
+        taskModel.getLimit("FirstLimit")
+        taskModel.getLimit("SecondLimit")
+        taskModel.getLimit("ThirdLimit")
     }
 
     override fun onClick(p0: View?) {
@@ -186,48 +285,47 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener {
             }
 
             addTaskPop.setOnClickListener(View.OnClickListener {
-                var insertData = TaskEntity(0, "Add Button Clicked", section, date.plusDays(dayNum).toString())
+                var insertData = TaskEntity("Add Button Clicked", section, date.plusDays(dayNum).toString(), "Added")
                 val task = addText.text.toString()
 
                 if(task == "") {
                     Toast.makeText(this@TaskActivity, "Task Does Not Contain Any Text", Toast.LENGTH_SHORT).show()
                 }
                 else if(section == "First Section") {
-                    insertData.task = addText.text.toString()
-                    insertData.location = "First"
-                    if(data1.size == 0) {
-                        adapter1.addAndInform(insertData, 0)
+
+                    if(taskModel.firstLimit.value!! > data1.size) {
+                        insertData.task = addText.text.toString()
+                        insertData.location = "First"
+                        taskModel.insertBacklog(insertData)
                     }
-                    else {
-                        adapter1.addAndInform(insertData, data1.size)
+
+                    else{
+                        Toast.makeText(this@TaskActivity, "First task limit has been reached", Toast.LENGTH_SHORT).show()
+                        Log.d("checked", "Limit hit")
                     }
-                    taskModel.updateBacklog(insertData)
-                    firstLimit.text = "Limit: " + data1.size.toString() + "/"  + taskModel.firstLimit
 
                 }
                 else if(section == "Second Section") {
-                    insertData.task = addText.text.toString()
-                    insertData.location = "Second"
-                    if(data2.size == 0) {
-                        adapter2.addAndInform(insertData, 0)
+                    if(taskModel.secondLimit.value!! > data2.size){
+                        insertData.task = addText.text.toString()
+                        insertData.location = "Second"
+                        taskModel.insertBacklog(insertData)
                     }
-                    else {
-                        adapter2.addAndInform(insertData, data2.size)
+                    else{
+                        Toast.makeText(this@TaskActivity, "Second task limit has been reached", Toast.LENGTH_SHORT).show()
                     }
-                    taskModel.updateBacklog(insertData)
-                    secondLimit.text = "Limit: " + data2.size.toString() + "/"  + taskModel.secondLimit
+
                 }
                 else if(section == "Third Section") {
-                    insertData.task = addText.text.toString()
-                    insertData.location = "Third"
-                    if(data3.size == 0) {
-                        adapter3.addAndInform(insertData, 0)
+                    if(taskModel.secondLimit.value!! > data2.size){
+                        insertData.task = addText.text.toString()
+                        insertData.location = "Third"
+                        taskModel.insertBacklog(insertData)
                     }
-                    else {
-                        adapter3.addAndInform(insertData, data3.size)
+                    else{
+                        Toast.makeText(this@TaskActivity, "Third task limit has been reached", Toast.LENGTH_SHORT).show()
                     }
-                    taskModel.updateBacklog(insertData)
-                    thirdLimit.text = "Limit: " + data3.size.toString() + "/"  + taskModel.thirdLimit
+
                 }
                 popupWindow.dismiss()
             })
