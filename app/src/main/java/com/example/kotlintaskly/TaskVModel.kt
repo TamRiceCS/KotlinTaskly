@@ -46,8 +46,17 @@ class TaskVModel(application: Application): AndroidViewModel(application) {
                 "Completed" -> updateStatus = "Added"
             }
             Log.d("Update Status", "{$base}, will now be {$updateStatus}")
-            TaskActivity.db.taskDao().update(base.task,base.location, base.date, updateStatus)
+            TaskActivity.db.taskDao().updateStatus(base.task,base.location, base.date, updateStatus)
             fetch(base.location, base.date)
+        }
+    }
+
+    fun updateLocation(base: TaskEntity, destination: String, orgin: String){
+        viewModelScope.launch((Dispatchers.IO)) {
+            TaskActivity.db.taskDao().updateLocation(base.task, orgin, destination, base.date)
+            Log.d("Drag Event", "changed from " + orgin + " location to " + destination)
+            fetch(destination, base.date)
+            fetch(orgin, base.date)
         }
     }
 
@@ -58,17 +67,19 @@ class TaskVModel(application: Application): AndroidViewModel(application) {
                     var pureResults = TaskActivity.db.taskDao().getSection(location, date)
                     backendFirst = pureResults
                     firstTasks.postValue(pureResults)
+                    Log.d("Drag Event", "changed First")
                 }
                 "Second" -> {
                     var pureResults = TaskActivity.db.taskDao().getSection(location, date)
                     backendSecond = pureResults
                     secondTasks.postValue(pureResults)
+                    Log.d("Drag Event", "changed Second")
                 }
                 "Third" -> {
                     var pureResults = TaskActivity.db.taskDao().getSection(location, date)
                     backendThird = pureResults
                     thirdTasks.postValue(pureResults)
-                    Log.d("Run Order", "third")
+                    Log.d("Drag Event", "changed Second")
                 }
             }
         }

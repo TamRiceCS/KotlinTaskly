@@ -1,17 +1,18 @@
 package com.example.kotlintaskly
 
+import android.content.ClipData
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
+import android.view.View.DragShadowBuilder
 import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 
-class TaskAdapter(private var mList: ArrayList<TaskEntity>) : RecyclerView.Adapter<TaskAdapter.ViewHolder>(){
-
-
+class TaskAdapter(private var mList: ArrayList<TaskEntity>) : RecyclerView.Adapter<TaskAdapter.ViewHolder>(), View.OnTouchListener{
     private lateinit var completionListener: onItemClickListener
 
     interface onItemClickListener {
@@ -21,6 +22,7 @@ class TaskAdapter(private var mList: ArrayList<TaskEntity>) : RecyclerView.Adapt
     fun setOnItemClickListener(listener: onItemClickListener){
         completionListener = listener
     }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         // inflates each individual task card
@@ -47,6 +49,8 @@ class TaskAdapter(private var mList: ArrayList<TaskEntity>) : RecyclerView.Adapt
             }
         }
         holder.taskText.text = taskDescr
+        holder.layout.tag = position
+        holder.layout.setOnTouchListener(this)
     }
 
     // return the number of the items in the list
@@ -68,28 +72,17 @@ class TaskAdapter(private var mList: ArrayList<TaskEntity>) : RecyclerView.Adapt
         notifyDataSetChanged()
     }
 
-    fun complete(index: Int) {
+    fun removeAt(index: Int) {
         mList.removeAt(index)
         notifyItemRemoved(index)
     }
-
-    fun modify(index: Int) {
-        when(mList[index].status) {
-            "Added" -> mList[index].status = "Started"
-            "Started" -> mList[index].status = "Completed"
-            "Completed" -> mList[index].status = "Added"
-        }
-        Log.d("Update Status", "In the Adapter it is " + mList[index].status)
-        notifyItemChanged(index)
-
-    }
-
 
     // Holds the views for adding it to image and text
     class ViewHolder(itemView: View, listener: onItemClickListener) : RecyclerView.ViewHolder(itemView) {
         val notifBell: ImageButton = itemView.findViewById(R.id.setReminder)
         val completion: ImageButton = itemView.findViewById(R.id.status)
         val taskText: TextView = itemView.findViewById(R.id.taskText)
+        val layout: LinearLayout = itemView.findViewById(R.id.taskLayout)
 
         init{
             completion.setOnClickListener{
@@ -98,4 +91,18 @@ class TaskAdapter(private var mList: ArrayList<TaskEntity>) : RecyclerView.Adapt
         }
 
     }
+
+    override fun onTouch(v: View?, p1: MotionEvent?): Boolean {
+        when (p1!!.getAction()) {
+            MotionEvent.ACTION_DOWN -> {
+                val data = ClipData.newPlainText("", "")
+                val shadowBuilder = DragShadowBuilder(v)
+                v!!.startDragAndDrop(data, shadowBuilder, v, 0)
+                return true
+            }
+        }
+        return false
+    }
+
+
 }

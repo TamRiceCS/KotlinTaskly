@@ -1,12 +1,9 @@
 package com.example.kotlintaskly
 
 import android.content.Context
-import android.graphics.Canvas
-import androidx.core.content.ContextCompat
-import androidx.core.content.contentValuesOf
+
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator
 
 
 abstract class SwipeImplementation(context : Context) : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {

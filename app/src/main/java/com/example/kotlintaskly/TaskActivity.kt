@@ -3,6 +3,7 @@ package com.example.kotlintaskly
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.DragEvent
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -26,7 +27,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.time.LocalDate
 
-class TaskActivity : AppCompatActivity(), View.OnClickListener {
+class TaskActivity : AppCompatActivity(), View.OnClickListener, View.OnDragListener {
 
     val data1 = ArrayList<TaskEntity>()
     val data2 = ArrayList<TaskEntity>()
@@ -86,19 +87,24 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener {
         rv2.layoutManager = LinearLayoutManager(this)
         rv3.layoutManager = LinearLayoutManager(this)
 
+        rv1.setOnDragListener(this)
+        rv2.setOnDragListener(this)
+        rv3.setOnDragListener(this)
+
         val swipe1 = object : SwipeImplementation(this){
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                Log.d("Drag Event", "On Swipped being used")
                 when(direction){
                     ItemTouchHelper.LEFT-> {
                         val deleteEntity = data1[viewHolder.layoutPosition]
                         taskModel.deleteBacklog(deleteEntity)
-                        adapter1.complete(viewHolder.layoutPosition)
+                        adapter1.removeAt(viewHolder.layoutPosition)
                         firstLimit.text = "Limit: " + data1.size.toString() + "/"  + taskModel.firstLimit.value
                     }
                     ItemTouchHelper.RIGHT -> {
                         val deleteEntity = data1[viewHolder.layoutPosition]
                         taskModel.deleteBacklog(deleteEntity)
-                        adapter1.complete(viewHolder.layoutPosition)
+                        adapter1.removeAt(viewHolder.layoutPosition)
                         firstLimit.text = "Limit: " + data1.size.toString() + "/"  + taskModel.firstLimit.value
                     }
                 }
@@ -111,13 +117,13 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener {
                     ItemTouchHelper.LEFT-> {
                         val deleteEntity = data2[viewHolder.layoutPosition]
                         taskModel.deleteBacklog(deleteEntity)
-                        adapter2.complete(viewHolder.layoutPosition)
+                        adapter2.removeAt(viewHolder.layoutPosition)
                         secondLimit.text = "Limit: " + data2.size.toString() + "/"  + taskModel.secondLimit.value
                     }
                     ItemTouchHelper.RIGHT -> {
                         val deleteEntity = data2[viewHolder.layoutPosition]
                         taskModel.deleteBacklog(deleteEntity)
-                        adapter2.complete(viewHolder.layoutPosition)
+                        adapter2.removeAt(viewHolder.layoutPosition)
                         secondLimit.text = "Limit: " + data2.size.toString() + "/"  + taskModel.secondLimit.value
                     }
                 }
@@ -130,13 +136,13 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener {
                     ItemTouchHelper.LEFT-> {
                         val deleteEntity = data3[viewHolder.layoutPosition]
                         taskModel.deleteBacklog(deleteEntity)
-                        adapter3.complete(viewHolder.layoutPosition)
+                        adapter3.removeAt(viewHolder.layoutPosition)
                         thirdLimit.text = "Limit: " + data3.size.toString() + "/"  + taskModel.thirdLimit.value
                     }
                     ItemTouchHelper.RIGHT -> {
                         val deleteEntity = data3[viewHolder.layoutPosition]
                         taskModel.deleteBacklog(deleteEntity)
-                        adapter3.complete(viewHolder.layoutPosition)
+                        adapter3.removeAt(viewHolder.layoutPosition)
                         thirdLimit.text = "Limit: " + data3.size.toString() + "/"  + taskModel.thirdLimit.value
                     }
                 }
@@ -400,6 +406,110 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener {
 
     companion object {
         lateinit var db: TaskDatabase
+    }
+
+    override fun onDrag(p0: View?, p1: DragEvent?): Boolean {
+        when(p1!!.action) {
+            DragEvent.ACTION_DROP -> {
+                val layout = p1.localState as? View
+                val source = layout!!.parent
+                val recyclerView = source!!.parent as RecyclerView
+                val orginAdapter = recyclerView.adapter
+                Log.d("Drag Event", layout.toString())
+
+                if(p0!!.id == R.id.section1) {
+                    Log.d("Drag Event", "destination is section1")
+                    if(recyclerView.id == R.id.section1) {
+                        Log.d("Drag Event", "orgin is section1")
+                        val orginPos = layout.tag as Int
+                        Toast.makeText(this@TaskActivity, "Task " +data1[orginPos].task + " is already in section 1!", Toast.LENGTH_SHORT).show()
+                    }
+                    if(recyclerView.id == R.id.section2) {
+                        Log.d("Drag Event", "orgin is section2 at index" + layout.tag.toString())
+                        if(taskModel.firstLimit.value!! > data1.size) {
+                            val orginPos = layout.tag as Int
+                            taskModel.updateLocation(data2[orginPos], "First", "Second")
+                        }
+                        else{
+                            Toast.makeText(this@TaskActivity, "Sorry Section 1 Limit has been hit.", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                    if(recyclerView.id == R.id.section3) {
+                        Log.d("Drag Event", "orgin is section3")
+                        if(taskModel.firstLimit.value!! > data1.size) {
+                            val orginPos = layout.tag as Int
+                            taskModel.updateLocation(data3[orginPos], "First", "Third")
+                        }
+                        else{
+                            Toast.makeText(this@TaskActivity, "Sorry Section 1 Limit has been hit.", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+
+                }
+
+                if(p0!!.id == R.id.section2) {
+                    Log.d("Drag Event", "destination is section2")
+                    if(recyclerView.id == R.id.section1) {
+                        Log.d("Drag Event", "orgin is section1")
+                        if(taskModel.secondLimit.value!! > data2.size) {
+                            val orginPos = layout.tag as Int
+                            taskModel.updateLocation(data1[orginPos], "Second", "First")
+                        }
+                        else{
+                            Toast.makeText(this@TaskActivity, "Sorry Section 2 Limit has been hit.", Toast.LENGTH_SHORT).show()
+                        }
+
+                    }
+                    if(recyclerView.id == R.id.section2) {
+                        Log.d("Drag Event", "orgin is section2")
+                        val orginPos = layout.tag as Int
+                        Toast.makeText(this@TaskActivity, "Task " +data2[orginPos].task + " is already in section 2!", Toast.LENGTH_SHORT).show()
+                    }
+                    if(recyclerView.id == R.id.section3) {
+                        Log.d("Drag Event", "orgin is section3")
+                        if(taskModel.secondLimit.value!! > data2.size) {
+                            val orginPos = layout.tag as Int
+                            taskModel.updateLocation(data3[orginPos], "Second", "Third")
+                        }
+                        else{
+                            Toast.makeText(this@TaskActivity, "Sorry Section 2 Limit has been hit.", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+
+                if(p0!!.id == R.id.section3) {
+                    Log.d("Drag Event", "destination is section3")
+                    if(recyclerView.id == R.id.section1) {
+                        Log.d("Drag Event", "orgin is section1")
+                        if(taskModel.thirdLimit.value!! > data3.size) {
+                            val orginPos = layout.tag as Int
+                            taskModel.updateLocation(data1[orginPos], "Third", "First")
+                        }
+                        else{
+                            Toast.makeText(this@TaskActivity, "Sorry Section 3 Limit has been hit.", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                    if(recyclerView.id == R.id.section2) {
+                        Log.d("Drag Event", "orgin is section2")
+                        if(taskModel.thirdLimit.value!! > data3.size) {
+                            val orginPos = layout.tag as Int
+                            taskModel.updateLocation(data2[orginPos], "Third", "Second")
+                        }
+                        else{
+                            Toast.makeText(this@TaskActivity, "Sorry Section 3 Limit has been hit.", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                    if(recyclerView.id == R.id.section3) {
+                        Log.d("Drag Event", "orgin is section3")
+                        val orginPos = layout.tag as Int
+                        Toast.makeText(this@TaskActivity, "Task " +data3[orginPos].task + " is already in section 3!", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                return false // return true if successfully placed, else return false
+            }
+        }
+        return true
+
     }
 
 

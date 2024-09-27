@@ -19,5 +19,10 @@ interface TaskDAO {
     fun delete(task: String, location: String, date: String)
 
     @Query("update taskBacklog set status = :status where taskBacklog.task = :task and taskBacklog.location = :location and taskBacklog.date = :date")
-    fun update(task: String, location: String, date: String, status:String)
+    fun updateStatus(task: String, location: String, date: String, status:String)
+
+    @Query("update taskBacklog set location = :newLocation where taskBacklog.task = :task and taskBacklog.location = :oldLocation and taskBacklog.date = :date")
+    fun updateLocation(task: String, oldLocation: String, newLocation: String, date: String)
+
+
 }
