@@ -16,7 +16,7 @@ class DiaryActivity : AppCompatActivity() {
         menuBar = findViewById(R.id.bottomNavigationView)
         menuBar.menu.getItem(1).setChecked(true)
 
-        replaceFragment(CalendarFragment(), "calendar")
+        replaceFragment(DiaryFragment(), "calendar")
 
         menuBar.setOnItemSelectedListener {
             when(it.itemId) {
@@ -50,7 +50,7 @@ class DiaryActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         menuBar.menu.getItem(1).setChecked(true)
-        replaceFragment(CalendarFragment(), "calendar")
+        replaceFragment(DiaryFragment(), "calendar")
     }
 
     private fun replaceFragment(fragment : Fragment, identity: String) {
