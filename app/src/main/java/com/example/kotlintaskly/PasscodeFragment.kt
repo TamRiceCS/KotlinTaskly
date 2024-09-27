@@ -1,6 +1,5 @@
 package com.example.kotlintaskly
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -35,11 +34,6 @@ class PasscodeFragment : Fragment(), View.OnClickListener, View.OnTouchListener 
     private var step = 1
 
     private val viewModel by activityViewModels<LaunchVModel>()
-    private val taskModel by activityViewModels<TaskVModel>()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

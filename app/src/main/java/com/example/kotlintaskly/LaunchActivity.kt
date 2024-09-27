@@ -1,6 +1,7 @@
 package com.example.kotlintaskly
 
 import android.animation.ObjectAnimator
+import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -14,6 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 
 
+@SuppressLint("CustomSplashScreen")
 class LaunchActivity : AppCompatActivity() {
 
     // Data Model is used to track data as it changes live!
@@ -84,14 +86,14 @@ class LaunchActivity : AppCompatActivity() {
 
         // Observe to see if skip button is hit, if so switch activity
         // If a passcode is entered and correct, switch activity
-        dataModel.skip.observe(this, Observer {
+        dataModel.skip.observe(this) {
             if (dataModel.skip.value.toString() == "Skip Key Hit!") {
                 switchActivity()
             }
             if (dataModel.skip.value.toString() == "Correct Passcode") {
                 switchActivity()
             }
-        })
+        }
 
         // Once a user inputs an email that is saved to the datamodel, switch activity
         dataModel.email.observe(this) {

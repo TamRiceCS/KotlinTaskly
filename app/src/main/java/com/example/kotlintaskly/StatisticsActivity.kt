@@ -29,7 +29,7 @@ class StatisticsActivity : AppCompatActivity() {
                     true
                 }
                 R.id.stats -> {
-                    Toast.makeText(this@StatisticsActivity, "Already Here", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Already Here", Toast.LENGTH_SHORT).show()
                     true
                 }
                 R.id.settings-> {

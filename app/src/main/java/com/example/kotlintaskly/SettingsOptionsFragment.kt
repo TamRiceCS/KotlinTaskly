@@ -3,7 +3,6 @@ package com.example.kotlintaskly
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -36,17 +35,13 @@ class SettingsOptionsFragment : Fragment(), View.OnClickListener {
     ): View? {
         val view: View = inflater!!.inflate(R.layout.fragment_settings_options_fragments, container, false)
 
-        var mode = arguments?.getString("case")
+        val mode = arguments?.getString("case")
 
         if(mode != null && mode != "settings") {
             // taskModel.setPin(mode)
-            // TODO: DataStore does need to be a singleton class
+            // TODO: Figure out why this was commented out
         }
 
-
-        if(mode != null) {
-            Log.d("Run Order", mode)
-        }
         resetPin = view.findViewById(R.id.resetPin)
         resetEmail = view.findViewById(R.id.resetEmail)
         taskLimits = view.findViewById(R.id.taskLimits)

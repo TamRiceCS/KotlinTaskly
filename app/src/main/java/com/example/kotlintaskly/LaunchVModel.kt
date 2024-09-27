@@ -1,8 +1,6 @@
 package com.example.kotlintaskly
 
 import android.app.Application
-import android.util.Log
-import androidx.datastore.dataStore
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -31,7 +29,6 @@ class LaunchVModel(application: Application): AndroidViewModel(application) {
                     _isReady.value = true
                 }
                 else {
-                    Log.d("Run Order", "Pin Check is false")
                     data("tutorial")
                     _isReady.value = true
                 }
