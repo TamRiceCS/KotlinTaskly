@@ -8,6 +8,7 @@
     tools:context=".TaskActivity">
 
     <LinearLayout
+        android:id="@+id/mainLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="80dp"
@@ -85,6 +86,7 @@
             android:text="Limit: 0 / ∞" />
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/section1Card"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_margin="10dp"
@@ -95,6 +97,8 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/section1"
                 android:layout_margin="10dp"
+                android:scrollbars="vertical"
+                android:fadeScrollbars="false"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
@@ -124,6 +128,8 @@
                 android:id="@+id/section2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:scrollbars="vertical"
+                android:fadeScrollbars="false"
                 android:layout_margin="10dp"/>
 
         </androidx.cardview.widget.CardView>
@@ -152,6 +158,8 @@
                 android:id="@+id/section3"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:scrollbars="vertical"
+                android:fadeScrollbars="false"
                 android:layout_margin="10dp"/>
 
         </androidx.cardview.widget.CardView>

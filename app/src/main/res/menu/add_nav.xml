@@ -6,7 +6,7 @@
         android:icon="@drawable/list"/>
 
     <item android:id="@+id/diary"
-        android:title="Diary"
+        android:title="Reflect"
         android:icon="@drawable/open_book" />
 
     <item
