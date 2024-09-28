@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DiaryFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".EditDiaryFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -17,31 +17,42 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/textView"
+            <EditText
+                android:id="@+id/title"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:layout_margin="10dp"
                 android:layout_weight="1"
-                android:gravity="center"
+                android:background="@color/nightPurple"
+                android:drawableEnd="@drawable/pen"
+                android:drawablePadding="5dp"
+                android:ems="10"
+                android:fontFamily="@font/quicksand_variablefont_wght"
+                android:hint="Default Name: Date"
+                android:inputType="text"
+                android:paddingHorizontal="10dp"
+                android:text=""
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/entryText"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="8"
+                android:layout_margin="5dp"
+                android:gravity="center|top"
+                android:padding="10dp"
                 android:background="@color/nightPurple"
                 android:textColor="@color/white"
-                android:layout_margin="10dp"
-                android:textSize="20sp"
+                android:ems="10"
+                android:inputType="textMultiLine"
                 android:fontFamily="@font/quicksand_variablefont_wght"
                 android:textStyle="bold"
-                android:text="Reflection Entries" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/diaryRV"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:scrollbars="vertical"
-                android:fadeScrollbars="false"
-                android:layout_margin="5dp"
-                android:background="@color/nightPurple"
-                android:layout_weight="8">
-
-            </androidx.recyclerview.widget.RecyclerView>
+                android:hint="Click here to start and type your entry, default text will disappear when you start typing..."
+                android:textColorHint="@color/white"
+                android:text="" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -53,29 +64,30 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/drafts"
+                    android:id="@+id/discard"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="50dp"
                     android:layout_margin="10dp"
                     android:backgroundTint="@color/sunsetPurple"
                     android:fontFamily="@font/cormorantgaramond_regular"
-                    android:text="Drafts"
+                    android:text="Discard"
                     android:textSize="15sp"
                     android:textStyle="bold" />
                 <Button
-                    android:id="@+id/add"
+                    android:id="@+id/publish"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="50dp"
                     android:layout_margin="10dp"
                     android:backgroundTint="@color/sunsetPurple"
                     android:fontFamily="@font/cormorantgaramond_regular"
-                    android:text="Add"
+                    android:text="Publish"
                     android:textSize="15sp"
                     android:textStyle="bold" />
 
             </LinearLayout>
+
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

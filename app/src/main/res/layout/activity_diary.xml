@@ -82,4 +82,5 @@
             app:menu="@menu/add_nav_nonfab" />
 
     </com.google.android.material.bottomappbar.BottomAppBar>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
