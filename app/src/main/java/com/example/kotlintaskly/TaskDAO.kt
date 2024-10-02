@@ -22,5 +22,11 @@ interface TaskDAO {
     @Query("update taskBacklog set location = :newLocation where taskBacklog.task = :task and taskBacklog.location = :oldLocation and taskBacklog.date = :date")
     fun updateLocation(task: String, oldLocation: String, newLocation: String, date: String)
 
+    @Query("select count(*) from taskBacklog where taskBacklog.status = :status and taskBacklog.date = :date")
+    fun count(status: String, date: String) : Int
+
+    @Query("delete from taskBacklog")
+    fun clearData()
+
 
 }

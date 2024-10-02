@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:layout_weight="5"
-            android:text="Week Span Text"
+            android:text="@string/week_span_text"
             android:textColor="@color/black"
             android:textSize="16sp" />
 

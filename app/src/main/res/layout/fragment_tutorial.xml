@@ -18,11 +18,11 @@
             android:orientation="vertical">
 
                 <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/window"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="5"
-                    android:layout_margin="10dp"
-                    android:background="@color/black">
+                    android:layout_margin="10dp">
 
                 </androidx.viewpager2.widget.ViewPager2>
 
@@ -33,25 +33,14 @@
                 android:gravity="center"
                 android:orientation="horizontal">
 
-                <ImageButton
-                    android:id="@+id/button3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:layout_weight="1"
-                    android:layout_margin="20dp"
-                    android:backgroundTint="@color/lightBlue"
-                    android:src="@drawable/arrow_left"
-                    />
-
-                <ImageButton
-                    android:id="@+id/button4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:layout_weight="1"
-                    android:layout_margin="20dp"
-                    android:backgroundTint="@color/lightBlue"
-                    android:src="@drawable/arrow_right"/>
+                <me.relex.circleindicator.CircleIndicator3
+                    android:id="@+id/progress"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:background="@color/lightBlue"/>
             </LinearLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -67,7 +56,7 @@
                     android:backgroundTint="@color/lightBlue"
                     android:fontFamily="@font/cormorantgaramond_regular"
                     android:textStyle="bold"
-                    android:text="Skip"
+                    android:text="@string/start_planning"
                     android:textColor="@color/white" />
             </LinearLayout>
 

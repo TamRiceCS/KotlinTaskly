@@ -17,7 +17,6 @@ abstract class SwipeImplementation(context : Context) : ItemTouchHelper.SimpleCa
     }
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-        TODO("Not yet implemented")
     }
 
 }

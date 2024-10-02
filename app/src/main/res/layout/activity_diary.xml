@@ -31,7 +31,7 @@
                     android:id="@+id/launchHeader"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Diary"
+                    android:text="@string/diary"
                     android:fontFamily="@font/cormorantgaramond_regular"
                     android:textStyle="bold"
                     android:textColor="@color/white"

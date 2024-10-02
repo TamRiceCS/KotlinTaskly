@@ -88,8 +88,14 @@ dependencies {
     // To use Kotlin annotation processing tool (kapt)
     ksp("androidx.room:room-compiler:$room_version")
 
-    // Recycler View Decorator
-    implementation ("it.xabaras.android:recyclerview-swipedecorator:1.4")
+    // pie chart builder
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+
+    // View pager stuff
+    implementation("androidx.viewpager2:viewpager2:1.1.0")
+    implementation ("me.relex:circleindicator:2.1.6")
+
+
 
 
 

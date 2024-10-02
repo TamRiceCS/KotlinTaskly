@@ -39,7 +39,7 @@
                     android:layout_margin="10dp"
                     android:autofillHints="Enter Task Name"
                     android:ems="10"
-                    android:hint="Name of Task..."
+                    android:hint="@string/name_of_task"
                     android:fontFamily="@font/quicksand_variablefont_wght"
                     android:textStyle="bold"
                     android:inputType="text" />
@@ -71,7 +71,7 @@
                     android:backgroundTint="@color/forestGreen"
                     android:fontFamily="@font/quicksand_variablefont_wght"
                     android:textStyle="bold"
-                    android:text="Add Task" />
+                    android:text="@string/add_task" />
 
                 <Button
                     android:id="@+id/cancelTask"
@@ -82,7 +82,7 @@
                     android:backgroundTint="@color/gentleRed"
                     android:fontFamily="@font/quicksand_variablefont_wght"
                     android:textStyle="bold"
-                    android:text="Cancel Task" />
+                    android:text="@string/cancel_task" />
 
 
             </LinearLayout>

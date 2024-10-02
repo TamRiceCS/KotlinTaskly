@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import java.time.LocalDate
 
@@ -19,6 +20,7 @@ class EditDiaryFragment : Fragment(), View.OnClickListener {
     private lateinit var title: EditText
     private lateinit var entry : EditText
     private var mode: String? = null
+    private var oldTitle: String? = null
     private var date : String? = null
 
 
@@ -40,6 +42,24 @@ class EditDiaryFragment : Fragment(), View.OnClickListener {
         discard = view.findViewById(R.id.discard)
         publish = view.findViewById(R.id.publish)
 
+        if(mode == "update") {
+            title.setText(arguments?.getString("title"))
+            entry.setText(arguments?.getString("text"))
+            oldTitle = title.text.toString()
+            date = arguments?.getString("date")
+
+        }
+
+        if(mode == "view") {
+            title.setText(arguments?.getString("title"))
+            entry.setText(arguments?.getString("text"))
+            title.isEnabled = false
+            entry.isEnabled = false
+            publish.isEnabled = false
+            publish.isVisible = false
+            discard.text = getString(R.string.back_to_entries)
+        }
+
         discard.setOnClickListener(this)
         publish.setOnClickListener(this)
 
@@ -60,23 +80,49 @@ class EditDiaryFragment : Fragment(), View.OnClickListener {
     override fun onClick(p0: View?) {
         when(p0!!.id) {
             R.id.discard -> {
-                replaceFragment(DiaryFragment(), "diary")
-            }
-            R.id.publish -> {
-                if(mode == "new")
+                if(mode == "new") {
                     if(entry.text.toString() == "") {
-                        Toast.makeText(activity, "Can't publish an empty entry", Toast.LENGTH_SHORT).show()
+                        replaceFragment(DiaryFragment(), "diary")
                     }
-                else{
-                        Toast.makeText(activity, "Published your entry", Toast.LENGTH_SHORT).show()
+                    else{
+                        Toast.makeText(activity, "Saved as a draft", Toast.LENGTH_SHORT).show()
                         date = LocalDate.now().toString()
-                        var insertEntry = DiaryEntity(title.text.toString(), entry.text.toString(), date!!, "Published")
+                        val insertEntry = DiaryEntity(title.text.toString(), entry.text.toString(), date!!, "Drafted")
                         if(title.text.toString() == "") {
                             insertEntry.title = date.toString()
                         }
                         viewModel.insertBacklog(insertEntry);
                         replaceFragment(DiaryFragment(), "done")
                     }
+
+                }
+                else{
+                    replaceFragment(DiaryFragment(), "done")
+                }
+
+            }
+            R.id.publish -> {
+                if(mode == "new") {
+                    if(entry.text.toString() == "") {
+                        Toast.makeText(activity, "Can't publish an empty entry", Toast.LENGTH_SHORT).show()
+                    }
+                    else{
+                        Toast.makeText(activity, "Published your entry", Toast.LENGTH_SHORT).show()
+                        date = LocalDate.now().toString()
+                        val insertEntry = DiaryEntity(title.text.toString(), entry.text.toString(), date!!, "Published")
+                        if(title.text.toString() == "") {
+                            insertEntry.title = date.toString()
+                        }
+                        viewModel.insertBacklog(insertEntry);
+                        replaceFragment(DiaryFragment(), "done")
+                    }
+                }
+
+                else{
+                    viewModel.updateBacklog(oldTitle!!, title.text.toString(), date!!.toString(), entry.text.toString())
+                    replaceFragment(DiaryFragment(), "done")
+                }
+
             }
         }
     }

@@ -27,7 +27,7 @@
                 android:textSize="26sp"
                 android:gravity="center"
                 android:layout_margin="10dp"
-                android:text="Please Enter Recovery Email" />
+                android:text="@string/please_enter_recovery_email" />
 
             <LinearLayout
                 android:id="@+id/margin"
@@ -61,7 +61,7 @@
                         android:textColor="@color/white"
                         app:hintTextColor="@color/white"
                         android:textSize="18sp"
-                        android:hint="Email"/>
+                        android:hint="@string/email"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -85,7 +85,7 @@
                         app:startIconDrawable="@drawable/mail"
                         android:fontFamily="@font/cormorantgaramond_regular"
                         android:textStyle="bold"
-                        android:hint="Confirm Email"
+                        android:hint="@string/confirm_email"
                         android:textColor="@color/white"
                         app:hintTextColor="@color/white"
                         android:textSize="18sp"/>
@@ -109,7 +109,7 @@
                     android:textStyle="bold"
                     android:layout_margin="10dp"
                     android:backgroundTint="@color/gentleRed"
-                    android:text="Skip" />
+                    android:text="@string/skip" />
 
                 <Button
                     android:id="@+id/submit"
@@ -120,7 +120,7 @@
                     android:fontFamily="@font/cormorantgaramond_regular"
                     android:textStyle="bold"
                     android:backgroundTint="@color/lightForestGreen"
-                    android:text="Submit" />
+                    android:text="@string/submit" />
             </LinearLayout>
         </LinearLayout>
 

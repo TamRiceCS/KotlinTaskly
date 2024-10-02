@@ -36,7 +36,7 @@
                     android:backgroundTint="@color/lightForestGreen"
                     android:fontFamily="@font/quicksand_variablefont_wght"
                     android:textStyle="bold"
-                    android:text="Reset Pin" />
+                    android:text="@string/reset_pin" />
 
                 <Button
                     android:id="@+id/resetEmail"
@@ -46,7 +46,7 @@
                     android:backgroundTint="@color/lightBlue"
                     android:fontFamily="@font/quicksand_variablefont_wght"
                     android:textStyle="bold"
-                    android:text="Reset Email" />
+                    android:text="@string/reset_email" />
 
                 <Button
                     android:id="@+id/taskLimits"
@@ -56,17 +56,17 @@
                     android:backgroundTint="@color/lightForestGreen"
                     android:fontFamily="@font/quicksand_variablefont_wght"
                     android:textStyle="bold"
-                    android:text="Set Task Limits" />
+                    android:text="@string/set_task_limits" />
 
                 <Button
-                    android:id="@+id/sendFeedback"
+                    android:id="@+id/removePin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:backgroundTint="@color/lightBlue"
                     android:fontFamily="@font/quicksand_variablefont_wght"
                     android:textStyle="bold"
-                    android:text="Send Feedback" />
+                    android:text="@string/remove_pin" />
 
                 <Button
                     android:id="@+id/clearData"
@@ -76,7 +76,7 @@
                     android:backgroundTint="@color/gentleRed"
                     android:fontFamily="@font/quicksand_variablefont_wght"
                     android:textStyle="bold"
-                    android:text="Clear Data" />
+                    android:text="@string/clear_data" />
             </LinearLayout>
 
             <LinearLayout

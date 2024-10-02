@@ -16,8 +16,10 @@ interface DiaryDAO {
     @Query("delete from diaryBacklog where diaryBacklog.title = :title and diaryBacklog.date = :date")
     fun delete(title: String, date: String)
 
-    @Query("update diaryBacklog set entry = :newEntry where diaryBacklog.title = :title and diaryBacklog.date = :date")
-    fun updateStatus(newEntry: String, title: String, date: String)
+    @Query("update diaryBacklog set entry = :newEntry, title = :newTitle where diaryBacklog.title = :title and diaryBacklog.date = :date")
+    fun updateStatus(newEntry: String, newTitle: String, title: String, date: String)
 
+    @Query("delete from diaryBacklog")
+    fun clearData()
 
 }

@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:layout_weight="5"
-            android:text="Generic Task Text"
+            android:text="@string/generic_task_text"
             android:fontFamily="@font/quicksand_variablefont_wght"
             android:textStyle="bold"
             android:textColor="@color/black"
@@ -39,15 +39,5 @@
             android:layout_weight="1"
             android:backgroundTint="@color/gray"
             app:srcCompat="@drawable/added" />
-
-        <ImageButton
-            android:id="@+id/setReminder"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
-            android:background="@color/lightBlue"
-            android:padding="5dp"
-            android:src="@drawable/bell" />
     </LinearLayout>
 </RelativeLayout>

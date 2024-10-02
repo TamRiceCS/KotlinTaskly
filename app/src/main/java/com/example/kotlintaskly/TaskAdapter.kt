@@ -58,12 +58,6 @@ class TaskAdapter(private var mList: ArrayList<TaskEntity>) : RecyclerView.Adapt
         return mList.size
     }
 
-    // add items to list
-    fun addAndInform(item : TaskEntity, position: Int) {
-        mList.add(position, item)
-        notifyItemInserted(position)
-    }
-
     fun dayChange(newDay : ArrayList<TaskEntity>) {
         mList.clear()
         for(elem in newDay) {
@@ -79,7 +73,6 @@ class TaskAdapter(private var mList: ArrayList<TaskEntity>) : RecyclerView.Adapt
 
     // Holds the views for adding it to image and text
     class ViewHolder(itemView: View, listener: onItemClickListener) : RecyclerView.ViewHolder(itemView) {
-        val notifBell: ImageButton = itemView.findViewById(R.id.setReminder)
         val completion: ImageButton = itemView.findViewById(R.id.status)
         val taskText: TextView = itemView.findViewById(R.id.taskText)
         val layout: LinearLayout = itemView.findViewById(R.id.taskLayout)

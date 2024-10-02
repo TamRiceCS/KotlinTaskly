@@ -1,7 +1,6 @@
 package com.example.kotlintaskly
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -44,6 +43,11 @@ class PasscodeFragment : Fragment(), View.OnClickListener, View.OnTouchListener 
 
         mode = arguments?.getString("case") // get case that is passed as launching argument
 
+        if(mode == "remove" && viewModel.returnPin() == "none") {
+            Toast.makeText(activity, "You don't have a pin to reset...", Toast.LENGTH_SHORT).show()
+            replaceFragment(SettingsOptionsFragment(), "done")
+        }
+
 
         instructionText = view.findViewById(R.id.instructionPin)
         recoverBttn  = view.findViewById(R.id.recoverSkipBttn)
@@ -65,21 +69,28 @@ class PasscodeFragment : Fragment(), View.OnClickListener, View.OnTouchListener 
 
         when (mode) {
             "new" -> {
-                instructionText!!.text = "New Passcode"
-                recoverBttn!!.text = "Skip Passcode"
+                instructionText!!.text = getString(R.string.new_passcode)
+                recoverBttn!!.text = getString(R.string.skip_passcode)
                 retry?.visibility = View.INVISIBLE
 
             }
             "reset" -> {
-                instructionText!!.text = "Reset Passcode"
-                recoverBttn!!.text = "Cancel Reset"
+                instructionText!!.text = getString(R.string.reset_passcode)
+                recoverBttn!!.text = getString(R.string.cancel_reset)
+                retry?.visibility = View.INVISIBLE
+            }
+
+            "remove" -> {
+                instructionText!!.text = getString(R.string.remove_pin)
+                recoverBttn!!.text = getString(R.string.cancel_removal)
+                submit!!.text = getString(R.string.verify_and_remove)
                 retry?.visibility = View.INVISIBLE
             }
 
             // return
             else -> {
-                instructionText!!.text = "Enter Passcode"
-                recoverBttn!!.text = "Recover Passcode"
+                instructionText!!.text = getString(R.string.enter_passcode)
+                recoverBttn!!.text = getString(R.string.recover_passcode)
                 retry?.visibility = View.INVISIBLE
                 step = 3
             }
@@ -113,7 +124,7 @@ class PasscodeFragment : Fragment(), View.OnClickListener, View.OnTouchListener 
         when(bttn.id) {
             R.id.recoverSkipBttn -> {
                 // cancel reset
-                if(mode == "reset") {
+                if(mode == "reset" || mode == "remove") {
                     replaceFragment(SettingsOptionsFragment(), "none")
                 }
                 // skip this whole pin setting process
@@ -131,10 +142,21 @@ class PasscodeFragment : Fragment(), View.OnClickListener, View.OnTouchListener 
 
             R.id.submitBttn -> {
                 // step 1: choose a pin to set
-                if(step == 1) {
+                if(mode == "remove") {
+                    val passcodeAttempt: String = pin1!!.text.toString() + pin2!!.text.toString() + pin3!!.text.toString() + pin4!!.text.toString()
+                    if(viewModel.returnPin() == passcodeAttempt) {
+                        viewModel.data("none")
+                        replaceFragment(SettingsOptionsFragment(), "done")
+                        Toast.makeText(activity, "Pin has been removed", Toast.LENGTH_SHORT).show()
+                    }
+                    else{
+                        Toast.makeText(activity, "Pin did not match, not cleared...", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                else if(step == 1) {
                     val passcodeAttempt: String = pin1!!.text.toString() + pin2!!.text.toString() + pin3!!.text.toString() + pin4!!.text.toString()
                     if(passcodeAttempt.length == 4) {
-                        instructionText!!.text = "Please confirm pin"
+                        instructionText!!.text = getString(R.string.please_confirm_pin)
                         instructionText!!.setBackgroundResource(R.drawable.roundtransparent_lightforestgreenglass)
 
                         pin1!!.text.clear()
@@ -156,7 +178,7 @@ class PasscodeFragment : Fragment(), View.OnClickListener, View.OnTouchListener 
                 }
 
                 // step 2: confirm pin to set
-                if(step == 2) {
+                else if(step == 2) {
                     val passcodeAttempt: String = pin1!!.text.toString() + pin2!!.text.toString() + pin3!!.text.toString() + pin4!!.text.toString()
 
                     if(passcodeAttempt == passcode) {
@@ -165,7 +187,6 @@ class PasscodeFragment : Fragment(), View.OnClickListener, View.OnTouchListener 
                                 replaceFragment(RecoveryFragment(), passcodeAttempt)
                             }
                             else {
-                                Log.d("Run Order", "Ran reset mode code...")
                                 replaceFragment(SettingsOptionsFragment(), passcodeAttempt)
                             }
                         }
@@ -177,7 +198,7 @@ class PasscodeFragment : Fragment(), View.OnClickListener, View.OnTouchListener 
                 }
 
                 // mode 3: user returns and enters pin
-                if(step == 3) {
+                else if(step == 3) {
                     val backendPass = viewModel.returnPin()
                     val passcodeAttempt: String = pin1!!.text.toString() + pin2!!.text.toString() + pin3!!.text.toString() + pin4!!.text.toString()
 
@@ -191,7 +212,7 @@ class PasscodeFragment : Fragment(), View.OnClickListener, View.OnTouchListener 
             }
 
             R.id.retryBttn -> {
-                instructionText!!.text = "Please Enter Your Pin"
+                instructionText!!.text = getString(R.string.please_enter_your_pin)
                 instructionText!!.setBackgroundResource(R.drawable.roundtransparent_forestgreenglass)
 
                 pin1!!.text.clear()
@@ -212,7 +233,6 @@ class PasscodeFragment : Fragment(), View.OnClickListener, View.OnTouchListener 
     }
 
 
-    // TODO: consider why the code gets angry about perform click
     override fun onTouch(clicked: View?, event: MotionEvent?): Boolean {
 
         if(clicked!!.id == R.id.pin1 && event!!.action == MotionEvent.ACTION_UP) {

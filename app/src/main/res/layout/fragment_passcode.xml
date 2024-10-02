@@ -24,7 +24,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/roundtransparent_forestgreenglass"
                 android:gravity="center"
-                android:text="Please Enter Your Pin"
+                android:text="@string/please_enter_your_pin"
                 android:fontFamily="@font/cormorantgaramond_regular"
                 android:textStyle="bold"
                 android:textColor="@color/white"
@@ -203,7 +203,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:backgroundTint="@color/gentleRed"
-                    android:text="Recover Passocde"
+                    android:text="@string/recover_passocde"
                     android:fontFamily="@font/quicksand_variablefont_wght"
                     android:textStyle="bold"
                     android:textColor="@color/white"
@@ -218,7 +218,7 @@
                     android:textColor="@color/white"
                     android:fontFamily="@font/quicksand_variablefont_wght"
                     android:textStyle="bold"
-                    android:text="Submit Pin" />
+                    android:text="@string/submit_pin" />
 
                 <Button
                     android:id="@+id/retryBttn"
@@ -226,7 +226,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:backgroundTint="@color/lightBlue"
-                    android:text="Retry with New Pin"
+                    android:text="@string/retry_with_new_pin"
                     android:fontFamily="@font/quicksand_variablefont_wght"
                     android:textStyle="bold"
                     android:textColor="@color/white"

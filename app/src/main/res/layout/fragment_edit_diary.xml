@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".EditDiaryFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -28,7 +27,7 @@
                 android:drawablePadding="5dp"
                 android:ems="10"
                 android:fontFamily="@font/quicksand_variablefont_wght"
-                android:hint="Default Name: Date"
+                android:hint="@string/default_name_date"
                 android:inputType="text"
                 android:paddingHorizontal="10dp"
                 android:text=""
@@ -50,7 +49,7 @@
                 android:inputType="textMultiLine"
                 android:fontFamily="@font/quicksand_variablefont_wght"
                 android:textStyle="bold"
-                android:hint="Click here to start and type your entry, default text will disappear when you start typing..."
+                android:hint="@string/click_here_to_start_and_type_your_entry_default_text_will_disappear_when_you_start_typing"
                 android:textColorHint="@color/white"
                 android:text="" />
 
@@ -71,7 +70,7 @@
                     android:layout_margin="10dp"
                     android:backgroundTint="@color/sunsetPurple"
                     android:fontFamily="@font/cormorantgaramond_regular"
-                    android:text="Discard"
+                    android:text="@string/discard"
                     android:textSize="15sp"
                     android:textStyle="bold" />
                 <Button
@@ -82,7 +81,7 @@
                     android:layout_margin="10dp"
                     android:backgroundTint="@color/sunsetPurple"
                     android:fontFamily="@font/cormorantgaramond_regular"
-                    android:text="Publish"
+                    android:text="@string/publish"
                     android:textSize="15sp"
                     android:textStyle="bold" />
 

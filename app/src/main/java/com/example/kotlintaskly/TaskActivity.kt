@@ -2,7 +2,6 @@ package com.example.kotlintaskly
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.DragEvent
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -48,10 +47,9 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener, View.OnDragListe
     private lateinit var secondLimit: TextView
     private lateinit var thirdLimit: TextView
 
-    var dayNum: Long = 0
-    val currentDate = LocalDate.now()
+    private var dayNum: Long = 0
     val date = LocalDate.now()
-    var dow: String = date.dayOfWeek.toString()
+    private var dow: String = date.dayOfWeek.toString()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,8 +67,8 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener, View.OnDragListe
         topNav = findViewById(R.id.topNavBG)
         timeWarning = findViewById(R.id.dowTime)
 
-        var prior : ImageButton = findViewById(R.id.priorDay)
-        var next : ImageButton = findViewById(R.id.nextDay)
+        val prior : ImageButton = findViewById(R.id.priorDay)
+        val next : ImageButton = findViewById(R.id.nextDay)
 
         prior.setOnClickListener(this)
         next.setOnClickListener(this)
@@ -93,7 +91,6 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener, View.OnDragListe
 
         val swipe1 = object : SwipeImplementation(this){
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                Log.d("Drag Event", "On Swipped being used")
                 when(direction){
                     ItemTouchHelper.LEFT-> {
                         val deleteEntity = data1[viewHolder.layoutPosition]
@@ -178,7 +175,7 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener, View.OnDragListe
         rv2.adapter = adapter2
         rv3.adapter = adapter3
 
-        var addTask : FloatingActionButton = findViewById(R.id.fab)
+        val addTask : FloatingActionButton = findViewById(R.id.fab)
         addTask.setOnClickListener(this)
 
         menuBar = findViewById(R.id.bottomNavigationView)
@@ -187,23 +184,19 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener, View.OnDragListe
         menuBar.setOnItemSelectedListener {
             when(it.itemId) {
                 R.id.home -> {
-                    Toast.makeText(this@TaskActivity, "Already Here", Toast.LENGTH_SHORT).show()
                     true
                 }
                 R.id.diary -> {
-                    Toast.makeText(this@TaskActivity, "Diary", Toast.LENGTH_SHORT).show()
                     val intent = Intent(this, DiaryActivity::class.java)
                     startActivity(intent)
                     true
                 }
                 R.id.stats -> {
-                    Toast.makeText(this@TaskActivity, "Statistics", Toast.LENGTH_SHORT).show()
                     val intent = Intent(this, StatisticsActivity::class.java)
                     startActivity(intent)
                     true
                 }
                 R.id.settings-> {
-                    Toast.makeText(this@TaskActivity, "Settings", Toast.LENGTH_SHORT).show()
                     val intent = Intent(this, SettingsActivity::class.java)
                     startActivity(intent)
                     true
@@ -217,17 +210,14 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener, View.OnDragListe
         taskModel.firstTasks.observe(this) {
             adapter1.dayChange(ArrayList(taskModel.backendFirst))
             firstLimit.text = "Limit: " + taskModel.backendFirst!!.size.toString() + "/"  + taskModel.firstLimit.value
-            Log.d("Run Order", "Observed a change in section 1 " + data1.size)
         }
         taskModel.secondTasks.observe(this) {
             adapter2.dayChange(ArrayList(taskModel.backendSecond))
             secondLimit.text = "Limit: " + taskModel.backendSecond!!.size.toString() + "/"  + taskModel.secondLimit.value
-            Log.d("Run Order", "Observed a change in section 2 " + data2.size)
         }
         taskModel.thirdTasks.observe(this) {
             adapter3.dayChange(ArrayList(taskModel.backendThird))
             thirdLimit.text = "Limit: " + taskModel.backendThird!!.size.toString() + "/"  + taskModel.thirdLimit.value
-            Log.d("Run Order", "Observed a change in section 3 " + data3.size)
         }
 
         taskModel.firstLimit.observe(this){
@@ -260,9 +250,23 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener, View.OnDragListe
         super.onResume()
         menuBar.menu.getItem(0).setChecked(true)
 
-        taskModel.fetch("First", date.toString())
-        taskModel.fetch("Second", date.toString())
-        taskModel.fetch("Third", date.toString())
+        if(dayNum > 0) {
+            taskModel.fetch("First", date.plusDays(dayNum).toString())
+            taskModel.fetch("Second", date.plusDays(dayNum).toString())
+            taskModel.fetch("Third", date.plusDays(dayNum).toString())
+        }
+
+        else if(dayNum < 0) {
+            taskModel.fetch("First", date.minusDays(dayNum * -1).toString())
+            taskModel.fetch("Second", date.minusDays(dayNum * -1).toString())
+            taskModel.fetch("Third", date.minusDays(dayNum * -1).toString())
+        }
+
+        else{
+            taskModel.fetch("First", date.toString())
+            taskModel.fetch("Second", date.toString())
+            taskModel.fetch("Third", date.toString())
+        }
 
         taskModel.getLimit("FirstLimit")
         taskModel.getLimit("SecondLimit")
@@ -301,7 +305,7 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener, View.OnDragListe
             }
 
             addTaskPop.setOnClickListener(View.OnClickListener {
-                var insertData = TaskEntity("Add Button Clicked", section, date.plusDays(dayNum).toString(), "Added")
+                val insertData = TaskEntity("Add Button Clicked", section, date.plusDays(dayNum).toString(), "Added")
                 val task = addText.text.toString()
 
                 if(task == "") {
@@ -317,7 +321,6 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener, View.OnDragListe
 
                     else{
                         Toast.makeText(this@TaskActivity, "First task limit has been reached", Toast.LENGTH_SHORT).show()
-                        Log.d("checked", "Limit hit")
                     }
 
                 }
@@ -346,9 +349,9 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener, View.OnDragListe
                 popupWindow.dismiss()
             })
 
-            cancelTaskPop.setOnClickListener(View.OnClickListener {
+            cancelTaskPop.setOnClickListener {
                 popupWindow.dismiss()
-            })
+            }
 
             spinner.onItemSelectedListener = object :
                 AdapterView.OnItemSelectedListener {
@@ -364,11 +367,10 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener, View.OnDragListe
 
 
         }
-        if(p0!!.id == R.id.priorDay) {
+        if(p0.id == R.id.priorDay) {
             if(dayNum > -7) {
                 dayNum--
                 dayBox.text = date.dayOfWeek.plus(dayNum).toString()
-                Log.d("Run Order", date.minusDays(dayNum).toString() + " " + dayNum)
                 taskModel.fetch("First", date.minusDays(dayNum * -1).toString())
                 taskModel.fetch("Second", date.minusDays(dayNum * -1).toString())
                 taskModel.fetch("Third", date.minusDays(dayNum * -1).toString())
@@ -376,11 +378,10 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener, View.OnDragListe
             }
         }
 
-        if(p0!!.id == R.id.nextDay) {
+        if(p0.id == R.id.nextDay) {
             if(dayNum < 7) {
                 dayNum++
                 dayBox.text = date.dayOfWeek.plus(dayNum).toString()
-                Log.d("Run Order", date.plusDays(dayNum).toString() + " " + dayNum)
                 taskModel.fetch("First", date.plusDays(dayNum).toString())
                 taskModel.fetch("Second", date.plusDays(dayNum).toString())
                 taskModel.fetch("Third", date.plusDays(dayNum).toString())
@@ -389,18 +390,18 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener, View.OnDragListe
         }
     }
 
-    fun changeTopNavDetails() {
+    private fun changeTopNavDetails() {
         if(dayNum > 0) {
             topNav.setBackgroundResource(R.drawable.roundtransparent_lightforestgreenglass)
-            timeWarning.text = "Future"
+            timeWarning.text = getString(R.string.future)
         }
         else if(dayNum < 0) {
             topNav.setBackgroundResource(R.drawable.roundtransparent_lightforestgreenglass)
-            timeWarning.text = "Past"
+            timeWarning.text = getString(R.string.past)
         }
         else{
             topNav.setBackgroundResource(R.drawable.roundtransparent_forestgreenglass)
-            timeWarning.text = "Present"
+            timeWarning.text = getString(R.string.present)
         }
     }
 
@@ -414,18 +415,13 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener, View.OnDragListe
                 val layout = p1.localState as? View
                 val source = layout!!.parent
                 val recyclerView = source!!.parent as RecyclerView
-                val orginAdapter = recyclerView.adapter
-                Log.d("Drag Event", layout.toString())
 
                 if(p0!!.id == R.id.section1) {
-                    Log.d("Drag Event", "destination is section1")
                     if(recyclerView.id == R.id.section1) {
-                        Log.d("Drag Event", "orgin is section1")
                         val orginPos = layout.tag as Int
                         Toast.makeText(this@TaskActivity, "Task " +data1[orginPos].task + " is already in section 1!", Toast.LENGTH_SHORT).show()
                     }
                     if(recyclerView.id == R.id.section2) {
-                        Log.d("Drag Event", "orgin is section2 at index" + layout.tag.toString())
                         if(taskModel.firstLimit.value!! > data1.size) {
                             val orginPos = layout.tag as Int
                             taskModel.updateLocation(data2[orginPos], "First", "Second")
@@ -435,7 +431,6 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener, View.OnDragListe
                         }
                     }
                     if(recyclerView.id == R.id.section3) {
-                        Log.d("Drag Event", "orgin is section3")
                         if(taskModel.firstLimit.value!! > data1.size) {
                             val orginPos = layout.tag as Int
                             taskModel.updateLocation(data3[orginPos], "First", "Third")
@@ -447,10 +442,8 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener, View.OnDragListe
 
                 }
 
-                if(p0!!.id == R.id.section2) {
-                    Log.d("Drag Event", "destination is section2")
+                if(p0.id == R.id.section2) {
                     if(recyclerView.id == R.id.section1) {
-                        Log.d("Drag Event", "orgin is section1")
                         if(taskModel.secondLimit.value!! > data2.size) {
                             val orginPos = layout.tag as Int
                             taskModel.updateLocation(data1[orginPos], "Second", "First")
@@ -461,12 +454,10 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener, View.OnDragListe
 
                     }
                     if(recyclerView.id == R.id.section2) {
-                        Log.d("Drag Event", "orgin is section2")
                         val orginPos = layout.tag as Int
                         Toast.makeText(this@TaskActivity, "Task " +data2[orginPos].task + " is already in section 2!", Toast.LENGTH_SHORT).show()
                     }
                     if(recyclerView.id == R.id.section3) {
-                        Log.d("Drag Event", "orgin is section3")
                         if(taskModel.secondLimit.value!! > data2.size) {
                             val orginPos = layout.tag as Int
                             taskModel.updateLocation(data3[orginPos], "Second", "Third")
@@ -477,10 +468,8 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener, View.OnDragListe
                     }
                 }
 
-                if(p0!!.id == R.id.section3) {
-                    Log.d("Drag Event", "destination is section3")
+                if(p0.id == R.id.section3) {
                     if(recyclerView.id == R.id.section1) {
-                        Log.d("Drag Event", "orgin is section1")
                         if(taskModel.thirdLimit.value!! > data3.size) {
                             val orginPos = layout.tag as Int
                             taskModel.updateLocation(data1[orginPos], "Third", "First")
@@ -490,7 +479,6 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener, View.OnDragListe
                         }
                     }
                     if(recyclerView.id == R.id.section2) {
-                        Log.d("Drag Event", "orgin is section2")
                         if(taskModel.thirdLimit.value!! > data3.size) {
                             val orginPos = layout.tag as Int
                             taskModel.updateLocation(data2[orginPos], "Third", "Second")
@@ -500,7 +488,6 @@ class TaskActivity : AppCompatActivity(), View.OnClickListener, View.OnDragListe
                         }
                     }
                     if(recyclerView.id == R.id.section3) {
-                        Log.d("Drag Event", "orgin is section3")
                         val orginPos = layout.tag as Int
                         Toast.makeText(this@TaskActivity, "Task " +data3[orginPos].task + " is already in section 3!", Toast.LENGTH_SHORT).show()
                     }

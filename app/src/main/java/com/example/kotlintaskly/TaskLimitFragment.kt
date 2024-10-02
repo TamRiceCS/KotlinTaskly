@@ -1,7 +1,6 @@
 package com.example.kotlintaskly
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -21,8 +20,6 @@ class TaskLimitFragment : Fragment(), View.OnClickListener {
 
     private val taskModel by activityViewModels<TaskVModel>()
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -32,15 +29,15 @@ class TaskLimitFragment : Fragment(), View.OnClickListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view: View = inflater!!.inflate(R.layout.fragment_task_limit, container, false)
+        val view: View = inflater.inflate(R.layout.fragment_task_limit, container, false)
         // Inflate the layout for this fragment
 
-        spinner1 = view!!.findViewById(R.id.spinnerSection1)
-        spinner2 = view!!.findViewById(R.id.spinnerSection2)
-        spinner3 = view!!.findViewById(R.id.spinnerSection3)
+        spinner1 = view.findViewById(R.id.spinnerSection1)
+        spinner2 = view.findViewById(R.id.spinnerSection2)
+        spinner3 = view.findViewById(R.id.spinnerSection3)
 
-        setLimit = view!!.findViewById(R.id.setLimit)
-        cancel = view!!.findViewById(R.id.cancel)
+        setLimit = view.findViewById(R.id.setLimit)
+        cancel = view.findViewById(R.id.cancel)
 
 
         // Make and populate spinner with values
@@ -101,9 +98,6 @@ class TaskLimitFragment : Fragment(), View.OnClickListener {
         }
         else{
             taskModel.setLimit(spinner1!!.selectedItemPosition + 1, spinner2!!.selectedItemPosition + 1, spinner3!!.selectedItemPosition + 1)
-            Log.d("Checked", "spinner 1: " + (spinner1!!.selectedItemPosition + 1).toString())
-            Log.d("Checked", "spinner 2: " + (spinner2!!.selectedItemPosition + 1).toString())
-            Log.d("Checked", "spinner 3: " + (spinner3!!.selectedItemPosition + 1).toString())
             replaceFragment(SettingsOptionsFragment(), "done")
         }
     }

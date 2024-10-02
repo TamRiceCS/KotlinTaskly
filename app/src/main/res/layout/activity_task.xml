@@ -47,7 +47,7 @@
                     android:layout_weight="3"
                     android:fontFamily="@font/cormorantgaramond_regular"
                     android:gravity="center"
-                    android:text="SATURDAY"
+                    android:text="@string/saturday"
                     android:textColor="@color/white"
                     android:textSize="25sp"
                     android:textStyle="bold" />
@@ -59,7 +59,7 @@
                     android:gravity="center"
                     android:textColor="@color/white"
                     android:textSize="15sp"
-                    android:text="Present" />
+                    android:text="@string/present"/>
             </LinearLayout>
 
             <ImageButton
@@ -79,11 +79,11 @@
             android:layout_height="0dp"
             android:textAlignment="center"
             android:layout_weight="1"
-            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
             android:fontFamily="@font/quicksand_variablefont_wght"
             android:textStyle="bold"
             android:textColor="@color/white"
-            android:text="Limit: 0 / ∞" />
+            android:text="@string/limit_0" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/section1Card"
@@ -110,11 +110,11 @@
             android:layout_height="0dp"
             android:textAlignment="center"
             android:layout_weight="1"
-            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
             android:textColor="@color/white"
             android:fontFamily="@font/quicksand_variablefont_wght"
             android:textStyle="bold"
-            android:text="Limit: 0 / ∞" />
+            android:text="@string/limit_0" />
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -140,11 +140,11 @@
             android:layout_height="0dp"
             android:textAlignment="center"
             android:layout_weight="1"
-            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
             android:textColor="@color/white"
             android:fontFamily="@font/quicksand_variablefont_wght"
             android:textStyle="bold"
-            android:text="Limit: 0 / ∞" />
+            android:text="@string/limit_0" />
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"

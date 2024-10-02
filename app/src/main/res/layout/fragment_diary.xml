@@ -18,7 +18,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/entryType"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
@@ -29,7 +29,7 @@
                 android:textSize="20sp"
                 android:fontFamily="@font/quicksand_variablefont_wght"
                 android:textStyle="bold"
-                android:text="Reflection Entries" />
+                android:text="@string/reflection_entries" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/diaryRV"
@@ -60,7 +60,7 @@
                     android:layout_margin="10dp"
                     android:backgroundTint="@color/sunsetPurple"
                     android:fontFamily="@font/cormorantgaramond_regular"
-                    android:text="Drafts"
+                    android:text="@string/drafts"
                     android:textSize="15sp"
                     android:textStyle="bold" />
                 <Button
@@ -71,7 +71,7 @@
                     android:layout_margin="10dp"
                     android:backgroundTint="@color/sunsetPurple"
                     android:fontFamily="@font/cormorantgaramond_regular"
-                    android:text="Add"
+                    android:text="@string/add"
                     android:textSize="15sp"
                     android:textStyle="bold" />
 

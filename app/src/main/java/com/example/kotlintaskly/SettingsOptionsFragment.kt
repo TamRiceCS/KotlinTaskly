@@ -17,12 +17,14 @@ class SettingsOptionsFragment : Fragment(), View.OnClickListener {
     private var resetPin : Button? = null
     private var resetEmail : Button? = null
     private var taskLimits : Button? = null
-    private var sendFeedback : Button? = null
+    private var removePin : Button? = null
     private var clearData : Button? = null
     private var linkedin : ImageButton? = null
     private var github : ImageButton? = null
 
     private val taskModel by activityViewModels<TaskVModel>()
+    private val diaryModel by activityViewModels<DiaryVModel>()
+    private var clearWarning = 0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,20 +34,13 @@ class SettingsOptionsFragment : Fragment(), View.OnClickListener {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        val view: View = inflater!!.inflate(R.layout.fragment_settings_options_fragments, container, false)
-
-        val mode = arguments?.getString("case")
-
-        if(mode != null && mode != "settings") {
-            // taskModel.setPin(mode)
-            // TODO: Figure out why this was commented out
-        }
+    ): View {
+        val view: View = inflater.inflate(R.layout.fragment_settings_options_fragments, container, false)
 
         resetPin = view.findViewById(R.id.resetPin)
         resetEmail = view.findViewById(R.id.resetEmail)
         taskLimits = view.findViewById(R.id.taskLimits)
-        sendFeedback = view.findViewById(R.id.sendFeedback)
+        removePin = view.findViewById(R.id.removePin)
         clearData = view.findViewById(R.id.clearData)
 
         linkedin = view.findViewById(R.id.linkedIn)
@@ -54,7 +49,7 @@ class SettingsOptionsFragment : Fragment(), View.OnClickListener {
         resetPin!!.setOnClickListener(this)
         resetEmail!!.setOnClickListener(this)
         taskLimits!!.setOnClickListener(this)
-        sendFeedback!!.setOnClickListener(this)
+        removePin!!.setOnClickListener(this)
         clearData!!.setOnClickListener(this)
         linkedin!!.setOnClickListener(this)
         github!!.setOnClickListener(this)
@@ -75,12 +70,19 @@ class SettingsOptionsFragment : Fragment(), View.OnClickListener {
             R.id.taskLimits -> {
                 replaceFragment(TaskLimitFragment(), "reset")
             }
-            R.id.sendFeedback -> {
-                val openWebsite = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/TamRiceCS/KotlinTaskly"))
-                startActivity(openWebsite)
+            R.id.removePin -> {
+                replaceFragment(PasscodeFragment(), "remove")
             }
             R.id.clearData -> {
-                Toast.makeText(activity, "Not implemented yet", Toast.LENGTH_SHORT).show()
+                if(clearWarning == 0) {
+                    Toast.makeText(activity, "Press again and all data will be lost", Toast.LENGTH_SHORT).show()
+                    clearWarning++
+                }
+                else if(clearWarning == 1) {
+                    taskModel.clearTasks()
+                    diaryModel.clearDiary()
+                    clearWarning = 0
+                }
             }
             R.id.linkedIn -> {
                 val openWebsite = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.linkedin.com/in/tam-rice-0742431ba/"))

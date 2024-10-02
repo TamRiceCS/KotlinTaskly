@@ -22,6 +22,27 @@ class DiaryVModel(application: Application): AndroidViewModel(application) {
         }
     }
 
+    fun updateBacklog(oldTitle: String, newTitle: String, date: String, updateEntry: String) {
+        viewModelScope.launch((Dispatchers.IO)) {
+            DiaryActivity.db.diaryDao().updateStatus(updateEntry, newTitle, oldTitle, date)
+            fetch("Published")
+        }
+    }
+
+    fun deleteBacklog(title: String, date: String) {
+        viewModelScope.launch((Dispatchers.IO)) {
+            DiaryActivity.db.diaryDao().delete(title, date)
+            fetch("Published")
+            fetch("Drafted")
+        }
+    }
+
+    fun clearDiary(){
+        viewModelScope.launch((Dispatchers.IO)) {
+            DiaryActivity.db.diaryDao().clearData()
+        }
+    }
+
     fun fetch(status: String){
         viewModelScope.launch((Dispatchers.IO)) {
             if(status == "Published") {
@@ -31,6 +52,7 @@ class DiaryVModel(application: Application): AndroidViewModel(application) {
             }
             if(status == "Drafted"){
                 val pureResults = DiaryActivity.db.diaryDao().getListOfStatus(status)
+                backendDrafted = pureResults
                 draftedEntries.postValue(pureResults)
             }
         }
