@@ -28,11 +28,12 @@
                 android:ems="10"
                 android:fontFamily="@font/quicksand_variablefont_wght"
                 android:hint="@string/default_name_date"
+                android:textColorHint="@color/selector"
                 android:inputType="text"
                 android:paddingHorizontal="10dp"
                 android:text=""
                 android:textColor="@color/white"
-                android:textColorHint="@color/white"
+                android:textCursorDrawable="@null"
                 android:textStyle="bold" />
 
             <EditText
@@ -50,7 +51,8 @@
                 android:fontFamily="@font/quicksand_variablefont_wght"
                 android:textStyle="bold"
                 android:hint="@string/click_here_to_start_and_type_your_entry_default_text_will_disappear_when_you_start_typing"
-                android:textColorHint="@color/white"
+                android:textColorHint="@color/selector"
+                android:textCursorDrawable="@null"
                 android:text="" />
 
             <LinearLayout

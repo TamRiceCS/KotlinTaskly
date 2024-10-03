@@ -87,10 +87,10 @@ class RecoveryFragment : Fragment(), View.OnClickListener {
         }
 
         if(bttn.id == R.id.skip) {
-            if(mode == "new") {
+            if(viewModel.pin.value == "tutorial") {
                 runBlocking {
-                    viewModel.pin.value = "none"
-                    viewModel.skip.value = "Skip Key Hit!"
+                    viewModel.pin.postValue("none")
+                    viewModel.skip.postValue("Skip Key Hit!")
                 }
             }
             else{

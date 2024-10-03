@@ -21,4 +21,7 @@
     <color name="nightPurple">#280137</color>
     <color name="sunsetPurple">#6F456E</color>
 
+    <color name="transparent">#00000000</color>
+
+
 </resources>

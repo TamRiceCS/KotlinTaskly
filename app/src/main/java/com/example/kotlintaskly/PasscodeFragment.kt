@@ -1,6 +1,10 @@
 package com.example.kotlintaskly
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.util.Log
+import android.view.KeyEvent
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -15,7 +19,7 @@ import androidx.fragment.app.activityViewModels
 import kotlinx.coroutines.runBlocking
 
 
-class PasscodeFragment : Fragment(), View.OnClickListener, View.OnTouchListener {
+class PasscodeFragment : Fragment(), View.OnClickListener, View.OnTouchListener, View.OnKeyListener {
     private var passcode: String? = null
     private var instructionText: TextView? = null
     private var recoverBttn: Button? = null
@@ -100,6 +104,10 @@ class PasscodeFragment : Fragment(), View.OnClickListener, View.OnTouchListener 
         pin2!!.setOnTouchListener(this)
         pin3!!.setOnTouchListener(this)
         pin4!!.setOnTouchListener(this)
+
+        pin1!!.setOnKeyListener(this)
+        pin2!!.setOnKeyListener(this)
+        pin3!!.setOnKeyListener(this)
 
         // set button onClickListeners
         submit!!.setOnClickListener(this)
@@ -248,6 +256,38 @@ class PasscodeFragment : Fragment(), View.OnClickListener, View.OnTouchListener 
             pin4!!.text.clear()
         }
 
+        return false
+    }
+
+    override fun onKey(p0: View?, p1: Int, p2: KeyEvent?): Boolean {
+        when(p0!!.id) {
+            R.id.pin1 -> {
+                Log.d("Keycodes", "pin1"+p2.toString())
+                if(pin1!!.text.isNotEmpty()) {
+                    pin2!!.text.clear()
+                    pin2!!.requestFocus()
+                }
+            }
+            R.id.pin2 -> {
+                Log.d("Keycodes", "pin2"+p2.toString())
+                if(pin2!!.text.isNotEmpty()) {
+                    pin3!!.text.clear()
+                    pin3!!.requestFocus()
+                }
+            }
+
+            R.id.pin3 -> {
+                Log.d("Keycodes", "pin3"+p2.toString())
+                if(pin3!!.text.isNotEmpty()) {
+                    pin4!!.text.clear()
+                    pin4!!.requestFocus()
+                }
+            }
+
+
+
+
+        }
         return false
     }
 }

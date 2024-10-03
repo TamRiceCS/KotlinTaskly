@@ -44,6 +44,7 @@ class EditDiaryFragment : Fragment(), View.OnClickListener {
 
         if(mode == "update") {
             title.setText(arguments?.getString("title"))
+            title.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.pen, 0)
             entry.setText(arguments?.getString("text"))
             oldTitle = title.text.toString()
             date = arguments?.getString("date")
@@ -52,6 +53,7 @@ class EditDiaryFragment : Fragment(), View.OnClickListener {
 
         if(mode == "view") {
             title.setText(arguments?.getString("title"))
+            title.setCompoundDrawablesWithIntrinsicBounds(0,0,0,0)
             entry.setText(arguments?.getString("text"))
             title.isEnabled = false
             entry.isEnabled = false

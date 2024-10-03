@@ -62,32 +62,43 @@ class GraphOptionsFragment : Fragment(), View.OnClickListener{
         entries.add(PieEntry(0f, "Completed"))
 
         val colors: ArrayList<Int> = ArrayList()
-        colors.add(resources.getColor(R.color.gray))
-        colors.add(resources.getColor(R.color.lightBlue))
-        colors.add(resources.getColor(R.color.lightForestGreen))
-
 
         viewModel.countDayLocation(date.toString())
 
         viewModel.countsReady.observe(viewLifecycleOwner) {
             total = viewModel.addedCount.value!!.toFloat() + viewModel.startedCount.value!!.toFloat() + viewModel.completedCount.value!!.toFloat()
-            val addedPie = PieEntry(viewModel.addedCount.value!!.toFloat() / total, "Added")
-            val startedPie = PieEntry(viewModel.startedCount.value!!.toFloat() / total, "Started")
-            val completedPie = PieEntry(viewModel.completedCount.value!!.toFloat() / total, "Completed")
-            Log.d("Change Date", "Detected a change")
-            entries[0] = addedPie
-            entries[1] = startedPie
-            entries[2] = completedPie
+            entries.clear()
+            colors.clear()
+
+            if(viewModel.addedCount.value!! != 0) {
+                val addedPie = PieEntry(viewModel.addedCount.value!!.toFloat() / total, "Added")
+                colors.add(resources.getColor(R.color.gray))
+                entries.add(addedPie)
+            }
+            if(viewModel.startedCount.value!! != 0) {
+                val startedPie = PieEntry(viewModel.startedCount.value!!.toFloat() / total, "Started")
+                colors.add(resources.getColor(R.color.lightBlue))
+                entries.add(startedPie)
+            }
+            if(viewModel.completedCount.value!! != 0) {
+                val completedPie = PieEntry(viewModel.completedCount.value!!.toFloat() / total, "Completed")
+                colors.add(resources.getColor(R.color.lightForestGreen))
+                entries.add(completedPie)
+            }
+
             pieChart.invalidate()
             pieChart.notifyDataSetChanged()
         }
 
-        val set = PieDataSet(entries, "")
-        set.colors = colors
-        set.valueTextSize = 0f
-        set.sliceSpace = 5f
-        val data = PieData(set)
-        pieChart.data = data
+        if(entries.isNotEmpty()) {
+            val set = PieDataSet(entries, "")
+            set.colors = colors
+            set.valueTextSize = 0f
+            set.sliceSpace = 5f
+            val data = PieData(set)
+            pieChart.data = data
+        }
+
 
         pieChart.centerText = "Daily Task Breakdown"
         pieChart.setCenterTextSize(15f)
